@@ -5,20 +5,22 @@
   <div class="login-form-container">
     <div class="login-form">
       <h2>Login</h2>
-      <form>
+      <form (ngSubmit)="onSubmit()">
         <label for="email">E-mail</label>
         <input
           type="email"
           id="email"
           name="email"
           class="form-control"
-          autocomplete="off" required>
+          [(ngModel)]="email"
+          required>
         <label for="password">Password</label>
         <input
           type="password"
           id="password"
           name="password"
           class="form-control"
+          [(ngModel)]="password"
           autocomplete="off" required>
         <button
           type="submit"
