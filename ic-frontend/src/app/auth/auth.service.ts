@@ -19,10 +19,10 @@ export class AuthService {
   login(email: string, password: string): Observable<any> {
     const sufix = '/login';
     const route = `${this.apiUrl}${sufix}`;
-    // return this.http.post<any>(`${this.apiUrl}${route}`, { email, password });
+
     return this.http.post<any>(route, { email, password }).pipe(
       tap(response => {
-        localStorage.setItem('authToken', response.token); // Salva o token no localStorage
+        localStorage.setItem('authToken', response.token); // Saves authToken on localStorage
       })
     );
   }
@@ -30,14 +30,14 @@ export class AuthService {
   // Send a POST request to the backend deleting user's auth token
   logout() {
     const route = '/logout';
-    const authToken = localStorage.getItem('authToken'); // Obtém o token do localStorage
+    const authToken = localStorage.getItem('authToken'); // Gets authToken from localStorage
 
     if (authToken) {
       const headers = new HttpHeaders().set('Authorization', `Bearer ${authToken}`);
       return this.http.post(`${this.apiUrl}${route}`, {}, { headers }).subscribe({
         next: () => {
-          localStorage.removeItem('authToken'); // Remove o token do localStorage
-          this.router.navigate(['/login']); // Redireciona para a página de login
+          localStorage.removeItem('authToken'); // Removes authToken from localStorage
+          this.router.navigate(['/login']); // Redirects to login page
         },
         error: (error) => {
           console.error('Logout failed!', error);
@@ -46,7 +46,7 @@ export class AuthService {
       });
     } else {
       console.error('No token found, redirecting to login.');
-      this.router.navigate(['/login']); // Redireciona para a página de login
+      this.router.navigate(['/login']); // Redirects to login page
       return;
     }
   }
