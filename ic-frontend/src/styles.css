@@ -3,3 +3,22 @@ body {
   margin: 0;
   font-family: 'Segoe UI';
 }
+
+.input-error-message {
+  color: red;
+  font-size: 9pt;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.request-error-text {
+  background-color: rgb(240, 202, 202);
+  color: rgb(228, 105, 105);
+  font-size: 9pt;
+  border-radius: 5px;
+  padding: 1px;
+  text-align: center;
+  margin-bottom: 10px;
+}

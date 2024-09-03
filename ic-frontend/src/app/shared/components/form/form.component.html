@@ -1,0 +1,15 @@
+<!-- src/app/shared/form/form.component.html -->
+<form (ngSubmit)="onSubmit()">
+  <div *ngFor="let field of config.fields">
+    <label [for]="field.name">{{ field.label }}</label>
+    <input
+      [type]="field.type"
+      [id]="field.name"
+      [name]="field.name"
+      [(ngModel)]="formValues[field.name]"
+      [required]="field.required ?? false"
+      class="form-control"
+    />
+  </div>
+  <button type="submit" class="btn">{{ config.buttonText }}</button>
+</form>

@@ -6,22 +6,46 @@
     <div class="login-form">
       <h2>Login</h2>
       <form (ngSubmit)="onSubmit()">
-        <label for="email">E-mail</label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          class="form-control"
-          [(ngModel)]="email"
-          required>
-        <label for="password">Password</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          class="form-control"
-          [(ngModel)]="password"
-          autocomplete="off" required>
+        <div class="form-group">
+          <label for="email">E-mail</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            class="form-control"
+            [(ngModel)]="email"
+            #emailInput="ngModel"
+            required
+            email>
+            <div *ngIf="emailInput.invalid && submitted">
+              <div *ngIf="emailInput.errors?.['required']" class="input-error-message">
+                E-mail is mandatory.
+              </div>
+              <div *ngIf="emailInput.errors?.['email']" class="input-error-message">
+                Invalid e-mail.
+              </div>
+            </div>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            class="form-control"
+            [(ngModel)]="password"
+            autocomplete="off"
+            required
+            #passwordInput="ngModel">
+          <div *ngIf="passwordInput.invalid && submitted">
+            <div *ngIf="passwordInput.errors?.['required']" class="input-error-message">
+              Password is mandatory.
+            </div>
+          </div>
+        </div>
+        <div *ngIf="generalError" class="request-error-text">
+          {{ generalError }}
+        </div>
         <button
           type="submit"
           class="btn">Login</button>
