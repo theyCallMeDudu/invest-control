@@ -12,17 +12,26 @@ class AuthController extends Controller
     {
         $credentials = $request->only('email', 'password');
 
-        if (Auth::attempt($credentials)) {
-            $user = Auth::user();
-            $token = $user->createToken('authToken')->plainTextToken;
-
-            return response()->json([
-                'user' => $user,
-                'token' => $token
-            ]);
+        if (empty($credentials['email']) || empty($credentials['password'])) {
+            return response()->json(['error' => 'E-mail and password are mandatory'], 400);
         }
 
-        return response()->json(['error' => 'Unauthorized'], 401);
+        if (!Auth::attempt($credentials)) {
+            $user = User::where('email', $credentials['email'])->first();
+            if ($user) {
+                return response()->json(['error' => 'Incorrect password'], 401);
+            } else {
+                return response()->json(['error' => 'E-mail not found'], 401);
+            }
+        }
+
+        $user = Auth::user();
+        $token = $user->createToken('authToken')->plainTextToken;
+
+        return response()->json([
+            'user' => $user,
+            'token' => $token
+        ]);
     }
 
     public function logout(Request $request)

@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
-import { InvestmentsComponent } from './main/components/investments/investments.component';
+import { DashboardComponent } from './main/components/dashboard/dashboard.component';
 
 const routes: Routes = [
   // Redirects to login by default
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   // Redirects to investments (main page)
-  { path: 'investments', component: InvestmentsComponent },
+  { path: 'dashboard', component: DashboardComponent },
 ];
 
 
