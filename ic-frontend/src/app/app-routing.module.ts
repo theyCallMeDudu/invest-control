@@ -1,15 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
-import { DashboardComponent } from './main/components/dashboard/dashboard.component';
+import { DashboardComponent } from './main/pages/dashboard/dashboard.component';
+import { InvestmentComponent } from './main/pages/investments/investment.component';
 
-const routes: Routes = [
-  // Redirects to login by default
+export const routes: Routes = [
+  // Redirects to login page by default
   { path: '', redirectTo: '/login', pathMatch: 'full' },
-  // Redirects to investments (main page)
+  // Redirects to dashboard (main page)
   { path: 'dashboard', component: DashboardComponent },
+  // Redirect to investments page
+  { path: 'investments', component: InvestmentComponent }
 ];
-
 
 @NgModule({
   declarations: [],
@@ -17,7 +19,8 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forRoot(routes)
   ],
-  exports: [RouterModule]
+  exports: [
+    RouterModule]
 })
 
 export class AppRoutingModule { }

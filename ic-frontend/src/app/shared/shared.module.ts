@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { FormComponent } from './components/form/form.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { CardComponent } from './components/card/card.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,8 @@ import { CardComponent } from './components/card/card.component';
   ],
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    RouterModule
   ],
   // Exports to be reused all over the system
   exports: [

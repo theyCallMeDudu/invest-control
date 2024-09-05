@@ -1,8 +1,7 @@
 <div class="sidebar-container">
   <ul>
-    <li>Investments</li>
-    <li>Investment Type</li>
-    <li>Operations</li>
-    <li>Operation Type</li>
+    <li *ngFor="let route of menuRoutes">
+      <a [routerLink]="route.path">{{ route.path | titlecase }}</a>
+    </li>
   </ul>
 </div>

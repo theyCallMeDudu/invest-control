@@ -6,11 +6,6 @@
   flex-shrink: 0;
 }
 
-.dashboard-container h1 {
-  flex-grow: 1;
-  margin-left: 20px;
-}
-
 .dashboard-content {
   width: 100%;
   display: flex;
