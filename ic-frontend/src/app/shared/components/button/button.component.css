@@ -1,0 +1,31 @@
+button {
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 5px 10px;
+}
+
+button > i {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+button.btn-primary {
+  background-color: blue;
+  color: white;
+}
+
+button.btn-danger {
+  background-color: red;
+  color: white;
+}
+
+button.btn-secondary {
+  background-color: gray;
+  color: white;
+}
+
+button.btn-standard {
+  background-color: #05b27c;
+  color: white;
+}

@@ -23,7 +23,8 @@ import { ButtonComponent } from './components/button/button.component';
   exports: [
     FormComponent,
     SidebarComponent,
-    CardComponent
+    CardComponent,
+    ButtonComponent
   ]
 })
 export class SharedModule { }

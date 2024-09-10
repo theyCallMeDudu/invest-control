@@ -1,1 +1,13 @@
-<p>button works!</p>
+<button
+  [ngClass]="config.styleClass"
+  [disabled]="config.disabled"
+  [title]="config.tooltip">
+  <ng-container *ngIf="config.icon">
+    <!-- Button optional icon -->
+    <i [class]="config.icon"></i>
+  </ng-container>
+  <ng-container *ngIf="config.text">
+    <!-- Button optional text -->
+    {{ config.text }}
+  </ng-container>
+</button>
