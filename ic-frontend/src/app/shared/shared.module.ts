@@ -5,12 +5,14 @@ import { FormComponent } from './components/form/form.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { CardComponent } from './components/card/card.component';
 import { RouterModule } from '@angular/router';
+import { ButtonComponent } from './components/button/button.component';
 
 @NgModule({
   declarations: [
     FormComponent,
     SidebarComponent,
-    CardComponent
+    CardComponent,
+    ButtonComponent
   ],
   imports: [
     CommonModule,
