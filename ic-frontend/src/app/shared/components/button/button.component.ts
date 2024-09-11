@@ -7,5 +7,12 @@ import { IButtonConfig } from '../../interfaces/button-config';
   styleUrls: ['./button.component.css']
 })
 export class ButtonComponent {
-  @Input() config!: IButtonConfig;
+  @Input() buttonConfig!: IButtonConfig;
+
+  // Called when the button is clicked
+  handleClick(): void {
+    if (this.buttonConfig.action) {
+      this.buttonConfig.action();  // Executes the action if it was passed
+    }
+  }
 }

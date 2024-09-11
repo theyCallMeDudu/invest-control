@@ -1,0 +1,14 @@
+.investments-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.investments-toolbar {
+  display: flex;
+  justify-content: space-between;
+}
+
+.investments-toolbar-buttons {
+  display: flex;
+  justify-content: flex-end;
+}

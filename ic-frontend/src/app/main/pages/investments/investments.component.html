@@ -1,0 +1,47 @@
+<h1>Investments</h1>
+<div class="investments-container">
+  <div class="investments-toolbar">
+    <div class="col-md-8">
+      <input
+        type="text"
+        placeholder="Search"
+        class="form-control">
+    </div>
+    <div class="col-md-4 investments-toolbar-buttons">
+      <app-button
+        [buttonConfig]="buttonConfig">
+      </app-button>
+    </div>
+  </div>
+  <div class="investments-table">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">First</th>
+          <th scope="col">Last</th>
+          <th scope="col">Handle</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">1</th>
+          <td>Mark</td>
+          <td>Otto</td>
+          <td></td>
+        </tr>
+        <tr>
+          <th scope="row">2</th>
+          <td>Jacob</td>
+          <td>Thornton</td>
+          <td></td>
+        </tr>
+        <tr>
+          <th scope="row">3</th>
+          <td colspan="2">Larry the Bird</td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

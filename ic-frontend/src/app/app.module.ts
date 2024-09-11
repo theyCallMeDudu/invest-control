@@ -8,14 +8,16 @@ import { HttpClientModule } from '@angular/common/http';
 import { DashboardComponent } from './main/pages/dashboard/dashboard.component';
 import { NavbarComponent } from './shared/components/navbar/navbar.component';
 import { SharedModule } from './shared/shared.module';
-import { InvestmentComponent } from './main/pages/investments/investment.component';
+import { InvestmentsComponent } from './main/pages/investments/investments.component';
+import { InvestmentComponent } from './main/pages/investment/investment.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
     NavbarComponent,
-    InvestmentComponent,
+    InvestmentsComponent,
+    InvestmentComponent
   ],
   imports: [
     BrowserModule,

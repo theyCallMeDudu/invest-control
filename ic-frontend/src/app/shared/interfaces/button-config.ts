@@ -4,4 +4,5 @@ export interface IButtonConfig {
   styleClass?: string;  // button optional style class
   disabled?: boolean;   // button optional disabled parameter
   tooltip?: string; // button optional tooltip
+  action?: () => void;  // optional action triggered after clicking the button
 }

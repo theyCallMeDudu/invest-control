@@ -1,13 +1,14 @@
 <button
-  [ngClass]="config.styleClass"
-  [disabled]="config.disabled"
-  [title]="config.tooltip">
-  <ng-container *ngIf="config.icon">
+  [ngClass]="buttonConfig.styleClass"
+  [disabled]="buttonConfig.disabled"
+  [title]="buttonConfig.tooltip"
+  (click)="handleClick()">
+  <ng-container *ngIf="buttonConfig.icon">
     <!-- Button optional icon -->
-    <i [class]="config.icon"></i>
+    <i [class]="buttonConfig.icon"></i>
   </ng-container>
-  <ng-container *ngIf="config.text">
+  <ng-container *ngIf="buttonConfig.text">
     <!-- Button optional text -->
-    {{ config.text }}
+    {{ buttonConfig.text }}
   </ng-container>
 </button>
