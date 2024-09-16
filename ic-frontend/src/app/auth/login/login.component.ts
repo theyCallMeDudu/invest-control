@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 
@@ -19,6 +19,14 @@ export class LoginComponent {
   constructor(
     private authService: AuthService,
     private router: Router) { }
+
+  loginButton = {
+    text: 'Login',
+    styleClass: 'btn-standard',
+    type: 'submit',
+    width: '100%',
+    action: () => this.onSubmit()
+  };
 
   onSubmit(): void {
     this.submitted = true;

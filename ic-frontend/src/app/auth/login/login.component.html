@@ -46,9 +46,9 @@
         <div *ngIf="generalError" class="request-error-text">
           {{ generalError }}
         </div>
-        <button
-          type="submit"
-          class="btn">Login</button>
+        <app-button
+          [buttonConfig]="loginButton">
+        </app-button>
       </form>
 
     </div>

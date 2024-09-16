@@ -1,8 +1,10 @@
 <button
   [ngClass]="buttonConfig.styleClass"
+  [style.width]="buttonConfig.width"
   [disabled]="buttonConfig.disabled"
   [title]="buttonConfig.tooltip"
-  (click)="handleClick()">
+  (click)="handleClick()"
+  [type]="buttonConfig.type || 'button'">
   <ng-container *ngIf="buttonConfig.icon">
     <!-- Button optional icon -->
     <i [class]="buttonConfig.icon"></i>

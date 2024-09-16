@@ -6,8 +6,14 @@ import { IButtonConfig } from '../../interfaces/button-config';
   templateUrl: './button.component.html',
   styleUrls: ['./button.component.css']
 })
-export class ButtonComponent {
+export class ButtonComponent implements OnInit {
   @Input() buttonConfig!: IButtonConfig;
+
+  ngOnInit() {
+    if (!this.buttonConfig) {
+      console.error('buttonConfig is undefined in ButtonComponent');
+    }
+  }
 
   // Called when the button is clicked
   handleClick(): void {
