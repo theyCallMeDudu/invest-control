@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { InvestmentTypeService } from 'src/app/services/investment-type.service';
+import { InvestmentType } from 'src/app/shared/models/investment-type.model';
 
 @Component({
   selector: 'app-investment',
@@ -8,9 +10,22 @@ import { Router } from '@angular/router';
 })
 export class InvestmentComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  investmentTypes: InvestmentType[] = [];
+
+  constructor(
+    private router: Router,
+    private investmentTypeService: InvestmentTypeService
+  ) { }
 
   ngOnInit(): void {
+
+    // Calls investment type service to get
+    // available investment types in database
+    this.investmentTypeService.getInvestmentTypes().subscribe({
+      next: (types) => this.investmentTypes = types,
+      error: (err) => console.error('An error occurred when trying to get investment types.', err)
+    });
+    console.log(this.investmentTypes);
   }
 
   cancelButton = {

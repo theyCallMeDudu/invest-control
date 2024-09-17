@@ -46,6 +46,9 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('web')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/web.php'));
+
+            // Loads the investment-types routes
+            $this->mapInvestmentTypeRoutes();
         });
     }
 
@@ -59,5 +62,18 @@ class RouteServiceProvider extends ServiceProvider
         RateLimiter::for('api', function (Request $request) {
             return Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip());
         });
+    }
+
+    /**
+     * Loads the investment-types routes.
+     *
+     * @return void
+     */
+    protected function mapInvestmentTypeRoutes()
+    {
+        Route::prefix('api')
+            ->middleware('api')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/investment-types.php'));
     }
 }

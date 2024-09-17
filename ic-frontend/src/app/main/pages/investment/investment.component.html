@@ -16,6 +16,12 @@
           id="investment_type"
           class="form-control"
           required>
+          <option value="" disabled selected>Select</option>
+          <option
+            *ngFor="let type of investmentTypes"
+            [value]="type.investment_type_id">
+          {{ type.investment_type_name }}
+          </option>
         </select>
       </div>
       <div class="form-group investment-form-buttons">
