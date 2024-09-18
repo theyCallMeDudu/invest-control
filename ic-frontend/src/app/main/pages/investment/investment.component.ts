@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { InvestmentTypeService } from 'src/app/services/investment-type.service';
+import { InvestmentService } from 'src/app/services/investment.service';
 import { InvestmentType } from 'src/app/shared/models/investment-type.model';
 
 @Component({
@@ -11,10 +12,14 @@ import { InvestmentType } from 'src/app/shared/models/investment-type.model';
 export class InvestmentComponent implements OnInit {
 
   investmentTypes: InvestmentType[] = [];
+  investmentName: string = '';
+  investmentType: number = 0;
+  submitted:boolean = false;
 
   constructor(
     private router: Router,
-    private investmentTypeService: InvestmentTypeService
+    private investmentTypeService: InvestmentTypeService,
+    private investmentService: InvestmentService
   ) { }
 
   ngOnInit(): void {
@@ -37,8 +42,26 @@ export class InvestmentComponent implements OnInit {
   saveButton = {
     text: 'Save',
     styleClass: 'btn-standard',
-    // TO DO: call save method
-    action: () => this.router.navigate(['/investments'])  // Redirects to investments page
+    type: 'submit',
+    action: () => this.onSubmit()
   };
+
+  onSubmit(): void {
+    this.submitted = true;
+
+    // Call the service to save the data
+    this.investmentService.save(
+      this.investmentName,
+      this.investmentType
+    ).subscribe({
+      next: (response) => {
+        console.log('Investment successfully saved!', response);
+        this.router.navigate(['/investments']); // Redirects to investments page
+      },
+      error: (error) => {
+        console.log('An error occurred when trying to save investment!', error);
+      }
+    })
+  }
 
 }

@@ -1,19 +1,29 @@
 <div class="investment-container">
   <h1>New Investment</h1>
   <div class="investment-form-container col-md-4">
-    <form>
+    <form (ngSubmit)="onSubmit()">
       <div class="form-group">
         <label for="investment_name">Name</label>
         <input
           type="text"
           id="investment_name"
           name="investment_name"
+          [(ngModel)]="investmentName"
+          #investmentNameInput="ngModel"
           class="form-control"
           required>
+        <div *ngIf="investmentNameInput.invalid && submitted">
+          <div *ngIf="investmentNameInput.errors?.['required']" class="input-error-message">
+            Name is mandatory.
+          </div>
+        </div>
+
         <label for="investment_type">Type</label>
         <select
           name="investment_type"
           id="investment_type"
+          [(ngModel)]="investmentType"
+          #investmentTypeInput="ngModel"
           class="form-control"
           required>
           <option value="" disabled selected>Select</option>
@@ -23,6 +33,11 @@
           {{ type.investment_type_name }}
           </option>
         </select>
+        <div *ngIf="investmentTypeInput.invalid && submitted">
+          <div *ngIf="investmentTypeInput.errors?.['required']" class="input-error-message">
+            Type is mandatory.
+          </div>
+        </div>
       </div>
       <div class="form-group investment-form-buttons">
         <app-button

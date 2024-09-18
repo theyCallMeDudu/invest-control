@@ -10,6 +10,5 @@ class InvestmentType extends Model
     use HasFactory;
 
     protected $table    = 'investment_type';
-    public $timestamps  = false;
-    protected $fillable = ['name'];
+    protected $fillable = ['investment_type_name'];
 }

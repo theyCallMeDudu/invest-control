@@ -10,6 +10,7 @@ import { NavbarComponent } from './shared/components/navbar/navbar.component';
 import { SharedModule } from './shared/shared.module';
 import { InvestmentsComponent } from './main/pages/investments/investments.component';
 import { InvestmentComponent } from './main/pages/investment/investment.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { InvestmentComponent } from './main/pages/investment/investment.componen
     AppRoutingModule,
     AuthModule,
     HttpClientModule,
-    SharedModule
+    SharedModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
