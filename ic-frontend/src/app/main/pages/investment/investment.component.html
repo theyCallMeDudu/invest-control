@@ -1,7 +1,9 @@
 <div class="investment-container">
   <h1>New Investment</h1>
   <div class="investment-form-container col-md-4">
-    <form (ngSubmit)="onSubmit()">
+    <form
+      #investmentForm="ngForm"
+      >
       <div class="form-group">
         <label for="investment_name">Name</label>
         <input
@@ -11,7 +13,8 @@
           [(ngModel)]="investmentName"
           #investmentNameInput="ngModel"
           class="form-control"
-          required>
+          required
+          autocomplete="off">
         <div *ngIf="investmentNameInput.invalid && submitted">
           <div *ngIf="investmentNameInput.errors?.['required']" class="input-error-message">
             Name is mandatory.
@@ -26,15 +29,15 @@
           #investmentTypeInput="ngModel"
           class="form-control"
           required>
-          <option value="" disabled selected>Select</option>
+          <option value="0" disabled selected>Select</option>
           <option
             *ngFor="let type of investmentTypes"
             [value]="type.investment_type_id">
           {{ type.investment_type_name }}
           </option>
         </select>
-        <div *ngIf="investmentTypeInput.invalid && submitted">
-          <div *ngIf="investmentTypeInput.errors?.['required']" class="input-error-message">
+        <div *ngIf="investmentType === 0 && submitted">
+          <div class="input-error-message">
             Type is mandatory.
           </div>
         </div>

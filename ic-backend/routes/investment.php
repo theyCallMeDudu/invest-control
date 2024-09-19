@@ -3,5 +3,5 @@
 use App\Http\Controllers\InvestmentController;
 use Illuminate\Support\Facades\Route;
 
-// Define as rotas relacionadas a Investment Types
+// Defines the investment routes
 Route::post('/investment', [InvestmentController::class, 'store']);

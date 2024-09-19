@@ -9,9 +9,15 @@ class Investment extends Model
 {
     use HasFactory;
 
-    protected $table    = 'investment';
+    protected $table = 'investment';
+    protected $primaryKey = 'investment_id';
     protected $fillable = [
         'investment_type_id',
         'investment_name'
     ];
+
+    public function investmentType()
+    {
+        return $this->belongsTo(InvestmentType::class, 'investment_type_id', 'investment_type_id');
+    }
 }

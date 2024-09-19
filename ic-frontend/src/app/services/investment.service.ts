@@ -22,4 +22,9 @@ export class InvestmentService {
     // Send the data on request body.
     return this.http.post<Investment>(this.apiUrl, investmentData);
   }
+
+  // Method to get all investments in database
+  getInvestments() {
+    return this.http.get(this.apiUrl);
+  }
 }

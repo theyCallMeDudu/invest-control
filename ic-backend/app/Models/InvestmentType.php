@@ -10,5 +10,6 @@ class InvestmentType extends Model
     use HasFactory;
 
     protected $table    = 'investment_type';
+    protected $primaryKey = 'investment_type_id';
     protected $fillable = ['investment_type_name'];
 }
