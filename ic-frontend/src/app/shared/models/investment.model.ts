@@ -1,4 +1,8 @@
+import { InvestmentType } from "./investment-type.model";
+
 export interface Investment {
-  investmentName: string;
-  investmentType: number;
+  investment_id: number;
+  investment_name: string;
+  investment_type_id: number;
+  investment_type: InvestmentType;
 }
