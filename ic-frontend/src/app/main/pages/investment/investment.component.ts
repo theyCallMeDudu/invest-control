@@ -4,6 +4,7 @@ import { InvestmentTypeService } from 'src/app/services/investment-type.service'
 import { InvestmentService } from 'src/app/services/investment.service';
 import { InvestmentType } from 'src/app/shared/models/investment-type.model';
 import { NgForm } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-investment',
@@ -23,7 +24,8 @@ export class InvestmentComponent implements OnInit {
   constructor(
     private router: Router,
     private investmentTypeService: InvestmentTypeService,
-    private investmentService: InvestmentService
+    private investmentService: InvestmentService,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -66,10 +68,12 @@ export class InvestmentComponent implements OnInit {
       this.investmentType
     ).subscribe({
       next: (response) => {
+        this.toastr.success('Investment successfully saved!', 'Success');
         console.log('Investment successfully saved!', response);
         this.router.navigate(['/investments']); // Redirects to investments page
       },
       error: (error) => {
+        this.toastr.error('An error occurred while saving the investment.', 'Error');
         console.log('An error occurred when trying to save investment!', error);
       }
     })

@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -26,7 +28,13 @@ import { FormsModule } from '@angular/forms';
     AuthModule,
     HttpClientModule,
     SharedModule,
-    FormsModule
+    FormsModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      // timeOut: 3000, // How much time the toast is visible
+      positionClass: 'toast-top-right', // Toast position on the screen
+      preventDuplicates: true, // Avoid duplicated toasts
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
