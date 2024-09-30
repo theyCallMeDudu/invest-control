@@ -9,7 +9,7 @@
     </div>
     <div class="col-md-4 investments-toolbar-buttons">
       <app-button
-        [buttonConfig]="buttonConfig">
+        [buttonConfig]="newInvestmentButton">
       </app-button>
     </div>
   </div>
@@ -28,7 +28,11 @@
           <td>{{ investment.investment_id }}</td>
           <td>{{ investment.investment_name }}</td>
           <td>{{ investment.investment_type.investment_type_name }}</td>
-          <td></td>
+          <td>
+            <app-button
+              [buttonConfig]="getEditButtonConfig(investment)">
+            </app-button>
+          </td>
         </tr>
       </tbody>
     </table>

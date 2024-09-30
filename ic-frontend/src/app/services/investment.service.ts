@@ -27,4 +27,18 @@ export class InvestmentService {
   getInvestments() {
     return this.http.get(this.apiUrl);
   }
+
+  // Method to get an investment by its ID
+  getInvestmentById(id: number): Observable<Investment> {
+    return this.http.get<Investment>(`${this.apiUrl}/${id}`);
+  }
+
+  // Method to update an existing investment
+  update(investmentId: number | null, investmentName: string, investmentType: number): Observable<Investment> {
+    return this.http.put<Investment>(`${this.apiUrl}/${investmentId}`,
+      {
+        investment_name: investmentName,
+        investment_type_id: investmentType
+      });
+  }
 }

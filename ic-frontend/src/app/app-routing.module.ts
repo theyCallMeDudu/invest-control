@@ -12,8 +12,10 @@ export const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   // Redirect to investments page
   { path: 'investments', component: InvestmentsComponent },
-  // Redirect to investment page (create and edit)
-  { path: 'investment', component: InvestmentComponent }
+  // Redirect to new investment page
+  { path: 'investment', component: InvestmentComponent },
+  // Redirect to investment edit page
+  { path: 'investment/:investment_id', component: InvestmentComponent }
 ];
 
 @NgModule({
