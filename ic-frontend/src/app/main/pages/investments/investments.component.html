@@ -20,7 +20,7 @@
           <th scope="col">ID</th>
           <th scope="col">Name</th>
           <th scope="col">Type</th>
-          <th scope="col">Actions</th>
+          <th scope="col" class="text-center">Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -28,9 +28,12 @@
           <td>{{ investment.investment_id }}</td>
           <td>{{ investment.investment_name }}</td>
           <td>{{ investment.investment_type.investment_type_name }}</td>
-          <td>
+          <td class="action-buttons">
             <app-button
               [buttonConfig]="getEditButtonConfig(investment)">
+            </app-button>
+            <app-button
+              [buttonConfig]="getDeleteButtonConfig(investment)">
             </app-button>
           </td>
         </tr>

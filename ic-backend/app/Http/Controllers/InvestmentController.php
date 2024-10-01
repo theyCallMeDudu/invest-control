@@ -59,4 +59,16 @@ class InvestmentController extends Controller
 
         return response()->json(['message' => 'Investment updated successfully', 'investment' => $investment], 200);
     }
+
+    // Deletes the existing investment from the database
+    public function destroy(int $investment_id)
+    {
+        // Tries to find the investment by its ID
+        // If doesn't find it, automatically throws an exception
+        // and returns a 404 response
+        $investment = Investment::findOrFail($investment_id);
+        $investment->delete();
+
+        return response()->json(['message' => 'Investment successfully deleted'], 200);
+    }
 }

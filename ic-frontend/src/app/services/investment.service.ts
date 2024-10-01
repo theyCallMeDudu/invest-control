@@ -41,4 +41,9 @@ export class InvestmentService {
         investment_type_id: investmentType
       });
   }
+
+  // Method to delete an existing investment by its ID
+  delete(investmentId: number | null): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${investmentId}`);
+  }
 }
