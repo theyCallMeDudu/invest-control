@@ -3,10 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Models\Investment;
+use App\Http\Services\InvestmentService;
 use Illuminate\Http\Request;
 
 class InvestmentController extends Controller
 {
+    protected $investmentService;
+
+    // Injects InvestmentService in this Controller
+    public function __construct(InvestmentService $investmentService)
+    {
+        $this->investmentService = $investmentService;
+    }
+
+    /**
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function store(Request $request)
     {
         // Validate received data
@@ -15,60 +28,62 @@ class InvestmentController extends Controller
             'investment_type_id' => 'required|integer|exists:investment_type,investment_type_id'
         ]);
 
-        // Creates a new investment in database
-        $investment = Investment::create([
-            'investment_name'    => $data['investment_name'],
-            'investment_type_id' => $data['investment_type_id']
-        ]);
+        $investment = $this->investmentService->createInvestment($data);
 
         // Returns the just created investment as a response
         return response()->json($investment, 201);
     }
 
-    // Gets the existing investment data
-    public function edit(Request $request)
+    /**
+     * @param  int  $investment_id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function edit(int $investment_id)
     {
-        $investment = Investment::where('investment_id', $request->investment_id)->first();
+        $investment = $this->investmentService->getInvestmentById($investment_id);
 
         if (!$investment) {
             return response()->json(['message' => 'Investment not found'], 404);
         }
 
-        // Returns the investment found as a JSON
         return response()->json($investment);
     }
 
-    // Updates the existing investment on the database
+    /**
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $investment_id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function update(Request $request, int $investment_id)
     {
-        $investment = Investment::find($investment_id);
-
-        if (!$investment) {
-            return response()->json(['message' => 'Investment not found', 404]);
-        }
-
-        $validateData = $request->validate([
-            'investment_name'    => 'required|string|max:255',
-            'investment_type_id' => 'required|integer|exists:investment_type,investment_type_id'
+        $data = $request->validate([
+            'investment_name' => 'required|string|max:255',
+            'investment_type_id' => 'required|exists:investment_type,investment_type_id',
         ]);
 
-        $investment->investment_name    = $validateData['investment_name'];
-        $investment->investment_type_id = $validateData['investment_type_id'];
+        $investment = $this->investmentService->getInvestmentById($investment_id);
 
-        $investment->save();
+        if (!$investment) {
+            return response()->json(['message' => 'Investment not found'], 404);
+        }
 
-        return response()->json(['message' => 'Investment updated successfully', 'investment' => $investment], 200);
+        $investment = $this->investmentService->updateInvestment($investment, $data);
+        return response()->json(['message' => 'Investment successfully updated', 'investment' => $investment]);
     }
 
-    // Deletes the existing investment from the database
+    /**
+     * @param  int  $investment_id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function destroy(int $investment_id)
     {
-        // Tries to find the investment by its ID
-        // If doesn't find it, automatically throws an exception
-        // and returns a 404 response
-        $investment = Investment::findOrFail($investment_id);
-        $investment->delete();
+        $investment = $this->investmentService->getInvestmentById($investment_id);
 
+        if (!$investment) {
+            return response()->json(['message' => 'Investment not found'], 404);
+        }
+
+        $this->investmentService->deleteInvestment($investment);
         return response()->json(['message' => 'Investment successfully deleted'], 200);
     }
 }
