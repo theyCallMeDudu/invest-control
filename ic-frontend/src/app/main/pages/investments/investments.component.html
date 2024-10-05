@@ -4,8 +4,10 @@
     <div class="col-md-8">
       <input
         type="text"
-        placeholder="Search"
-        class="form-control">
+        placeholder="Search by name"
+        class="form-control"
+        [(ngModel)]="searchTerm"
+        (input)="onSearch()">
     </div>
     <div class="col-md-4 investments-toolbar-buttons">
       <app-button
@@ -24,7 +26,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let investment of investments">
+        <tr *ngFor="let investment of filteredInvestments">
           <td>{{ investment.investment_id }}</td>
           <td>{{ investment.investment_name }}</td>
           <td>{{ investment.investment_type.investment_type_name }}</td>

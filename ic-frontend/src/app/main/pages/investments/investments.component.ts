@@ -13,6 +13,8 @@ import { Investment } from 'src/app/shared/models/investment.model';
 export class InvestmentsComponent implements OnInit {
 
   investments: Investment[] = [];
+  filteredInvestments: Investment[] = [];
+  searchTerm: string = '';
 
   constructor(
     private router: Router,
@@ -26,10 +28,21 @@ export class InvestmentsComponent implements OnInit {
     this.investmentsService.getInvestments().subscribe({
       next: (data) => {
         this.investments = data;
+        this.filteredInvestments = [...data]; // starts the filtered list as the original list of investments
         console.log(this.investments);
       },
       error: (err) => console.error('An error occurred while fetching investments', err)
     });
+  }
+
+  onSearch(): void {
+    if (this.searchTerm) {
+      this.filteredInvestments = this.investments.filter(investment =>
+        investment.investment_name.toLowerCase().includes(this.searchTerm.toLowerCase())
+      );
+    } else {
+      this.filteredInvestments = this.investments;
+    }
   }
 
   newInvestmentButton = {
