@@ -10,6 +10,7 @@ class CreateInvestmentTable extends Migration
     {
         Schema::create('investment', function (Blueprint $table) {
             $table->id('investment_id');
+            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreignId('investment_type_id')->constrained('investment_type', 'investment_type_id');
             $table->string('investment_name');
             $table->timestamps();

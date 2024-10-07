@@ -3,6 +3,7 @@
 namespace App\Http\Services;
 
 use App\Models\Investment;
+use Illuminate\Support\Facades\Auth;
 
 class InvestmentService
 {
@@ -17,7 +18,8 @@ class InvestmentService
         // Creates a new investment in database
         return Investment::create([
             'investment_name'    => $data['investment_name'],
-            'investment_type_id' => $data['investment_type_id']
+            'investment_type_id' => $data['investment_type_id'],
+            'user_id'            => Auth::user()->id
         ]);
     }
 

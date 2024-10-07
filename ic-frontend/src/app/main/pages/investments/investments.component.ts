@@ -15,6 +15,7 @@ export class InvestmentsComponent implements OnInit {
   investments: Investment[] = [];
   filteredInvestments: Investment[] = [];
   searchTerm: string = '';
+  loading: boolean = true;
 
   constructor(
     private router: Router,
@@ -29,9 +30,12 @@ export class InvestmentsComponent implements OnInit {
       next: (data) => {
         this.investments = data;
         this.filteredInvestments = [...data]; // starts the filtered list as the original list of investments
-        console.log(this.investments);
+        this.loading = false; // finishes the loading state
       },
-      error: (err) => console.error('An error occurred while fetching investments', err)
+      error: (err) => {
+        console.error('An error occurred while fetching investments', err);
+        this.loading = false;
+      }
     });
   }
 
@@ -86,6 +90,10 @@ export class InvestmentsComponent implements OnInit {
 
           // Updates the investments list after deletion
           this.investments = this.investments.filter(inv => inv.investment_id !== investmentId);
+          this.filteredInvestments = this.filteredInvestments.filter(inv => inv.investment_id !== investmentId);
+
+          // Updates the filtered list
+          this.onSearch();
         },
         error: (err) => {
           this.toastr.error('An error occurred while deleting the investment.', 'Error');

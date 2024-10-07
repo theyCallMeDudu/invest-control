@@ -3,6 +3,7 @@
 namespace App\Http\Services;
 
 use App\Models\Investment;
+use Illuminate\Support\Facades\Auth;
 
 class InvestmentsService
 {
@@ -13,6 +14,9 @@ class InvestmentsService
      */
     public function getAllInvestments()
     {
-        return Investment::with('investmentType')->get();
+        // Filters investiments by authenticated user
+        return Investment::with('investmentType')
+        ->where('user_id', Auth::id())
+        ->get();
     }
 }

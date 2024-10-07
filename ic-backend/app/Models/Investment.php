@@ -13,7 +13,8 @@ class Investment extends Model
     protected $primaryKey = 'investment_id';
     protected $fillable = [
         'investment_type_id',
-        'investment_name'
+        'investment_name',
+        'user_id'
     ];
 
     public function investmentType()
