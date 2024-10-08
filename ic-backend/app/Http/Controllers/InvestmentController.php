@@ -18,6 +18,15 @@ class InvestmentController extends Controller
     }
 
     /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function index()
+    {
+        $investments = $this->investmentService->getAllInvestments();
+        return response()->json($investments);
+    }
+
+    /**
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */

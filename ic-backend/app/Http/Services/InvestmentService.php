@@ -3,58 +3,41 @@
 namespace App\Http\Services;
 
 use App\Models\Investment;
+use App\Repositories\Contracts\InvestmentRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 
 class InvestmentService
 {
-    /**
-     * Creates a new investment.
-     *
-     * @param  array  $data
-     * @return Investment
-     */
+    protected $investmentRepository;
+
+    public function __construct(InvestmentRepositoryInterface $investmentRepository)
+    {
+        $this->investmentRepository = $investmentRepository;
+    }
+
+    public function getAllInvestments()
+    {
+        return $this->investmentRepository->getAllInvestments(Auth::id());
+    }
+
     public function createInvestment(array $data)
     {
-        // Creates a new investment in database
-        return Investment::create([
-            'investment_name'    => $data['investment_name'],
-            'investment_type_id' => $data['investment_type_id'],
-            'user_id'            => Auth::user()->id
-        ]);
+        $data['user_id'] = Auth::id();
+        return $this->investmentRepository->createInvestment($data);
     }
 
-    /**
-     * Returns an investment by its ID.
-     *
-     * @param  int  $investment_id
-     * @return Investment|null
-     */
-    public function getInvestmentById(int $investment_id)
+    public function getInvestmentById(int $investmentId)
     {
-        return Investment::with('investmentType')->find($investment_id);
+        return $this->investmentRepository->findInvestmentById($investmentId);
     }
 
-    /**
-     * Updates an existing investment in the database.
-     *
-     * @param  Investment  $investment
-     * @param  array  $data
-     * @return Investment
-     */
     public function updateInvestment(Investment $investment, array $data)
     {
-        $investment->update($data);
-        return $investment;
+        return $this->investmentRepository->updateInvestment($investment, $data);
     }
 
-    /**
-     * Deletes an investment from the database by its ID.
-     *
-     * @param  Investment  $investment
-     * @return bool|null
-     */
     public function deleteInvestment(Investment $investment)
     {
-        return $investment->delete();
+        return $this->investmentRepository->deleteInvestment($investment);
     }
 }
