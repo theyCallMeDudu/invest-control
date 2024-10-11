@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 class CreateInvestmentOperationTable extends Migration
 {
@@ -12,10 +13,13 @@ class CreateInvestmentOperationTable extends Migration
             $table->id('operation_id');
             $table->foreignId('investment_id')->constrained('investment', 'investment_id');
             $table->foreignId('operation_type')->constrained('operation_type', 'operation_type_id');
-            $table->date('operation_date');
+
+            // Define operation_date with default value of the current date and time
+            $table->date('operation_date')->default(DB::raw('CURRENT_DATE'));
+
             $table->integer('quantity');
-            $table->decimal('price_per_unit', 10, 2);
-            $table->decimal('total_price', 10, 2);
+            $table->decimal('unit_price', 10, 2);
+            $table->decimal('operation_value', 10, 2);
             $table->timestamps();
         });
     }

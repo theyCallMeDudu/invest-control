@@ -13,6 +13,8 @@ import { SharedModule } from './shared/shared.module';
 import { InvestmentsComponent } from './main/pages/investments/investments.component';
 import { InvestmentComponent } from './main/pages/investment/investment.component';
 import { FormsModule } from '@angular/forms';
+import { OperationComponent } from './main/pages/operation/operation.component';
+import { OperationsComponent } from './main/pages/operations/operations.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import { FormsModule } from '@angular/forms';
     DashboardComponent,
     NavbarComponent,
     InvestmentsComponent,
-    InvestmentComponent
+    InvestmentComponent,
+    OperationComponent,
+    OperationsComponent
   ],
   imports: [
     BrowserModule,
