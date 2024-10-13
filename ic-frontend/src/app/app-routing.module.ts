@@ -1,24 +1,22 @@
-// src/app/app-routing.module.ts
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { DashboardComponent } from './main/pages/dashboard/dashboard.component';
-import { InvestmentsRoutingModule } from './main/pages/investments/investments-routing.module';
-import { OperationsRoutingModule } from './main/pages/operations/operations-routing.module';
+import { investmentsRoutes } from './main/pages/investments/investments-routing.module';
+import { operationsRoutes } from './main/pages/operations/operations-routing.module';
+import { CustomRouteConfig } from './shared/interfaces/custom-route-config';
 
-const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' },  // Redirects to login page by default
-  { path: 'dashboard', component: DashboardComponent }     // Redirect to dashboard (main page)
+export const routes: CustomRouteConfig[] = [
+  { path: '', redirectTo: '/login', pathMatch: 'full' },  // Redirect to login page
+  { path: 'dashboard',
+    component: DashboardComponent,
+    showInSidebar: true
+  },   // Dashboard route
+  ...investmentsRoutes, // Append investments routes
+  ...operationsRoutes // Append operations routes
 ];
 
 @NgModule({
-  imports: [
-    // Main application routes
-    RouterModule.forRoot(routes),
-    // Investments routes
-    InvestmentsRoutingModule,
-    // Operations routes
-    OperationsRoutingModule
-  ],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

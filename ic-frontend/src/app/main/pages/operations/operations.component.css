@@ -1,0 +1,20 @@
+.operations-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.operations-toolbar {
+  display: flex;
+  justify-content: space-between;
+}
+
+.operations-toolbar-buttons {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 8px; /*space between buttons*/
+}

@@ -1,16 +1,20 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { OperationsComponent } from './operations.component';
 import { OperationComponent } from '../operation/operation.component';
+import { CustomRouteConfig } from 'src/app/shared/interfaces/custom-route-config';
 
-const routes: Routes = [
-  { path: 'operations', component: OperationsComponent },
+export const operationsRoutes: CustomRouteConfig[] = [
+  { path: 'operations',
+    component: OperationsComponent,
+    showInSidebar: true
+  },
   { path: 'operation', component: OperationComponent },
   { path: 'operation/:operation_id', component: OperationComponent }
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
+  imports: [RouterModule.forChild(operationsRoutes)],
   exports: [RouterModule]
 })
 export class OperationsRoutingModule { }

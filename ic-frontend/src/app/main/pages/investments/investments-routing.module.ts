@@ -1,17 +1,21 @@
 // src/app/main/pages/investments/investment-routing.module.ts
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { InvestmentsComponent } from './investments.component';
 import { InvestmentComponent } from '../investment/investment.component';
+import { CustomRouteConfig } from 'src/app/shared/interfaces/custom-route-config';
 
-const routes: Routes = [
-  { path: 'investments', component: InvestmentsComponent },
+export const investmentsRoutes: CustomRouteConfig[] = [
+  { path: 'investments',
+    component: InvestmentsComponent,
+    showInSidebar: true
+  },
   { path: 'investment', component: InvestmentComponent },
   { path: 'investment/:investment_id', component: InvestmentComponent }
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
+  imports: [RouterModule.forChild(investmentsRoutes)],
   exports: [RouterModule]
 })
 export class InvestmentsRoutingModule { }

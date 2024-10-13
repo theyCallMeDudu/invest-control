@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Route } from '@angular/router';
 import { routes } from 'src/app/app-routing.module';
+import { CustomRouteConfig } from '../../interfaces/custom-route-config';
 
 @Component({
   selector: 'app-sidebar',
@@ -9,7 +10,7 @@ import { routes } from 'src/app/app-routing.module';
 })
 export class SidebarComponent implements OnInit {
 
-  menuRoutes: Route[] = [];
+  menuRoutes: CustomRouteConfig[] = [];
 
   constructor() { }
 
@@ -29,9 +30,8 @@ export class SidebarComponent implements OnInit {
   * @param route - The route being checked.
   * @returns `true` if the route should be displayed in the sidebar, otherwise `false`.
   */
-  private shouldDisplayRoute(route: Route): boolean {
-    // Explicitly returns true or false
-    return !!(route.path && route.path !== '' && route.path !== 'login');
+  private shouldDisplayRoute(route: CustomRouteConfig): boolean {
+    return !!route.showInSidebar;  // Only display routes that have 'showInSidebar' set to true
   }
 
 }
