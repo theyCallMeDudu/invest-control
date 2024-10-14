@@ -1,1 +1,55 @@
-<p>operation works!</p>
+<div class="operation-container">
+  <h1>New Operation</h1>
+  <div class="operation-form-container col-md-4">
+    <form
+      #operationForm="ngForm"
+      >
+      <div class="form-group">
+        <label for="operation_name">Name</label>
+        <input
+          type="text"
+          id="operation_name"
+          name="operation_name"
+          [(ngModel)]="operationName"
+          #operationNameInput="ngModel"
+          class="form-control"
+          required
+          autocomplete="off">
+        <div *ngIf="operationNameInput.invalid && submitted">
+          <div *ngIf="operationNameInput.errors?.['required']" class="input-error-message">
+            Name is mandatory.
+          </div>
+        </div>
+
+        <label for="operation_type">Type</label>
+        <select
+          name="operation_type"
+          id="operation_type"
+          [(ngModel)]="operationType"
+          #operationTypeInput="ngModel"
+          class="form-control"
+          required>
+          <option value="0" disabled selected>Select</option>
+          <option
+            *ngFor="let type of operationTypes"
+            [value]="type.operation_type_id">
+          {{ type.operation_type_name }}
+          </option>
+        </select>
+        <div *ngIf="operationType === 0 && submitted">
+          <div class="input-error-message">
+            Type is mandatory.
+          </div>
+        </div>
+      </div>
+      <div class="form-group operation-form-buttons">
+        <app-button
+          [buttonConfig]="cancelButton">
+        </app-button>
+        <app-button
+          [buttonConfig]="saveButton">
+        </app-button>
+      </div>
+    </form>
+  </div>
+</div>
