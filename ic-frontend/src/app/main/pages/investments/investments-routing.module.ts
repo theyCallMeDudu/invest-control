@@ -1,4 +1,3 @@
-// src/app/main/pages/investments/investment-routing.module.ts
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { InvestmentsComponent } from './investments.component';
