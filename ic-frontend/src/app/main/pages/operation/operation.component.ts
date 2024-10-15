@@ -2,8 +2,12 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { InvestmentsService } from 'src/app/services/investments.service';
 import { OperationTypeService } from 'src/app/services/operation-type.service';
 import { OperationsService } from 'src/app/services/operations.service';
+import { CurrencyType } from 'src/app/shared/models/currency-type.model';
+import { InvestmentType } from 'src/app/shared/models/investment-type.model';
+import { Investment } from 'src/app/shared/models/investment.model';
 import { OperationType } from 'src/app/shared/models/operation-type.model';
 
 @Component({
@@ -19,6 +23,13 @@ export class OperationComponent implements OnInit {
   operationTypes: OperationType[] = [];
   operationName: string = '';
   operationType: number = 0;
+
+  investments: Investment[] = [];
+  investment: number = 0;
+
+  currencyTypes: CurrencyType[] = [];
+  currencyType: number = 0;
+
   submitted:boolean = false;
   isEditMode: boolean = false;
   operationId: number | null = null;
@@ -28,10 +39,20 @@ export class OperationComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private operationTypeService: OperationTypeService,
     private operationsService: OperationsService,
+    private investmentsService: InvestmentsService,
     private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
+    this.investmentsService.getInvestments().subscribe({
+      next: (data) => {
+        this.investments = data;
+        console.log(this.investments);
+      },
+      error: (err) => {
+        console.error('An error occurred while fetching investments', err);
+      }
+    });
   }
 
   cancelButton = {

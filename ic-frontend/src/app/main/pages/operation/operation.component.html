@@ -5,22 +5,6 @@
       #operationForm="ngForm"
       >
       <div class="form-group">
-        <label for="operation_name">Name</label>
-        <input
-          type="text"
-          id="operation_name"
-          name="operation_name"
-          [(ngModel)]="operationName"
-          #operationNameInput="ngModel"
-          class="form-control"
-          required
-          autocomplete="off">
-        <div *ngIf="operationNameInput.invalid && submitted">
-          <div *ngIf="operationNameInput.errors?.['required']" class="input-error-message">
-            Name is mandatory.
-          </div>
-        </div>
-
         <label for="operation_type">Type</label>
         <select
           name="operation_type"
@@ -42,6 +26,68 @@
           </div>
         </div>
       </div>
+
+      <div class="form-group">
+        <div class="operation-two-inputs-row">
+          <div class="col-md-5">
+            <label for="">Investment</label>
+            <select
+              name="investment"
+              id="investment"
+              [(ngModel)]="investment"
+              #investmentInput="ngModel"
+              class="form-control"
+              required>
+              <option value="0" disabled selected>Select</option>
+              <option
+                *ngFor="let investment of investments"
+                [value]="investment.investment_id">
+                {{ investment.investment_name }}
+              </option>
+            </select>
+          </div>
+
+          <div class="col-md-5">
+            <label for="">Investment type</label>
+            <div>
+              <input
+                type="text"
+                name="investment_type"
+                id="investment_type"
+                class="form-control"
+                disabled>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group operation-two-inputs-row">
+        <div class="col-md-5">
+          <label for="">Operation date</label>
+          <input
+            type="date"
+            name="operation_date"
+            id="operation_date"
+            class="form-control">
+        </div>
+        <div class="col-md-5">
+          <label for="">Currency</label>
+          <select
+              name="currency_type"
+              id="currency_type"
+              [(ngModel)]="currencyType"
+              #currencyTypeInput="ngModel"
+              class="form-control"
+              required>
+              <option value="0" disabled selected>Select</option>
+              <option
+                *ngFor="let type of currencyTypes"
+                [value]="type.currency_type_id">
+              {{ type.currency_type_code }}
+              </option>
+          </select>
+        </div>
+      </div>
+
       <div class="form-group operation-form-buttons">
         <app-button
           [buttonConfig]="cancelButton">
