@@ -52,6 +52,12 @@ class RouteServiceProvider extends ServiceProvider
 
             // Loads the investment routes
             $this->mapInvestmentRoutes();
+
+            // Loads the operation-types routes
+            $this->mapOperationTypeRoutes();
+
+            // Loads the currency-types routes
+            $this->mapCurrencyTypeRoutes();
         });
     }
 
@@ -67,11 +73,6 @@ class RouteServiceProvider extends ServiceProvider
         });
     }
 
-    /**
-     * Loads the investment-types routes.
-     *
-     * @return void
-     */
     protected function mapInvestmentTypeRoutes()
     {
         Route::prefix('api')
@@ -80,16 +81,27 @@ class RouteServiceProvider extends ServiceProvider
             ->group(base_path('routes/investment-types.php'));
     }
 
-    /**
-     * Loads the investment routes.
-     *
-     * @return void
-     */
     protected function mapInvestmentRoutes()
     {
         Route::prefix('api')
             ->middleware('api')
             ->namespace($this->namespace)
             ->group(base_path('routes/investment.php'));
+    }
+
+    protected function mapOperationTypeRoutes()
+    {
+        Route::prefix('api')
+            ->middleware('api')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/operation-types.php'));
+    }
+
+    protected function mapCurrencyTypeRoutes()
+    {
+        Route::prefix('api')
+            ->middleware('api')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/currency-types.php'));
     }
 }

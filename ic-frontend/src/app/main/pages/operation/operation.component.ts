@@ -2,11 +2,11 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { CurrencyTypeService } from 'src/app/services/currency-type-service';
 import { InvestmentsService } from 'src/app/services/investments.service';
 import { OperationTypeService } from 'src/app/services/operation-type.service';
 import { OperationsService } from 'src/app/services/operations.service';
 import { CurrencyType } from 'src/app/shared/models/currency-type.model';
-import { InvestmentType } from 'src/app/shared/models/investment-type.model';
 import { Investment } from 'src/app/shared/models/investment.model';
 import { OperationType } from 'src/app/shared/models/operation-type.model';
 
@@ -26,6 +26,9 @@ export class OperationComponent implements OnInit {
 
   investments: Investment[] = [];
   investment: number = 0;
+  investmentType: string = '';
+
+  quantity: number = 1;
 
   currencyTypes: CurrencyType[] = [];
   currencyType: number = 0;
@@ -40,19 +43,14 @@ export class OperationComponent implements OnInit {
     private operationTypeService: OperationTypeService,
     private operationsService: OperationsService,
     private investmentsService: InvestmentsService,
+    private currencyTypeService: CurrencyTypeService,
     private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
-    this.investmentsService.getInvestments().subscribe({
-      next: (data) => {
-        this.investments = data;
-        console.log(this.investments);
-      },
-      error: (err) => {
-        console.error('An error occurred while fetching investments', err);
-      }
-    });
+    this.getOperationTypes();
+    this.getInvestments();
+    this.getCurrencyTypes();
   }
 
   cancelButton = {
@@ -67,6 +65,56 @@ export class OperationComponent implements OnInit {
     type: 'submit',
     action: () => this.onSubmit()
   };
+
+  getOperationTypes(): void {
+    this.operationTypeService.getOperationTypes().subscribe({
+      next: (data) => {
+        this.operationTypes = data;
+        console.log(this.operationTypes);
+      },
+      error: (err) => {
+        console.error('An error occurred while fetching operation types', err);
+      }
+    });
+  }
+
+  getInvestments(): void {
+    this.investmentsService.getInvestments().subscribe({
+      next: (data) => {
+        this.investments = data;
+        console.log(this.investments);
+      },
+      error: (err) => {
+        console.error('An error occurred while fetching investments', err);
+      }
+    });
+  }
+
+  getCurrencyTypes(): void {
+    this.currencyTypeService.getCurrencyTypes().subscribe({
+      next: (data) => {
+        this.currencyTypes = data;
+        console.log(this.currencyTypes);
+      },
+      error: (err) => {
+        console.error('An error occurred while fetching currency types', err);
+      }
+    });
+  }
+
+  onInvestmentChange(investmentId: number): void {
+    if (this.investments && this.investments.length > 0) {
+      const selectedInvestment = this.investments.find(investment => investment.investment_id === Number(investmentId));
+
+      if (selectedInvestment && selectedInvestment.investment_type) {
+        this.investmentType = selectedInvestment.investment_type.investment_type_name;
+      } else {
+        this.investmentType = '';
+      }
+    } else {
+      console.error("Investments array is not loaded yet or is empty.");
+    }
+  }
 
   onSubmit(): void {
     this.submitted = true;
