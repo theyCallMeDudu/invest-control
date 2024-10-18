@@ -8,3 +8,8 @@
   display: flex;
   justify-content: space-between;
 }
+
+.operation-value {
+  font-weight: bold;
+  text-align: center;
+}

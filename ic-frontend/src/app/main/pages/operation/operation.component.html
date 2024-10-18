@@ -78,13 +78,14 @@
               id="currency_type"
               [(ngModel)]="currencyType"
               #currencyTypeInput="ngModel"
+              (change)="onCurrencyTypeChange(currencyType)"
               class="form-control"
               required>
               <option value="0" disabled selected>Select</option>
               <option
                 *ngFor="let type of currencyTypes"
                 [value]="type.currency_type_id">
-              {{ type.currency_type_code }}
+              {{ type.currency_type_symbol }} ({{type.currency_type_code}})
               </option>
           </select>
         </div>
@@ -97,17 +98,23 @@
             name="quantity"
             id="quantity"
             [(ngModel)]="quantity"
+            (ngModelChange)="updateOperationValue()"
             min="1"
             class="form-control">
         </div>
         <div class="col-md-5">
           <label for="">Unit price</label>
           <input
-            type="number"
+            type="text"
             name="unit_price"
             id="unit_price"
-            min="0"
-            class="form-control">
+            class="form-control"
+            [(ngModel)]="unitPrice"
+            (ngModelChange)="updateOperationValue()"
+            mask="separator.2"
+            prefix="{{currencyTypeSymbol}} "
+            thousandSeparator="."
+            required>
         </div>
       </div>
 
@@ -118,7 +125,8 @@
             type="text"
             name="operation_value"
             id="operation_value"
-            class="form-control"
+            [value]="operationValue | currency:currencyTypeSymbol:true:'1.2-2':'pt-BR'"
+            class="form-control operation-value"
             disabled>
         </div>
       </div>

@@ -32,6 +32,11 @@ export class OperationComponent implements OnInit {
 
   currencyTypes: CurrencyType[] = [];
   currencyType: number = 0;
+  currencyTypeSymbol: string = "R$";
+
+  unitPrice: number = 0;
+
+  operationValue: number = 0;
 
   submitted:boolean = false;
   isEditMode: boolean = false;
@@ -114,6 +119,36 @@ export class OperationComponent implements OnInit {
     } else {
       console.error("Investments array is not loaded yet or is empty.");
     }
+  }
+
+  onCurrencyTypeChange(selectedCurrencyType: any): void {
+    const selectedCurrency = this.currencyTypes.find(
+      currency => currency.currency_type_id === Number(this.currencyType)
+    );
+
+    if (selectedCurrency) {
+      switch (selectedCurrency.currency_type_code) {
+        case 'USD':
+          this.currencyTypeSymbol = '$';
+          break;
+        case 'EUR':
+          this.currencyTypeSymbol = '€';
+          break;
+        case 'BRL':
+          this.currencyTypeSymbol = 'R$';
+          break;
+        default:
+          this.currencyTypeSymbol = '';
+      }
+    }
+  }
+
+  updateOperationValue(): void {
+    // Removes the mask and converts into number
+    const numericUnitPrice = this.unitPrice;
+
+    // Multiplies quantity and unitPrice to calculate the transaction value
+    this.operationValue = this.quantity * (isNaN(numericUnitPrice) ? 0 : numericUnitPrice);
   }
 
   onSubmit(): void {

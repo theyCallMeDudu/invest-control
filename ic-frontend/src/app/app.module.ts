@@ -1,7 +1,11 @@
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { NgxMaskDirective, NgxMaskPipe, NgxMaskModule } from 'ngx-mask';
+import { registerLocaleData } from '@angular/common';
+import localePt from '@angular/common/locales/pt';
+import localePtExtra from '@angular/common/locales/extra/pt';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -15,6 +19,8 @@ import { InvestmentComponent } from './main/pages/investment/investment.componen
 import { FormsModule } from '@angular/forms';
 import { OperationComponent } from './main/pages/operation/operation.component';
 import { OperationsComponent } from './main/pages/operations/operations.component';
+
+registerLocaleData(localePt, 'pt-BR', localePtExtra);
 
 @NgModule({
   declarations: [
@@ -38,9 +44,12 @@ import { OperationsComponent } from './main/pages/operations/operations.componen
       // timeOut: 3000, // How much time the toast is visible
       positionClass: 'toast-top-right', // Toast position on the screen
       preventDuplicates: true, // Avoid duplicated toasts
-    })
+    }),
+    NgxMaskModule.forRoot()
   ],
-  providers: [],
+  providers: [
+    { provide: LOCALE_ID, useValue: 'pt-BR' } // Define o locale para pt-BR
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
