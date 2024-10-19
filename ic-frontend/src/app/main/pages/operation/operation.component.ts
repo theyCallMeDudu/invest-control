@@ -198,10 +198,10 @@ export class OperationComponent implements OnInit {
     } else {
       // Call the service to save the data
       this.operationsService.save(
-        this.operationType,
-        this.investment,
+        Number(this.operationType),
+        Number(this.investment),
         this.operationDate,
-        this.currencyType,
+        Number(this.currencyType),
         this.quantity,
         this.unitPrice
       ).subscribe({

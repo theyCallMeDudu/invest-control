@@ -2,40 +2,22 @@
 
 namespace App\Http\Services;
 
+use App\Repositories\Contracts\OperationRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 
 class OperationService
 {
-    // protected $investmentRepository;
+    protected $operationRepository;
 
-    // public function __construct(InvestmentRepositoryInterface $investmentRepository)
-    // {
-    //     $this->investmentRepository = $investmentRepository;
-    // }
+    public function __construct(OperationRepositoryInterface $operationRepository)
+    {
+        $this->operationRepository = $operationRepository;
+    }
 
-    // public function getAllInvestments()
-    // {
-    //     return $this->investmentRepository->getAllInvestments(Auth::id());
-    // }
-
-    // public function createInvestment(array $data)
-    // {
-    //     $data['user_id'] = Auth::id();
-    //     return $this->investmentRepository->createInvestment($data);
-    // }
-
-    // public function getInvestmentById(int $investmentId)
-    // {
-    //     return $this->investmentRepository->findInvestmentById($investmentId);
-    // }
-
-    // public function updateInvestment(Investment $investment, array $data)
-    // {
-    //     return $this->investmentRepository->updateInvestment($investment, $data);
-    // }
-
-    // public function deleteInvestment(Investment $investment)
-    // {
-    //     return $this->investmentRepository->deleteInvestment($investment);
-    // }
+    public function createOperation(array $data)
+    {
+        $data['user_id'] = Auth::id();
+        $data['operation_value'] = $data['quantity'] * $data['unit_price'];
+        return $this->operationRepository->createOperation($data);
+    }
 }

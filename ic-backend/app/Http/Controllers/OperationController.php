@@ -33,16 +33,18 @@ class OperationController extends Controller
      */
     public function store(CreateOperationRequest $request)
     {
-        // Validate received data
-        // $data = $request->validate([
-        //     'investment_name'    => 'required|string|max:255',
-        //     'investment_type_id' => 'required|integer|exists:investment_type,investment_type_id'
-        // ]);
-
-        // $investment = $this->investmentService->createInvestment($data);
+        $data = $request->only([
+            'operation_type_id',
+            'investment_id',
+            'currency_type_id',
+            'operation_date',
+            'quantity',
+            'unit_price'
+        ]);
+        $operation = $this->operationService->createOperation($data);
 
         // // Returns the just created investment as a response
-        return response()->json($request, 201);
+        return response()->json($operation, 201);
     }
 
     /**

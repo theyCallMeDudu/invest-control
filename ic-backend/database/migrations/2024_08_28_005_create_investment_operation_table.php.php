@@ -14,6 +14,7 @@ class CreateInvestmentOperationTable extends Migration
             $table->foreignId('investment_id')->constrained('investment', 'investment_id');
             $table->foreignId('operation_type_id')->constrained('operation_type', 'operation_type_id');
             $table->foreignId('currency_type_id')->constrained('currency_type', 'currency_type_id');
+            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
 
             // Define operation_date with default value of the current date and time
             $table->date('operation_date')->default(DB::raw('CURRENT_DATE'));

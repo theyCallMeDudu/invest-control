@@ -7,7 +7,7 @@ use App\Models\Investment;
 interface InvestmentRepositoryInterface
 {
     /**
-     * Retorna todos os investimentos do usuário autenticado.
+     * Returns all investments from the authenticated user.
      *
      * @param  int  $userId
      * @return \Illuminate\Database\Eloquent\Collection
@@ -15,7 +15,7 @@ interface InvestmentRepositoryInterface
     public function getAllInvestments(int $userId);
 
     /**
-     * Cria um novo investimento no banco de dados.
+     * Creates a new investment at the database.
      *
      * @param  array  $data
      * @return Investment
@@ -23,7 +23,7 @@ interface InvestmentRepositoryInterface
     public function createInvestment(array $data);
 
     /**
-     * Encontra um investimento pelo seu ID.
+     * Finds an investment by its ID.
      *
      * @param  int  $investmentId
      * @return Investment|null
@@ -31,7 +31,7 @@ interface InvestmentRepositoryInterface
     public function findInvestmentById(int $investmentId);
 
     /**
-     * Atualiza um investimento existente no banco de dados.
+     * Updates an existing investment.
      *
      * @param  Investment  $investment
      * @param  array  $data
@@ -40,7 +40,7 @@ interface InvestmentRepositoryInterface
     public function updateInvestment(Investment $investment, array $data);
 
     /**
-     * Exclui um investimento do banco de dados.
+     * Deletes an investment.
      *
      * @param  Investment  $investment
      * @return bool|null

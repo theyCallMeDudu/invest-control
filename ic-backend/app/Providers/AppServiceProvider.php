@@ -4,7 +4,9 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use App\Repositories\Contracts\InvestmentRepositoryInterface;
+use App\Repositories\Contracts\OperationRepositoryInterface;
 use App\Repositories\Eloquent\InvestmentRepository;
+use App\Repositories\Eloquent\OperationRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -16,6 +18,7 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(InvestmentRepositoryInterface::class, InvestmentRepository::class);
+        $this->app->bind(OperationRepositoryInterface::class, OperationRepository::class);
     }
 
     /**
