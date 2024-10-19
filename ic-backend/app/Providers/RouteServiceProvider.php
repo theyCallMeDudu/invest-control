@@ -58,6 +58,9 @@ class RouteServiceProvider extends ServiceProvider
 
             // Loads the currency-types routes
             $this->mapCurrencyTypeRoutes();
+
+            // Loads the operations routes
+            $this->mapOperationsRoutes();
         });
     }
 
@@ -103,5 +106,13 @@ class RouteServiceProvider extends ServiceProvider
             ->middleware('api')
             ->namespace($this->namespace)
             ->group(base_path('routes/currency-types.php'));
+    }
+
+    protected function mapOperationsRoutes()
+    {
+        Route::prefix('api')
+            ->middleware('api')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/operations.php'));
     }
 }

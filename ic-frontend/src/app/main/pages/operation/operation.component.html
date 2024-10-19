@@ -5,7 +5,7 @@
       #operationForm="ngForm"
       >
       <div class="form-group">
-        <label for="operation_type">Type</label>
+        <label for="operation_type">Operation type</label>
         <select
           name="operation_type"
           id="operation_type"
@@ -22,7 +22,7 @@
         </select>
         <div *ngIf="operationType === 0 && submitted">
           <div class="input-error-message">
-            Type is mandatory.
+            Operation type is mandatory.
           </div>
         </div>
       </div>
@@ -46,6 +46,11 @@
                 {{ investment.investment_name }}
               </option>
             </select>
+            <div *ngIf="investment === 0 && submitted">
+              <div class="input-error-message">
+                Investment is mandatory.
+              </div>
+            </div>
           </div>
 
           <div class="col-md-5">
@@ -62,6 +67,7 @@
           </div>
         </div>
       </div>
+
       <div class="form-group operation-two-inputs-row">
         <div class="col-md-5">
           <label for="">Operation date</label>
@@ -69,8 +75,17 @@
             type="date"
             name="operation_date"
             id="operation_date"
-            class="form-control">
+            class="form-control"
+            [(ngModel)]="operationDate"
+            (change)="onOperationDateChange(operationDate)"
+            [ngModelOptions]="{updateOn: 'blur'}">
+            <div *ngIf="operationDate === '' && submitted">
+              <div class="input-error-message">
+                Operation date is mandatory.
+              </div>
+            </div>
         </div>
+
         <div class="col-md-5">
           <label for="">Currency</label>
           <select
@@ -88,6 +103,11 @@
               {{ type.currency_type_symbol }} ({{type.currency_type_code}})
               </option>
           </select>
+          <div *ngIf="currencyType === 0 && submitted">
+            <div class="input-error-message">
+              Currency is mandatory.
+            </div>
+          </div>
         </div>
       </div>
       <div class="form-group operation-two-inputs-row">
@@ -101,6 +121,11 @@
             (ngModelChange)="updateOperationValue()"
             min="1"
             class="form-control">
+          <div *ngIf="quantity <= 0 && submitted">
+            <div class="input-error-message">
+              Quantity must be greater than 0.
+            </div>
+          </div>
         </div>
         <div class="col-md-5">
           <label for="">Unit price</label>
@@ -115,6 +140,11 @@
             prefix="{{currencyTypeSymbol}} "
             thousandSeparator="."
             required>
+          <div *ngIf="unitPrice === 0 && submitted">
+            <div class="input-error-message">
+              Unit price must be greater than 0.
+            </div>
+          </div>
         </div>
       </div>
 

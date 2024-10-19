@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -21,8 +22,10 @@ export class OperationComponent implements OnInit {
   @ViewChild('operationForm') operationForm!: NgForm;
 
   operationTypes: OperationType[] = [];
-  operationName: string = '';
   operationType: number = 0;
+  operationDate: string = '';
+  operationValue: number = 0;
+  operationId: number | null = null;
 
   investments: Investment[] = [];
   investment: number = 0;
@@ -36,11 +39,8 @@ export class OperationComponent implements OnInit {
 
   unitPrice: number = 0;
 
-  operationValue: number = 0;
-
   submitted:boolean = false;
   isEditMode: boolean = false;
-  operationId: number | null = null;
 
   constructor(
     private router: Router,
@@ -49,13 +49,14 @@ export class OperationComponent implements OnInit {
     private operationsService: OperationsService,
     private investmentsService: InvestmentsService,
     private currencyTypeService: CurrencyTypeService,
-    private toastr: ToastrService
-  ) { }
+    private toastr: ToastrService,
+    private datePipe: DatePipe) { }
 
   ngOnInit(): void {
     this.getOperationTypes();
     this.getInvestments();
     this.getCurrencyTypes();
+    this.operationDate = this.formatDate(new Date());
   }
 
   cancelButton = {
@@ -121,6 +122,17 @@ export class OperationComponent implements OnInit {
     }
   }
 
+  formatDate(date: Date): string {
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
+  onOperationDateChange(selectedOperationDate: string): void {
+    console.log(selectedOperationDate);
+  }
+
   onCurrencyTypeChange(selectedCurrencyType: any): void {
     const selectedCurrency = this.currencyTypes.find(
       currency => currency.currency_type_id === Number(this.currencyType)
@@ -154,46 +166,56 @@ export class OperationComponent implements OnInit {
   onSubmit(): void {
     this.submitted = true;
 
-    // if (this.investmentForm.invalid || this.investmentType === 0) {
-    //   // If the form is invalid, the data won't be sent to back-end
-    //   console.log('Invalid form, please fill out all required fields');
-    //   return;
-    // }
+    if (this.operationForm.invalid
+        || this.operationType === 0
+        || this.investment === 0
+        || this.operationDate === ''
+        || this.currencyType === 0
+        || this.quantity <= 0
+        || this.unitPrice <= 0) {
+      // If the form is invalid, the data won't be sent to back-end
+      console.log('Invalid form, please fill out all required fields');
+      return;
+    }
 
-    // if (this.isEditMode) {
-    //   // Call the service to save the data
-    //   this.investmentService.update(
-    //     this.investmentId,
-    //     this.investmentName,
-    //     this.investmentType
-    //   ).subscribe({
-    //     next: (response) => {
-    //       this.toastr.success('Investment successfully updated!', 'Success');
-    //       console.log('Investment successfully updated!', response);
-    //       this.router.navigate(['/investments']); // Redirects to investments page
-    //     },
-    //     error: (error) => {
-    //       this.toastr.error('An error occurred while updating the investment.', 'Error');
-    //       console.log('An error occurred when trying to update investment!', error);
-    //     }
-    //   })
-    // } else {
-    //   // Call the service to save the data
-    //   this.investmentService.save(
-    //     this.investmentName,
-    //     this.investmentType
-    //   ).subscribe({
-    //     next: (response) => {
-    //       this.toastr.success('Investment successfully saved!', 'Success');
-    //       console.log('Investment successfully saved!', response);
-    //       this.router.navigate(['/investments']); // Redirects to investments page
-    //     },
-    //     error: (error) => {
-    //       this.toastr.error('An error occurred while saving the investment.', 'Error');
-    //       console.log('An error occurred when trying to save investment!', error);
-    //     }
-    //   });
-    // }
+    if (this.isEditMode) {
+      // Call the service to save the data
+      // this.investmentService.update(
+      //   this.investmentId,
+      //   this.investmentName,
+      //   this.investmentType
+      // ).subscribe({
+      //   next: (response) => {
+      //     this.toastr.success('Investment successfully updated!', 'Success');
+      //     console.log('Investment successfully updated!', response);
+      //     this.router.navigate(['/investments']); // Redirects to investments page
+      //   },
+      //   error: (error) => {
+      //     this.toastr.error('An error occurred while updating the investment.', 'Error');
+      //     console.log('An error occurred when trying to update investment!', error);
+      //   }
+      // })
+    } else {
+      // Call the service to save the data
+      this.operationsService.save(
+        this.operationType,
+        this.investment,
+        this.operationDate,
+        this.currencyType,
+        this.quantity,
+        this.unitPrice
+      ).subscribe({
+        next: (response) => {
+          this.toastr.success('Operation successfully saved!', 'Success');
+          console.log('Operation successfully saved!', response);
+          this.router.navigate(['/operations']);
+        },
+        error: (error) => {
+          this.toastr.error('An error occurred while saving the operation.', 'Error');
+          console.log('An error occurred when trying to save operation!', error);
+        }
+      });
+    }
   }
 
 }
