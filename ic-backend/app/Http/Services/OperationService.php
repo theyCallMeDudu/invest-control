@@ -20,4 +20,9 @@ class OperationService
         $data['operation_value'] = $data['quantity'] * $data['unit_price'];
         return $this->operationRepository->createOperation($data);
     }
+
+    public function getAllOperations()
+    {
+        return $this->operationRepository->getAllOperations(Auth::id());
+    }
 }

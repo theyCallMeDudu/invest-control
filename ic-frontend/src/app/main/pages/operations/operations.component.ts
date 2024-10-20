@@ -24,7 +24,7 @@ export class OperationsComponent implements OnInit {
 
   ngOnInit(): void {
     // Calls the service to get the operations
-    this.operationsService.getInvestments().subscribe({
+    this.operationsService.getOperations().subscribe({
       next: (data) => {
         this.operations = data;
         this.filteredOperations = [...data]; // starts the filtered list as the original list of operations

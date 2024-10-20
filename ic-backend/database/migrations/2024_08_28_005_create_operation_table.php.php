@@ -9,8 +9,8 @@ class CreateInvestmentOperationTable extends Migration
 {
     public function up()
     {
-        Schema::create('investment_operation', function (Blueprint $table) {
-            $table->id('investment_operation_id');
+        Schema::create('operation', function (Blueprint $table) {
+            $table->id('operation_id');
             $table->foreignId('investment_id')->constrained('investment', 'investment_id');
             $table->foreignId('operation_type_id')->constrained('operation_type', 'operation_type_id');
             $table->foreignId('currency_type_id')->constrained('currency_type', 'currency_type_id');
@@ -28,6 +28,6 @@ class CreateInvestmentOperationTable extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('investment_operation');
+        Schema::dropIfExists('operation');
     }
 }

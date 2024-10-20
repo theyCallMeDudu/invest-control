@@ -21,7 +21,7 @@ export class OperationsService {
 
   constructor(private http: HttpClient) { }
 
-  getInvestments(): Observable<Operation[]> {
+  getOperations(): Observable<Operation[]> {
     // Gets the auth token from local storage
     const token = localStorage.getItem('authToken');
 

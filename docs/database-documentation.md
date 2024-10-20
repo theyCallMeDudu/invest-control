@@ -7,7 +7,7 @@
 . investment
 . investment_type
 . operation_type
-. investment_operation
+. operation
 . investment_summary
 -------------------------
 
@@ -35,7 +35,7 @@ This table stores the different types of operations, such as purchase and sale.
 operation_type_id (int) (PK)
 operation_type_name (varchar)
 
-### 4. investment_operation
+### 4. operation
 This table stores each buy/ sell operation of a specific investment. This is where you control the price paid, the date and the quantity purchased.
 
 operation_id (int) (PK)
@@ -62,10 +62,10 @@ average_price (decimal)
 ### 6. Relations and functionalities (bonus)
 
 #### Table Relationships:
-The investment_type table relates to the investment table through investment_type_id. The investment table relates to the investment_operation table through investment_id. Optionally, the investment_summary table can be used to aggregate data over time.
+The investment_type table relates to the investment table through investment_type_id. The investment table relates to the operation table through investment_id. Optionally, the investment_summary table can be used to aggregate data over time.
 
 #### Investment Transactions:
-Each time you make a purchase or sale, a new entry is added to the investment_operation table. This allows you to track the price paid, the date, and the quantity purchased.
+Each time you make a purchase or sale, a new entry is added to the operation table. This allows you to track the price paid, the date, and the quantity purchased.
 
 #### Average Price Calculations:
-To calculate the average price over a given period, you can query the investment_operation table to sum the total_price and quantity values, and then divide the total spent by the total quantity.
+To calculate the average price over a given period, you can query the operation table to sum the total_price and quantity values, and then divide the total spent by the total quantity.

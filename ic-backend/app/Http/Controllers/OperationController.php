@@ -3,16 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateOperationRequest;
-use App\Http\Services\InvestmentService;
 use App\Http\Services\OperationService;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class OperationController extends Controller
 {
     protected $operationService;
 
-    // Injects InvestmentService in this Controller
+    // Injects OperationService in this Controller
     public function __construct(OperationService $operationService)
     {
         $this->operationService = $operationService;
@@ -21,11 +18,11 @@ class OperationController extends Controller
     /**
      * @return \Illuminate\Http\JsonResponse
      */
-    // public function index()
-    // {
-    //     $investments = $this->investmentService->getAllInvestments();
-    //     return response()->json($investments);
-    // }
+    public function index()
+    {
+        $operations = $this->operationService->getAllOperations();
+        return response()->json($operations);
+    }
 
     /**
      * @param  \Illuminate\Http\Request  $request
@@ -43,60 +40,7 @@ class OperationController extends Controller
         ]);
         $operation = $this->operationService->createOperation($data);
 
-        // // Returns the just created investment as a response
+        // Returns the just created operation as a response
         return response()->json($operation, 201);
     }
-
-    /**
-     * @param  int  $investment_id
-     * @return \Illuminate\Http\JsonResponse
-     */
-    // public function edit(int $investment_id)
-    // {
-    //     $investment = $this->investmentService->getInvestmentById($investment_id);
-
-    //     if (!$investment) {
-    //         return response()->json(['message' => 'Investment not found'], 404);
-    //     }
-
-    //     return response()->json($investment);
-    // }
-
-    /**
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $investment_id
-     * @return \Illuminate\Http\JsonResponse
-     */
-    // public function update(Request $request, int $investment_id)
-    // {
-    //     $data = $request->validate([
-    //         'investment_name' => 'required|string|max:255',
-    //         'investment_type_id' => 'required|exists:investment_type,investment_type_id',
-    //     ]);
-
-    //     $investment = $this->investmentService->getInvestmentById($investment_id);
-
-    //     if (!$investment) {
-    //         return response()->json(['message' => 'Investment not found'], 404);
-    //     }
-
-    //     $investment = $this->investmentService->updateInvestment($investment, $data);
-    //     return response()->json(['message' => 'Investment successfully updated', 'investment' => $investment]);
-    // }
-
-    /**
-     * @param  int  $investment_id
-     * @return \Illuminate\Http\JsonResponse
-     */
-    // public function destroy(int $investment_id)
-    // {
-    //     $investment = $this->investmentService->getInvestmentById($investment_id);
-
-    //     if (!$investment) {
-    //         return response()->json(['message' => 'Investment not found'], 404);
-    //     }
-
-    //     $this->investmentService->deleteInvestment($investment);
-    //     return response()->json(['message' => 'Investment successfully deleted'], 200);
-    // }
 }
