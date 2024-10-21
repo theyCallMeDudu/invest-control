@@ -54,4 +54,34 @@ export class OperationsService {
     // Send the data on request body.
     return this.http.post<Operation>(this.apiUrl, operationData, this.httpOptions);
   }
+
+  // Method to get an operatoin by its ID
+  getOperationById(id: number): Observable<Operation> {
+    return this.http.get<Operation>(`${this.apiUrl}/${id}`, this.httpOptions);
+  }
+
+  // Method to update an existing operation
+  update(
+    operationId: number | null,
+    operationType: number,
+    operationDate: string,
+    investment: number,
+    currencyType: number,
+    quantity: number,
+    unitPrice: number
+  ): Observable<Operation> {
+    const operationData = {
+      operation_id: operationId,
+      investment_id: investment,
+      operation_type_id: operationType,
+      operation_date: operationDate,
+      currency_type_id: currencyType,
+      quantity: quantity,
+      unit_price: unitPrice
+    }
+    return this.http.put<Operation>(
+      `${this.apiUrl}/${operationId}`,
+      operationData,
+      this.httpOptions);
+  }
 }

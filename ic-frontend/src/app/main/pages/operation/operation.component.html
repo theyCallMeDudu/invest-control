@@ -1,6 +1,13 @@
+
 <div class="operation-container">
-  <h1>New Operation</h1>
-  <div class="operation-form-container col-md-4">
+  <h1 *ngIf="!isEditMode">New Operation</h1>
+  <h1 *ngIf="isEditMode">Edit Operation</h1>
+  <div *ngIf="isLoading" class="loading-container">
+    <p>Loading...</p>
+  </div>
+  <div
+    *ngIf="!isLoading"
+    class="operation-form-container col-md-4">
     <form
       #operationForm="ngForm"
       >
@@ -110,6 +117,7 @@
           </div>
         </div>
       </div>
+
       <div class="form-group operation-two-inputs-row">
         <div class="col-md-5">
           <label for="">Quantity</label>
@@ -139,6 +147,7 @@
             mask="separator.2"
             prefix="{{currencyTypeSymbol}} "
             thousandSeparator="."
+            decimalMarker=","
             required>
           <div *ngIf="unitPrice === 0 && submitted">
             <div class="input-error-message">

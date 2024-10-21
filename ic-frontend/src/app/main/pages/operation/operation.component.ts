@@ -41,6 +41,7 @@ export class OperationComponent implements OnInit {
 
   submitted:boolean = false;
   isEditMode: boolean = false;
+  isLoading: boolean = false;
 
   constructor(
     private router: Router,
@@ -57,6 +58,40 @@ export class OperationComponent implements OnInit {
     this.getInvestments();
     this.getCurrencyTypes();
     this.operationDate = this.formatDate(new Date());
+
+    this.isLoading = true;
+
+    // Gets the operatoin_id parameter from the route
+    this.operationId = Number(this.activatedRoute.snapshot.paramMap.get('operation_id'));
+
+    // Defines if we are on edit mode.
+    // If we have the operation id, so it's edit mode!
+    this.isEditMode = !!this.operationId;
+
+    // If we are on edit mode, gets the operation data
+    if (this.isEditMode) {
+      this.operationsService.getOperationById(this.operationId).subscribe({
+        next: (operation) => {
+          console.log(operation);
+          this.operationType  = operation.operation_type?.operation_type_id ?? null;
+          this.investment     = operation.investment?.investment_id ?? null;
+          this.investmentType = operation.investment.investment_type.investment_type_name ?? '';
+          this.currencyType   = operation.currency_type.currency_type_id ?? null;
+          this.operationDate  = operation.operation_date?.toString() ?? '';
+          this.quantity       = operation.quantity ?? 0;
+          this.unitPrice      = operation.unit_price ?? 0;
+          this.operationValue = operation.operation_value ?? 0;
+
+          this.isLoading = false;
+        },
+        error: (err) => {
+          console.error('An error occurred while fetching operation for editing.', err);
+          this.isLoading = false;
+        }
+      });
+    } else {
+      this.isLoading = false;
+    }
   }
 
   cancelButton = {
@@ -180,21 +215,25 @@ export class OperationComponent implements OnInit {
 
     if (this.isEditMode) {
       // Call the service to save the data
-      // this.investmentService.update(
-      //   this.investmentId,
-      //   this.investmentName,
-      //   this.investmentType
-      // ).subscribe({
-      //   next: (response) => {
-      //     this.toastr.success('Investment successfully updated!', 'Success');
-      //     console.log('Investment successfully updated!', response);
-      //     this.router.navigate(['/investments']); // Redirects to investments page
-      //   },
-      //   error: (error) => {
-      //     this.toastr.error('An error occurred while updating the investment.', 'Error');
-      //     console.log('An error occurred when trying to update investment!', error);
-      //   }
-      // })
+      this.operationsService.update(
+        this.operationId,
+        this.operationType,
+        this.operationDate,
+        this.investment,
+        this.currencyType,
+        this.quantity,
+        this.unitPrice
+      ).subscribe({
+        next: (response) => {
+          this.toastr.success('Operation successfully updated!', 'Success');
+          console.log('Operation successfully updated!', response);
+          this.router.navigate(['/operations']);
+        },
+        error: (error) => {
+          this.toastr.error('An error occurred while updating the operation.', 'Error');
+          console.log('An error occurred when trying to update operation!', error);
+        }
+      })
     } else {
       // Call the service to save the data
       this.operationsService.save(

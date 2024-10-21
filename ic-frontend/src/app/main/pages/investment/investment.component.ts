@@ -19,9 +19,11 @@ export class InvestmentComponent implements OnInit {
   investmentTypes: InvestmentType[] = [];
   investmentName: string = '';
   investmentType: number = 0;
+  investmentId: number | null = null;
+
   submitted:boolean = false;
   isEditMode: boolean = false;
-  investmentId: number | null = null;
+  isLoading: boolean = false;
 
   constructor(
     private router: Router,
@@ -32,6 +34,8 @@ export class InvestmentComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.isLoading = true;
+
     // Gets the investment_id parameter from the route
     this.investmentId = Number(this.activatedRoute.snapshot.paramMap.get('investment_id'));
 
@@ -44,9 +48,16 @@ export class InvestmentComponent implements OnInit {
         next: (investment) => {
           this.investmentName = investment.investment_name;
           this.investmentType = investment.investment_type_id;
+
+          this.isLoading = false;
         },
-        error: (err) => console.error('An error occurred while fetching investment for editing.', err)
+        error: (err) => {
+          console.error('An error occurred while fetching investment for editing.', err);
+          this.isLoading = false;
+        }
       })
+    } else {
+      this.isLoading = false;
     }
 
     // Calls investment type service to get

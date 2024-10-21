@@ -22,4 +22,21 @@ interface OperationRepositoryInterface
      * @return \Illuminate\Database\Eloquent\Collection
      */
     public function getAllOperations(int $userId);
+
+    /**
+     * Finds an operation by its ID.
+     *
+     * @param  int  $operationId
+     * @return Operation|null
+     */
+    public function findOperationById(int $userId, int $operationId): Operation;
+
+    /**
+     * Updates an existing operation.
+     *
+     * @param  Operation  $operation
+     * @param  array  $data
+     * @return Operation
+     */
+    public function updateOperation(Operation $operation, array $data);
 }

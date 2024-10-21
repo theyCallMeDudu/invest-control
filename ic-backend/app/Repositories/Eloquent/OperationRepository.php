@@ -29,4 +29,23 @@ class OperationRepository implements OperationRepositoryInterface
             ->where('user_id', $userId)
             ->get();
     }
+
+    public function findOperationById(int $userId, int $operationId): Operation
+    {
+        return $this->model
+            ->with('operationType')
+            ->with('currencyType')
+            ->with(['investment' => function ($query) {
+                $query->with('investmentType'); // Brings investment_type within investment
+            }])
+            ->where('user_id', $userId)
+            ->where('operation_id', $operationId)
+            ->first();
+    }
+
+    public function updateOperation(Operation $operation, array $data)
+    {
+        $operation->update($data);
+        return $operation;
+    }
 }

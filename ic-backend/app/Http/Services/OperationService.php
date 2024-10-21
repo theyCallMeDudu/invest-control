@@ -2,6 +2,7 @@
 
 namespace App\Http\Services;
 
+use App\Models\Operation;
 use App\Repositories\Contracts\OperationRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 
@@ -24,5 +25,17 @@ class OperationService
     public function getAllOperations()
     {
         return $this->operationRepository->getAllOperations(Auth::id());
+    }
+
+    public function getOperationById(int $operationId): Operation
+    {
+        $userId = Auth::id();
+        return $this->operationRepository->findOperationById($userId, $operationId);
+    }
+
+    public function updateOperation(Operation $operation, array $data)
+    {
+        $data['operation_value'] = $data['quantity'] * $data['unit_price'];
+        return $this->operationRepository->updateOperation($operation, $data);
     }
 }

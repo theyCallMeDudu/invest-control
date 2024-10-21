@@ -1,6 +1,12 @@
 <div class="investment-container">
-  <h1>New Investment</h1>
-  <div class="investment-form-container col-md-4">
+  <h1 *ngIf="!isEditMode">New Investment</h1>
+  <h1 *ngIf="isEditMode">Edit Investment</h1>
+  <div *ngIf="isLoading" class="loading-container">
+    <p>Loading...</p>
+  </div>
+  <div
+    *ngIf="!isLoading"
+    class="investment-form-container col-md-4">
     <form
       #investmentForm="ngForm"
       >

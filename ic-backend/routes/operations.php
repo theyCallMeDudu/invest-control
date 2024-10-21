@@ -14,8 +14,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/operations/{operation_id}', [OperationController::class, 'edit']);
 
     // Updates an existing operation by its ID
-    Route::put('/operation/{operation_id}', [OperationController::class, 'update']);
+    Route::put('/operations/{operation_id}', [OperationController::class, 'update']);
 
     // Deletes an existing operation by its ID
-    Route::delete('/operation/{operation_id}', [OperationController::class, 'destroy']);
+    Route::delete('/operations/{operation_id}', [OperationController::class, 'destroy']);
 });
