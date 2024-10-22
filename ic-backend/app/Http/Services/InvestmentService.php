@@ -38,6 +38,10 @@ class InvestmentService
 
     public function deleteInvestment(Investment $investment)
     {
+        // Checks if the investment is related to any operation
+        if ($investment->operations()->exists()) {
+            throw new \Exception("This investment cannot be excluded as it is related to one or more operations.");
+        }
         return $this->investmentRepository->deleteInvestment($investment);
     }
 }

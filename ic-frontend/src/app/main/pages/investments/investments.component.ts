@@ -96,7 +96,7 @@ export class InvestmentsComponent implements OnInit {
           this.onSearch();
         },
         error: (err) => {
-          this.toastr.error('An error occurred while deleting the investment.', 'Error');
+          this.toastr.error(err.error.message, 'Error');
           console.error('An error occurred while deleting the investment.', err);
         }
       });

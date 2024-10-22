@@ -21,4 +21,9 @@ class Investment extends Model
     {
         return $this->belongsTo(InvestmentType::class, 'investment_type_id', 'investment_type_id');
     }
+
+    public function operations()
+    {
+        return $this->hasMany(Operation::class, 'investment_id', 'investment_id');
+    }
 }

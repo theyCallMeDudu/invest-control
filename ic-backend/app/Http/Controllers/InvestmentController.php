@@ -87,13 +87,23 @@ class InvestmentController extends Controller
      */
     public function destroy(int $investment_id)
     {
-        $investment = $this->investmentService->getInvestmentById($investment_id);
+        try {
+            $investment = $this->investmentService->getInvestmentById($investment_id);
 
-        if (!$investment) {
-            return response()->json(['message' => 'Investment not found'], 404);
+            if (!$investment) {
+                return response()->json(['message' => 'Investment not found'], 404);
+            }
+
+            // Tries to delete the investment
+            $this->investmentService->deleteInvestment($investment);
+
+            return response()->json(['message' => 'Investment successfully deleted'], 200);
+
+        } catch (\Exception $e) {
+            // Returns the error message if the exception occurs
+            return response()->json(['message' => $e->getMessage()], 400);
         }
-
-        $this->investmentService->deleteInvestment($investment);
-        return response()->json(['message' => 'Investment successfully deleted'], 200);
     }
+
+
 }
