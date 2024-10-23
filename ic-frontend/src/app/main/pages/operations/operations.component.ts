@@ -75,30 +75,30 @@ export class OperationsComponent implements OnInit {
       icon: 'fas fa-trash',
       styleClass: 'btn-standard',
       tooltip: 'Delete operation',
-      // action: () => this.deleteOperation(operation.operation_id)
+      action: () => this.deleteOperation(operation.operation_id)
     }
   }
 
-  // deleteOperation(operationId: number): void {
-  //   // Confirms the deletion with the user
-  //   if (confirm("Are you sure you want to delete this operation?")) {
-  //     this.operationsService.delete(operationId).subscribe({
-  //       next: () => {
-  //         this.toastr.success('Operation successfully deleted!', 'Success');
+  deleteOperation(operationId: number): void {
+    // Confirms the deletion with the user
+    if (confirm("Are you sure you want to delete this operation?")) {
+      this.operationsService.delete(operationId).subscribe({
+        next: () => {
+          this.toastr.success('Operation successfully deleted!', 'Success');
 
-  //         // Updates the operations list after deletion
-  //         this.operations = this.operations.filter(inv => inv.operation_id !== operationId);
-  //         this.filteredOperations = this.filteredOperations.filter(inv => inv.operation_id !== operationId);
+          // Updates the operations list after deletion
+          this.operations = this.operations.filter(inv => inv.operation_id !== operationId);
+          this.filteredOperations = this.filteredOperations.filter(inv => inv.operation_id !== operationId);
 
-  //         // Updates the filtered list
-  //         this.onSearch();
-  //       },
-  //       error: (err) => {
-  //         this.toastr.error('An error occurred while deleting the operation.', 'Error');
-  //         console.error('An error occurred while deleting the operation.', err);
-  //       }
-  //     });
-  //   }
-  // }
+          // Updates the filtered list
+          // this.onSearch();
+        },
+        error: (err) => {
+          this.toastr.error(err.error.message, 'Error');
+          console.error('An error occurred while deleting the operation.', err);
+        }
+      });
+    }
+  }
 
 }

@@ -48,4 +48,9 @@ class OperationRepository implements OperationRepositoryInterface
         $operation->update($data);
         return $operation;
     }
+
+    public function deleteOperation(Operation $operation): bool
+    {
+        return $operation->delete();
+    }
 }

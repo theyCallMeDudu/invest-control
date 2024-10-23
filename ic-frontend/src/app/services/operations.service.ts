@@ -84,4 +84,9 @@ export class OperationsService {
       operationData,
       this.httpOptions);
   }
+
+  // Method to delete an existing operation by its ID
+  delete(operationId: number | null): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${operationId}`, this.httpOptions);
+  }
 }

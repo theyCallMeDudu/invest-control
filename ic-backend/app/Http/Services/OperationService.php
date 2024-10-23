@@ -38,4 +38,9 @@ class OperationService
         $data['operation_value'] = $data['quantity'] * $data['unit_price'];
         return $this->operationRepository->updateOperation($operation, $data);
     }
+
+    public function deleteOperation(Operation $operation)
+    {
+        return $this->operationRepository->deleteOperation($operation);
+    }
 }

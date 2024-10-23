@@ -39,4 +39,12 @@ interface OperationRepositoryInterface
      * @return Operation
      */
     public function updateOperation(Operation $operation, array $data);
+
+    /**
+     * Deletes an operation.
+     *
+     * @param  Operation  $operation
+     * @return bool|null
+     */
+    public function deleteOperation(Operation $operation): bool;
 }

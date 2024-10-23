@@ -85,4 +85,28 @@ class OperationController extends Controller
         $operation = $this->operationService->updateOperation($operation, $data);
         return response()->json(['message' => 'operation successfully updated', 'operation' => $operation]);
     }
+
+    /**
+     * @param  int  $operation_id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy(int $operation_id)
+    {
+        try {
+            $operation = $this->operationService->getOperationById($operation_id);
+
+            if (!$operation) {
+                return response()->json(['message' => 'Operation not found'], 404);
+            }
+
+            // Tries to delete the operation
+            $this->operationService->deleteOperation($operation);
+
+            return response()->json(['message' => 'Operation successfully deleted'], 200);
+
+        } catch (\Exception $e) {
+            // Returns the error message if the exception occurs
+            return response()->json(['message' => $e->getMessage()], 400);
+        }
+    }
 }
