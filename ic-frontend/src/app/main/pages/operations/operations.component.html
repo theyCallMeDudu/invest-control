@@ -1,21 +1,80 @@
 <h1>Operations</h1>
 <div class="operations-container">
-  <div class="operations-toolbar">
+  <div class="row operations-toolbar">
     <div class="col-md-8">
-      <input
-        type="text"
-        placeholder="Search by name"
-        class="form-control"
-        [(ngModel)]="searchTerm"
+      <div class="row">
+        <div class="col-md-3">
+          <label for="">Investment</label>
+          <select
+            name="investment"
+            id="investment"
+            [(ngModel)]="investment"
+            (change)="onInvestmentChange()"
+            #investmentInput="ngModel"
+            class="form-control"
+            required>
+            <option value="0" disabled selected>Select</option>
+            <option
+              *ngFor="let investment of investments"
+              [value]="investment.investment_id">
+              {{ investment.investment_name }}
+            </option>
+          </select>
+        </div>
 
-        >
+        <div class="col-md-3">
+          <label for="operation_type">Operation type</label>
+          <select
+            name="operation_type"
+            id="operation_type"
+            [(ngModel)]="operationType"
+            (change)="onOperationTypeChange()"
+            #operationTypeInput="ngModel"
+            class="form-control">
+            <option value="0" disabled selected>Select</option>
+            <option
+              *ngFor="let type of operationTypes"
+              [value]="type.operation_type_id">
+            {{ type.operation_type_name }}
+            </option>
+          </select>
+        </div>
+
+        <div class="col-md-3">
+          <label for="operation_date">Operation date</label>
+          <input
+            type="date"
+            class="form-control"
+            name="operation_date"
+            id="operation_date"
+            [(ngModel)]="operationDate"
+            (change)="onOperationDateChange()">
+        </div>
+
+        <div class="col-md-3">
+          <label for="operation_value">Operation value</label>
+          <input
+            type="text"
+            class="form-control"
+            name="operation_value"
+            id="operation_value"
+            mask="separator.2"
+            [(ngModel)]="operationValue"
+            (ngModelChange)="onOperationValueChange()"
+            thousandSeparator="."
+            decimalMarker=",">
+        </div>
+      </div>
     </div>
+
     <div class="col-md-4 operations-toolbar-buttons">
       <app-button
         [buttonConfig]="newOperationButton">
       </app-button>
     </div>
   </div>
+
+  <hr>
 
   <div class="operations-table" *ngIf="!loading; else loadingTemplate">
     <table class="table table-hover">
