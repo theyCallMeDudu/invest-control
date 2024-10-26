@@ -56,13 +56,14 @@
           <input
             type="text"
             class="form-control"
-            name="operation_value"
             id="operation_value"
+            name="operation_value"
             mask="separator.2"
+            thousandSeparator="."
+            decimalMarker=","
             [(ngModel)]="operationValue"
             (ngModelChange)="onOperationValueChange()"
-            thousandSeparator="."
-            decimalMarker=",">
+            >
         </div>
       </div>
     </div>
@@ -90,14 +91,14 @@
       </thead>
       <tbody>
         <tr *ngIf="filteredOperations.length === 0">
-          <td colspan="4" class="text-center">NO OPERATIONS FOUND</td>
+          <td colspan="6" class="text-center">NO OPERATIONS FOUND</td>
         </tr>
         <tr *ngFor="let operation of filteredOperations">
           <td>{{ operation.operation_id }}</td>
           <td>{{ operation.investment.investment_name }}</td>
           <td>{{ operation.operation_type.operation_type_name }}</td>
           <td>{{ operation.operation_date }}</td>
-          <td>{{ operation.currency_type.currency_type_symbol }} {{ operation.operation_value }}</td>
+          <td>{{ operation.operation_value | currency: operation.currency_type.currency_type_symbol : 'symbol' : '1.2-2' }}</td>
           <td class="action-buttons">
             <app-button
               [buttonConfig]="getEditButtonConfig(operation)">

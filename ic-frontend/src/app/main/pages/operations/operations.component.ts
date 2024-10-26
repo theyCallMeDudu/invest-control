@@ -79,23 +79,40 @@ export class OperationsComponent implements OnInit {
   }
 
   onSearch(): void {
+    debugger;
     this.filteredOperations = this.operations.filter(operation => {
-      // Filter by operation type
-      const matchesOperationType = this.operationType === 0 || operation.operation_type.operation_type_id === this.operationType;
 
-      // Filter by investment
-      const matchesInvestment = this.investment === 0 || operation.investment.investment_id === this.investment;
+      // Check if the Operation Type filter has been filled
+      let matchesOperationType = true;
+      if (Number(this.operationType) !== 0) {
+        matchesOperationType = operation.operation_type.operation_type_id === Number(this.operationType);
+      }
 
-      // Filter by operation date (ensuring both values are strings)
-      const matchesOperationDate = this.operationDate === '' || this.formatDate(new Date(operation.operation_date)) === this.operationDate;
+      // Check if the Investment filter has been filled
+      let matchesInvestment = true;
+      if (Number(this.investment) !== 0) {
+        matchesInvestment = operation.investment.investment_id === Number(this.investment);
+      }
+
+      // Check if the Operation Date filter has been filled
+      let matchesOperationDate = true;
+      if (this.operationDate !== '') {
+        matchesOperationDate = this.formatDate(new Date(operation.operation_date)) === this.formatDate(new Date(this.operationDate));
+      }
 
       // Filter by operation value (remove mask formatting and compare as numbers)
-      const operationValueWithoutMask = Number(this.operationValue.replace(/\./g, '').replace(',', '.'));
-      const matchesOperationValue = this.operationValue === '' || operation.operation_value === operationValueWithoutMask;
+    let matchesOperationValue = true;
+    if (this.operationValue !== '') {
+      // let operationValueFromDatabaseWithoutMask = operation.operation_value.replace(/\./g, '').replace(',', '.');
+      matchesOperationValue = Number(operation.operation_value) === Number(this.operationValue);
+      console.log("DB: ", Number(operation.operation_value), " - INPUT: ", Number(this.operationValue));
+    }
 
       return matchesOperationType && matchesInvestment && matchesOperationDate && matchesOperationValue;
     });
+    console.log(this.filteredOperations);
   }
+
 
   // Detects changes in the filters and triggers the search function
   onOperationTypeChange(): void {
