@@ -3,6 +3,7 @@
 namespace App\Repositories\Contracts;
 
 use App\Models\Operation;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 
 interface OperationRepositoryInterface
@@ -16,12 +17,18 @@ interface OperationRepositoryInterface
     public function createOperation(array $data);
 
     /**
-     * Returns all operations from the authenticated user.
+     * Retrieve a paginated list of operations for a specific user.
      *
-     * @param  int  $userId
-     * @return \Illuminate\Database\Eloquent\Collection
+     * This method fetches operations associated with a given user ID and includes
+     * related models for operation type, currency type, and investment.
+     * Results are paginated based on the specified page and number of items per page.
+     *
+     * @param  int  $userId   The ID of the user whose operations are being retrieved.
+     * @param  int  $page     The current page number for pagination.
+     * @param  int  $perPage  The number of items to display per page.
+     * @return LengthAwarePaginator  The paginated list of operations.
      */
-    public function getAllOperations(int $userId);
+    public function getAllOperations(int $userId, int $page, int $perPage): LengthAwarePaginator;
 
     /**
      * Finds an operation by its ID.

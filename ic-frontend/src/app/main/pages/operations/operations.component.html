@@ -93,7 +93,7 @@
         <tr *ngIf="filteredOperations.length === 0">
           <td colspan="6" class="text-center">NO OPERATIONS FOUND</td>
         </tr>
-        <tr *ngFor="let operation of filteredOperations">
+        <tr *ngFor="let operation of filteredOperations | paginate: { id: 'operations-pagination', itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: totalItems }">
           <td>{{ operation.operation_id }}</td>
           <td>{{ operation.investment.investment_name }}</td>
           <td>{{ operation.operation_type.operation_type_name }}</td>
@@ -110,6 +110,16 @@
         </tr>
       </tbody>
     </table>
+
+    <pagination-controls
+      id="operations-pagination"
+      (pageChange)="onPageChange($event)"
+      [autoHide]="false"
+      [directionLinks]="true"
+      [maxSize]="5"
+      previousLabel="Previous"
+      nextLabel="Next">
+    </pagination-controls>
   </div>
 
   <ng-template #loadingTemplate>

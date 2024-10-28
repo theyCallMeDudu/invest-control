@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Operation } from '../shared/models/operation.model';
+import { PaginatedResponse } from '../shared/models/paginated-response.model';
 
 @Injectable({
   providedIn: 'root'
@@ -21,15 +22,15 @@ export class OperationsService {
 
   constructor(private http: HttpClient) { }
 
-  getOperations(): Observable<Operation[]> {
-    // Gets the auth token from local storage
-    const token = localStorage.getItem('authToken');
+  getOperations(currentPage: number = 1, perPage: number = 10): Observable<PaginatedResponse<Operation>> {
+    // Sets the pagination params and number of items per page
+    const params = { page: currentPage.toString(), perPage: perPage.toString() };
 
-    // Creates the authentication header with token
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-
-    // Sends the request with the authentication header
-    return this.http.get<Operation[]>(this.apiUrl, { headers });
+    // Sends the request with the authentication header and pagination params
+    return this.http.get<PaginatedResponse<Operation>>(this.apiUrl, {
+      headers: this.httpOptions.headers,
+      params: params
+    });
   }
 
   // Method to save investments in database

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateOperationRequest;
 use App\Http\Requests\UpdateOperationRequest;
 use App\Http\Services\OperationService;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OperationController extends Controller
 {
@@ -19,9 +21,15 @@ class OperationController extends Controller
     /**
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
-        $operations = $this->operationService->getAllOperations();
+        // Records per page (default: 10)
+        $perPage = $request->query('per_page', 5);
+
+        // Current page (default: 1)
+        $currentPage = $request->query('page', 1);
+
+        $operations = $this->operationService->getAllOperations(Auth::id(), $currentPage, $perPage);
         return response()->json($operations);
     }
 

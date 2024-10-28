@@ -20,6 +20,7 @@ import { InvestmentComponent } from './main/pages/investment/investment.componen
 import { FormsModule } from '@angular/forms';
 import { OperationComponent } from './main/pages/operation/operation.component';
 import { OperationsComponent } from './main/pages/operations/operations.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 registerLocaleData(localePt, 'pt-BR', localePtExtra);
 
@@ -46,7 +47,8 @@ registerLocaleData(localePt, 'pt-BR', localePtExtra);
       positionClass: 'toast-top-right', // Toast position on the screen
       preventDuplicates: true, // Avoid duplicated toasts
     }),
-    NgxMaskModule.forRoot()
+    NgxMaskModule.forRoot(),
+    NgxPaginationModule
   ],
   providers: [
     // Defines locale to pt-BR

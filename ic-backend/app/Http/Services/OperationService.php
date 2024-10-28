@@ -22,9 +22,9 @@ class OperationService
         return $this->operationRepository->createOperation($data);
     }
 
-    public function getAllOperations()
+    public function getAllOperations(int $userId, int $page, int $perPage)
     {
-        return $this->operationRepository->getAllOperations(Auth::id());
+        return $this->operationRepository->getAllOperations($userId, $page, $perPage);
     }
 
     public function getOperationById(int $operationId): Operation

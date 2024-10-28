@@ -4,7 +4,7 @@ namespace App\Repositories\Eloquent;
 
 use App\Models\Operation;
 use App\Repositories\Contracts\OperationRepositoryInterface;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class OperationRepository implements OperationRepositoryInterface
 {
@@ -20,14 +20,12 @@ class OperationRepository implements OperationRepositoryInterface
         return $this->model->create($data);
     }
 
-    public function getAllOperations(int $userId)
+    public function getAllOperations(int $userId, int $currentPage, int $perPage): LengthAwarePaginator
     {
         return $this->model
-            ->with('operationType')
-            ->with('currencyType')
-            ->with('investment')
+            ->with(['operationType', 'currencyType', 'investment'])
             ->where('user_id', $userId)
-            ->get();
+            ->paginate($perPage, ['*'], 'page', $currentPage);
     }
 
     public function findOperationById(int $userId, int $operationId): Operation

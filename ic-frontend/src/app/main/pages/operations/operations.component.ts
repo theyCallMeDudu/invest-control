@@ -17,7 +17,11 @@ export class OperationsComponent implements OnInit {
 
   operations: Operation[] = [];
   filteredOperations: Operation[] = [];
+  currentPage: number = 1;
+  totalItems: number = 0;
+  itemsPerPage: number = 5;
   loading: boolean = true;
+  autoHide: boolean = true;
 
   operationTypes: OperationType[] = [];
   operationType: number = 0;
@@ -37,22 +41,37 @@ export class OperationsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Calls the service to get the operations
-    this.operationsService.getOperations().subscribe({
-      next: (data) => {
-        this.operations = data;
-        this.filteredOperations = [...data]; // starts the filtered list as the original list of operations
-        this.loading = false; // finishes the loading state
-      },
-      error: (err) => {
-        console.error('An error occurred while fetching operations', err);
-        this.loading = false;
-      }
-    });
-
+    this.loadOperations(this.currentPage);
     this.getOperationTypes();
     this.getInvestments();
   }
+
+  // Load paginated operations
+  loadOperations(currentPage: number = 1): void {
+    this.loading = true;
+
+    // Fetch operations for the current page with the defined number of items per page
+    this.operationsService.getOperations(currentPage, this.itemsPerPage).subscribe({
+      next: response => {
+        this.operations = response.data;
+        this.filteredOperations = [...this.operations]; // Set filtered operations to match loaded data
+        this.totalItems = response.total;
+        this.loading = false;
+      },
+      error: () => {
+        this.toastr.error('Failed to load operations.');
+        this.loading = false;
+      }
+    });
+  }
+
+  onPageChange(page: number): void {
+    this.currentPage = page;
+    console.log(`Page changed to: ${page}`);
+    console.log(`Current page: ${this.currentPage}, Items per page: ${this.itemsPerPage}`);
+    this.loadOperations(page);
+  }
+
 
   getOperationTypes(): void {
     this.operationTypeService.getOperationTypes().subscribe({
@@ -78,39 +97,36 @@ export class OperationsComponent implements OnInit {
     });
   }
 
+  // Filter operations based on selected criteria
   onSearch(): void {
-    debugger;
     this.filteredOperations = this.operations.filter(operation => {
-
       // Check if the Operation Type filter has been filled
       let matchesOperationType = true;
-      if (Number(this.operationType) !== 0) {
-        matchesOperationType = operation.operation_type.operation_type_id === Number(this.operationType);
+      if (this.operationType !== 0) {
+        matchesOperationType = operation.operation_type.operation_type_id === this.operationType;
       }
 
       // Check if the Investment filter has been filled
       let matchesInvestment = true;
-      if (Number(this.investment) !== 0) {
-        matchesInvestment = operation.investment.investment_id === Number(this.investment);
+      if (this.investment !== 0) {
+        matchesInvestment = operation.investment.investment_id === this.investment;
       }
 
       // Check if the Operation Date filter has been filled
       let matchesOperationDate = true;
-      if (this.operationDate !== '') {
-        matchesOperationDate = this.formatDate(new Date(operation.operation_date)) === this.formatDate(new Date(this.operationDate));
+      if (this.operationDate) {
+        matchesOperationDate = this.formatDate(new Date(operation.operation_date)) === this.operationDate;
       }
 
       // Filter by operation value (remove mask formatting and compare as numbers)
-    let matchesOperationValue = true;
-    if (this.operationValue !== '') {
-      // let operationValueFromDatabaseWithoutMask = operation.operation_value.replace(/\./g, '').replace(',', '.');
-      matchesOperationValue = Number(operation.operation_value) === Number(this.operationValue);
-      console.log("DB: ", Number(operation.operation_value), " - INPUT: ", Number(this.operationValue));
-    }
+      let matchesOperationValue = true;
+      if (this.operationValue) {
+        const operationValueWithoutMask = Number(this.operationValue.replace(/\./g, '').replace(',', '.'));
+        matchesOperationValue = operation.operation_value === operationValueWithoutMask;
+      }
 
       return matchesOperationType && matchesInvestment && matchesOperationDate && matchesOperationValue;
     });
-    console.log(this.filteredOperations);
   }
 
 
