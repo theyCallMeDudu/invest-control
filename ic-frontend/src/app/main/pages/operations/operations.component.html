@@ -111,15 +111,17 @@
       </tbody>
     </table>
 
-    <pagination-controls
-      id="operations-pagination"
-      (pageChange)="onPageChange($event)"
-      [autoHide]="false"
-      [directionLinks]="true"
-      [maxSize]="5"
-      previousLabel="Previous"
-      nextLabel="Next">
-    </pagination-controls>
+    <div class="pagination">
+      <pagination-controls
+        id="operations-pagination"
+        (pageChange)="onPageChange($event)"
+        [autoHide]="false"
+        [directionLinks]="true"
+        [maxSize]="5"
+        previousLabel="Previous"
+        nextLabel="Next">
+      </pagination-controls>
+    </div>
   </div>
 
   <ng-template #loadingTemplate>
