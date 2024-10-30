@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { InvestmentTypeService } from 'src/app/services/investment-type.service';
-import { InvestmentService } from 'src/app/services/investment.service';
+
 import { InvestmentType } from 'src/app/shared/models/investment-type.model';
 import { NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { InvestmentsService } from 'src/app/services/investments.service';
 
 @Component({
   selector: 'app-investment',
@@ -29,7 +30,7 @@ export class InvestmentComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private investmentTypeService: InvestmentTypeService,
-    private investmentService: InvestmentService,
+    private investmentsService: InvestmentsService,
     private toastr: ToastrService
   ) { }
 
@@ -44,7 +45,7 @@ export class InvestmentComponent implements OnInit {
 
     // If we are on edit mode, gets the investment data
     if (this.isEditMode) {
-      this.investmentService.getInvestmentById(this.investmentId).subscribe({
+      this.investmentsService.getInvestmentById(this.investmentId).subscribe({
         next: (investment) => {
           this.investmentName = investment.investment_name;
           this.investmentType = investment.investment_type_id;
@@ -92,7 +93,7 @@ export class InvestmentComponent implements OnInit {
 
     if (this.isEditMode) {
       // Call the service to save the data
-      this.investmentService.update(
+      this.investmentsService.update(
         this.investmentId,
         this.investmentName,
         this.investmentType
@@ -109,7 +110,7 @@ export class InvestmentComponent implements OnInit {
       })
     } else {
       // Call the service to save the data
-      this.investmentService.save(
+      this.investmentsService.save(
         this.investmentName,
         this.investmentType
       ).subscribe({

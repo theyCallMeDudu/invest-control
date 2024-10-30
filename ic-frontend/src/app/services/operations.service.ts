@@ -3,13 +3,14 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Operation } from '../shared/models/operation.model';
 import { PaginatedResponse } from '../shared/models/paginated-response.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OperationsService {
 
-  private readonly apiUrl = 'http://localhost:8000/api/operations';
+  private readonly apiUrl = `${environment.baseApiUrl}/operations`;
 
   // HTTP options with authorization header
   private httpOptions = { headers: this.getAuthHeaders() };

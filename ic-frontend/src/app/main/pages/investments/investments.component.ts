@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { InvestmentService } from 'src/app/services/investment.service';
+import { Observable } from 'rxjs';
 import { InvestmentsService } from 'src/app/services/investments.service';
+import { OperationsService } from 'src/app/services/operations.service';
 import { Investment } from 'src/app/shared/models/investment.model';
+import { Operation } from 'src/app/shared/models/operation.model';
 
 @Component({
   selector: 'app-investments',
@@ -20,7 +22,6 @@ export class InvestmentsComponent implements OnInit {
   constructor(
     private router: Router,
     private investmentsService: InvestmentsService,
-    private investmentService: InvestmentService,
     private toastr: ToastrService
   ) {}
 
@@ -53,7 +54,7 @@ export class InvestmentsComponent implements OnInit {
     icon: 'fas fa-plus',
     styleClass: 'btn-standard',
     tooltip: 'New investment',
-    action: () => this.router.navigate(['/investment'])  // Redirects to new investment page
+    action: () => this.router.navigate(['/investments/new'])  // Redirects to new investment page
   };
 
   /**
@@ -68,7 +69,7 @@ export class InvestmentsComponent implements OnInit {
       icon: 'fas fa-pencil',
       styleClass: 'btn-standard',
       tooltip: 'Edit investment',
-      action: () => this.router.navigate([`/investment/${investment.investment_id}`])
+      action: () => this.router.navigate([`/investments/${investment.investment_id}`])
     };
   }
 
@@ -81,10 +82,19 @@ export class InvestmentsComponent implements OnInit {
     }
   }
 
+  getAveragePriceButtonConfig(investment: Investment) {
+    return {
+      icon: 'fas fa-chart-line',
+      styleClass: 'btn-standard',
+      tooltip: 'View investment average price',
+      action: () => this.router.navigate([`/investments/${investment.investment_id}/average-price`])
+    };
+  }
+
   deleteInvestment(investmentId: number): void {
     // Confirms the deletion with the user
     if (confirm("Are you sure you want to delete this investment?")) {
-      this.investmentService.delete(investmentId).subscribe({
+      this.investmentsService.delete(investmentId).subscribe({
         next: () => {
           this.toastr.success('Investment successfully deleted!', 'Success');
 
@@ -102,5 +112,4 @@ export class InvestmentsComponent implements OnInit {
       });
     }
   }
-
 }

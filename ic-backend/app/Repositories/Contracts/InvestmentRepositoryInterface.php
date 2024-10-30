@@ -3,6 +3,7 @@
 namespace App\Repositories\Contracts;
 
 use App\Models\Investment;
+use Illuminate\Database\Eloquent\Collection;
 
 interface InvestmentRepositoryInterface
 {

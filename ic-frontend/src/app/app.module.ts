@@ -21,6 +21,7 @@ import { FormsModule } from '@angular/forms';
 import { OperationComponent } from './main/pages/operation/operation.component';
 import { OperationsComponent } from './main/pages/operations/operations.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { AveragePriceComponent } from './main/pages/average-price/average-price.component';
 
 registerLocaleData(localePt, 'pt-BR', localePtExtra);
 
@@ -32,7 +33,8 @@ registerLocaleData(localePt, 'pt-BR', localePtExtra);
     InvestmentsComponent,
     InvestmentComponent,
     OperationComponent,
-    OperationsComponent
+    OperationsComponent,
+    AveragePriceComponent
   ],
   imports: [
     BrowserModule,

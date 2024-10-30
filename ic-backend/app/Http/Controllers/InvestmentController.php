@@ -105,5 +105,33 @@ class InvestmentController extends Controller
         }
     }
 
+    /**
+     * Retrieves the operations associated with a specific investment.
+     *
+     * @param int $investment_id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getYearInvestmentOperations(int $investment_id, Request $request)
+    {
+        try {
+            // Gets the year from query string, or current year as default
+            $year = $request->query('year', date('Y'));
+
+            $investment = $this->investmentService->getInvestmentById($investment_id);
+
+            if (!$investment) {
+                return response()->json(['message' => 'Investment not found'], 404);
+            }
+
+            // Fetches operations related to the investment
+            $summary = $this->investmentService->getYearOperationsSummary($investment_id, $year);
+
+            // Returns operations with a success response
+            return response()->json(['summary' => $summary], 200);
+        } catch (\Exception $e) {
+            // Returns the error message if an exception occurs
+            return response()->json(['message' => $e->getMessage()], 400);
+        }
+    }
 
 }

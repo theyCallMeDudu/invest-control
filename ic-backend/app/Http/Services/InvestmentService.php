@@ -4,15 +4,20 @@ namespace App\Http\Services;
 
 use App\Models\Investment;
 use App\Repositories\Contracts\InvestmentRepositoryInterface;
+use App\Repositories\Contracts\OperationRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 
 class InvestmentService
 {
     protected $investmentRepository;
+    protected $operationRepository;
 
-    public function __construct(InvestmentRepositoryInterface $investmentRepository)
+    public function __construct(
+        InvestmentRepositoryInterface $investmentRepository,
+        OperationRepositoryInterface $operationRepository)
     {
         $this->investmentRepository = $investmentRepository;
+        $this->operationRepository = $operationRepository;
     }
 
     public function getAllInvestments()
@@ -43,5 +48,10 @@ class InvestmentService
             throw new \Exception("This investment cannot be excluded as it is related to one or more operations.");
         }
         return $this->investmentRepository->deleteInvestment($investment);
+    }
+
+    public function getYearOperationsSummary(int $investment_id, int $year)
+    {
+        return $this->operationRepository->getYearOperationsSummary($investment_id, $year);
     }
 }

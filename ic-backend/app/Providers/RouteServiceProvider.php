@@ -50,8 +50,8 @@ class RouteServiceProvider extends ServiceProvider
             // Loads the investment-types routes
             $this->mapInvestmentTypeRoutes();
 
-            // Loads the investment routes
-            $this->mapInvestmentRoutes();
+            // Loads the investments routes
+            $this->mapInvestmentsRoutes();
 
             // Loads the operation-types routes
             $this->mapOperationTypeRoutes();
@@ -84,12 +84,12 @@ class RouteServiceProvider extends ServiceProvider
             ->group(base_path('routes/investment-types.php'));
     }
 
-    protected function mapInvestmentRoutes()
+    protected function mapInvestmentsRoutes()
     {
         Route::prefix('api')
             ->middleware('api')
             ->namespace($this->namespace)
-            ->group(base_path('routes/investment.php'));
+            ->group(base_path('routes/investments.php'));
     }
 
     protected function mapOperationTypeRoutes()

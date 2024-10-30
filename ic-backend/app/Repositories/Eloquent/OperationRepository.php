@@ -51,4 +51,34 @@ class OperationRepository implements OperationRepositoryInterface
     {
         return $operation->delete();
     }
+
+    public function getYearOperationsSummary(int $investmentId, int $year): array
+    {
+        // Gets the operations of the year grouped by month
+        $operations = $this->model
+            ->selectRaw('MONTH(operation_date) as month')
+            ->selectRaw('SUM(quantity) as total_quantity')
+            ->selectRaw('ROUND(AVG(unit_price), 2) as average_price')
+            ->selectRaw('ROUND(SUM(quantity * unit_price), 2) as monthly_total')
+            ->where('investment_id', $investmentId)
+            ->whereYear('operation_date', $year)
+            ->groupBy('month')
+            ->orderBy('month')
+            ->get()
+            ->keyBy('month') // Organizes by month
+            ->toArray();
+
+        // Creates an array with 12 months. Future months receive 0
+        $summary = [];
+        for ($month = 1; $month <= 12; $month++) {
+            $summary[] = [
+                'month' => $month,
+                'total_quantity' => $operations[$month]['total_quantity'] ?? 0,
+                'average_price' => $operations[$month]['average_price'] ?? 0,
+                'monthly_total' => $operations[$month]['monthly_total'] ?? 0,
+            ];
+        }
+
+        return $summary;
+    }
 }

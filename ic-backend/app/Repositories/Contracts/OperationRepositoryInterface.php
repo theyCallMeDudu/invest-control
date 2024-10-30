@@ -54,4 +54,21 @@ interface OperationRepositoryInterface
      * @return bool|null
      */
     public function deleteOperation(Operation $operation): bool;
+
+    /**
+     * Retrieves a summary of operations for a specific investment over a given year, grouped by month.
+     *
+     * The summary includes total quantity, average unit price, and total value for each month.
+     * For months without operations, the values are set to zero.
+     *
+     * @param int $investmentId The ID of the investment to retrieve the summary for.
+     * @param int $year The year to filter operations by.
+     *
+     * @return array An array with 12 entries, each containing:
+     *               - 'month': (int) The month number (1-12).
+     *               - 'total_quantity': (float|int) Total quantity of units for the month.
+     *               - 'average_price': (float|int) Average price per unit, rounded to 2 decimal places.
+     *               - 'monthly_total': (float|int) Total value for the month, rounded to 2 decimal places.
+     */
+    public function getYearOperationsSummary(int $investmentId, int $year): array;
 }

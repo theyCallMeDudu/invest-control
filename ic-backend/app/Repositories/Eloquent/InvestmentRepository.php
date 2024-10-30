@@ -4,6 +4,7 @@ namespace App\Repositories\Eloquent;
 
 use App\Models\Investment;
 use App\Repositories\Contracts\InvestmentRepositoryInterface;
+use Illuminate\Database\Eloquent\Collection;
 
 class InvestmentRepository implements InvestmentRepositoryInterface
 {

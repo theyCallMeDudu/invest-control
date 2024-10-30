@@ -1,0 +1,42 @@
+<h1>Average Price</h1>
+<div class="average-price-container">
+  <div class="average-price-toolbar">
+    <div class="col-md-4">
+      <input
+        type="text"
+        placeholder="Search by name"
+        class="form-control"
+        [(ngModel)]="searchYear"
+        (input)="onSearch()"
+        >
+    </div>
+  </div>
+  <hr>
+  <div class="investments-table">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">Month</th>
+          <th scope="col">Unit price</th>
+          <th scope="col">Quantity</th>
+          <th scope="col" class="text-center">Month total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let monthOperations of yearOperations">
+          <td>{{ monthOperations.month }}</td>
+          <td>{{ monthOperations.average_price | currency:'USD':'symbol':'1.2-2' }}</td>
+          <td>{{ monthOperations.total_quantity }}</td>
+          <td class="text-center">{{ monthOperations.monthly_total | currency:'USD':'symbol':'1.2-2' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  <ng-template #loadingTemplate>
+    <div class="loading-container text-center">
+      <p>Loading investments...</p>
+    </div>
+  </ng-template>
+</div>
