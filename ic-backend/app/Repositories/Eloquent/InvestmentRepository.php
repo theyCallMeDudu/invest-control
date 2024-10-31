@@ -43,4 +43,15 @@ class InvestmentRepository implements InvestmentRepositoryInterface
     {
         return $investment->delete();
     }
+
+    public function getAvailableInvestmentYears(int $investment_id): array
+    {
+        return $this->model
+            ->join('operation', 'investment.investment_id', '=', 'operation.investment_id')
+            ->where('investment.investment_id', $investment_id)
+            ->selectRaw('DISTINCT YEAR(operation_date) as year')
+            ->orderBy('year', 'desc')
+            ->pluck('year') // Gets only the years in the array
+            ->toArray();
+    }
 }

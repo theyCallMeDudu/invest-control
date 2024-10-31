@@ -105,18 +105,33 @@ class InvestmentController extends Controller
         }
     }
 
+    public function getAvailableInvestmentYears(int $investment_id)
+{
+    try {
+        $investment = $this->investmentService->getInvestmentById($investment_id);
+
+        if (!$investment) {
+            return response()->json(['message' => 'Investment not found'], 404);
+        }
+
+        $availableYears = $this->investmentService->getAvailableInvestmentYears($investment_id);
+
+        return response()->json(['availableYears' => $availableYears], 200);
+    } catch (\Exception $e) {
+        return response()->json(['message' => $e->getMessage()], 400);
+    }
+}
+
     /**
      * Retrieves the operations associated with a specific investment.
      *
      * @param int $investment_id
+     * @param int $year
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getYearInvestmentOperations(int $investment_id, Request $request)
+    public function getYearInvestmentOperations(int $investment_id, int $year)
     {
         try {
-            // Gets the year from query string, or current year as default
-            $year = $request->query('year', date('Y'));
-
             $investment = $this->investmentService->getInvestmentById($investment_id);
 
             if (!$investment) {

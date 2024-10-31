@@ -47,4 +47,7 @@ interface InvestmentRepositoryInterface
      * @return bool|null
      */
     public function deleteInvestment(Investment $investment);
+
+
+    public function getAvailableInvestmentYears(int $investment_id): array;
 }

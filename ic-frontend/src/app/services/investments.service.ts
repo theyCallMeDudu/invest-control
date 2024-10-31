@@ -60,8 +60,11 @@ export class InvestmentsService {
     return this.http.delete<void>(`${this.apiUrl}/${investmentId}`, this.httpOptions);
   }
 
-    getYearOperationsSummary(investmentId: number, year: number): Observable<{ summary: AveragePrice[] }> {
-      return this.http.get<{ summary: AveragePrice[] }>(`${environment.baseApiUrl}/investments/${investmentId}/operations/summary/${year}`, this.httpOptions);
-    }
+  getAvailableInvestmentYears(investmentId: number): Observable<{ availableYears: number[] }> {
+    return this.http.get<{ availableYears: number[] }>(`${this.apiUrl}/${investmentId}/available-years`, this.httpOptions);
+  }
 
+  getYearOperationsSummary(investmentId: number, year: number): Observable<{ summary: AveragePrice[] }> {
+    return this.http.get<{ summary: AveragePrice[] }>(`${environment.baseApiUrl}/investments/${investmentId}/operations/summary/${year}`, this.httpOptions);
+  }
 }

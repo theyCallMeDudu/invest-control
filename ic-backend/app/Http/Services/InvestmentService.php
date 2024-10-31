@@ -50,6 +50,11 @@ class InvestmentService
         return $this->investmentRepository->deleteInvestment($investment);
     }
 
+    public function getAvailableInvestmentYears(int $investment_id)
+    {
+        return $this->investmentRepository->getAvailableInvestmentYears($investment_id);
+    }
+
     public function getYearOperationsSummary(int $investment_id, int $year)
     {
         return $this->operationRepository->getYearOperationsSummary($investment_id, $year);
