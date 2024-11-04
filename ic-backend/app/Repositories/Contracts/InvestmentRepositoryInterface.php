@@ -8,12 +8,11 @@ use Illuminate\Database\Eloquent\Collection;
 interface InvestmentRepositoryInterface
 {
     /**
-     * Returns all investments from the authenticated user.
+     * Returns all investments.
      *
-     * @param  int  $userId
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getAllInvestments(int $userId);
+    public function getAllInvestments();
 
     /**
      * Creates a new investment at the database.

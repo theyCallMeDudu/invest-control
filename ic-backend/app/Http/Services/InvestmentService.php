@@ -22,12 +22,11 @@ class InvestmentService
 
     public function getAllInvestments()
     {
-        return $this->investmentRepository->getAllInvestments(Auth::id());
+        return $this->investmentRepository->getAllInvestments();
     }
 
     public function createInvestment(array $data)
     {
-        $data['user_id'] = Auth::id();
         return $this->investmentRepository->createInvestment($data);
     }
 

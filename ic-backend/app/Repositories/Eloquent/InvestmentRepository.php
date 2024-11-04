@@ -15,11 +15,9 @@ class InvestmentRepository implements InvestmentRepositoryInterface
         $this->model = $model;
     }
 
-    public function getAllInvestments(int $userId)
+    public function getAllInvestments()
     {
-        // Filtra os investimentos pelo usuário autenticado
         return $this->model->with('investmentType')
-            ->where('user_id', $userId)
             ->get();
     }
 

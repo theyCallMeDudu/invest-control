@@ -17,7 +17,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             OperationTypeSeeder::class,
             InvestmentTypeSeeder::class,
-            CurrencyTypeSeeder::class
+            CurrencyTypeSeeder::class,
+            InvestmentSeeder::class
         ]);
     }
 }

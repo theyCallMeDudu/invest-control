@@ -14,7 +14,6 @@ class Investment extends Model
     protected $fillable = [
         'investment_type_id',
         'investment_name',
-        'user_id'
     ];
 
     public function investmentType()
