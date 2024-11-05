@@ -7,6 +7,8 @@ import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
 import localePtExtra from '@angular/common/locales/extra/pt';
 import { DatePipe } from '@angular/common';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './auth/auth.interceptor';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -55,6 +57,7 @@ registerLocaleData(localePt, 'pt-BR', localePtExtra);
   providers: [
     // Defines locale to pt-BR
     { provide: LOCALE_ID, useValue: 'pt-BR' },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     DatePipe
   ],
   bootstrap: [AppComponent]

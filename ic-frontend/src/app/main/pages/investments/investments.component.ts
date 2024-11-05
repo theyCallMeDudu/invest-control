@@ -26,18 +26,23 @@ export class InvestmentsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Calls the service to get the investments
-    this.investmentsService.getInvestments().subscribe({
-      next: (data) => {
-        this.investments = data;
-        this.filteredInvestments = [...data]; // starts the filtered list as the original list of investments
-        this.loading = false; // finishes the loading state
-      },
-      error: (err) => {
-        console.error('An error occurred while fetching investments', err);
-        this.loading = false;
-      }
-    });
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      // Calls the service to get the investments
+      this.investmentsService.getInvestments().subscribe({
+        next: (data) => {
+          this.investments = data;
+          this.filteredInvestments = [...data]; // starts the filtered list as the original list of investments
+          this.loading = false; // finishes the loading state
+        },
+        error: (err) => {
+          console.error('An error occurred while fetching investments', err);
+          this.loading = false;
+        }
+      });
+    } else {
+      console.warn('Token is missing');
+    }
   }
 
   onSearch(): void {
