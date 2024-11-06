@@ -5,9 +5,17 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Http\Services\WalletService;
 
 class AuthController extends Controller
 {
+    protected $walletService;
+
+    public function __construct(WalletService $walletService)
+    {
+        $this->walletService = $walletService;
+    }
+
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
@@ -26,6 +34,9 @@ class AuthController extends Controller
         }
 
         $user = Auth::user();
+
+        $this->walletService->checkUserWallet($user);
+
         $token = $user->createToken('authToken')->plainTextToken;
 
         return response()->json([
