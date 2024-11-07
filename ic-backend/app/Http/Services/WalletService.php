@@ -17,10 +17,7 @@ class WalletService
     public function checkUserWallet(User $user): void
     {
         if (!$user->wallet()->exists()) {
-            $this->walletRepository->createWallet($user, [
-                'name' => 'Default Wallet',
-                'description' => 'Main investment wallet'
-            ]);
+            $this->walletRepository->createWallet($user);
         }
     }
 }

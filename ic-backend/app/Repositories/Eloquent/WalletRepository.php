@@ -15,7 +15,7 @@ class WalletRepository implements WalletRepositoryInterface
         $this->model = $wallet;
     }
 
-    public function createWallet(User $user, array $data): void
+    public function createWallet(User $user): void
     {
         $this->model->create([
             'user_id' => $user->id
