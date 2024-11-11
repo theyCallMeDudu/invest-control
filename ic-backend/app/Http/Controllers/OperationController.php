@@ -39,18 +39,26 @@ class OperationController extends Controller
      */
     public function store(CreateOperationRequest $request)
     {
-        $data = $request->only([
-            'operation_type_id',
-            'investment_id',
-            'currency_type_id',
-            'operation_date',
-            'quantity',
-            'unit_price'
-        ]);
-        $operation = $this->operationService->createOperation($data);
+        try {
+            $data = $request->only([
+                'operation_type_id',
+                'investment_id',
+                'currency_type_id',
+                'operation_date',
+                'quantity',
+                'unit_price',
+                'operation_value'
+            ]);
+            $operation = $this->operationService->createOperation($data);
 
-        // Returns the just created operation as a response
-        return response()->json($operation, 201);
+            // Returns the just created operation as a response
+            return response()->json($operation, 201);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error'   => 'An error occurred when trying to create an operation.',
+                'message' => $e->getMessage(),
+            ], 500);
+        }
     }
 
     /**
