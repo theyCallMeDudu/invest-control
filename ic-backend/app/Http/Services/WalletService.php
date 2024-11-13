@@ -34,39 +34,23 @@ class WalletService
         $wallet = $user->wallet;
 
         // Checks if already have the investment in th wallet
-        $walletInvestment = $this->walletInvestmentRepository->isInvestmentInWallet($wallet->id, $data['investment_id']);
+        $walletInvestment = $this->walletInvestmentRepository->isInvestmentInWallet($wallet->wallet_id, $data['investment_id']);
 
-        if (!is_null($walletInvestment)) {
-            // Updates its quantity and average price
-            $walletInvestment->total_quantity += $data['quantity'];
-            $walletInvestment->total_invested += $data['operation_value'];
-            $walletInvestment->average_price  = $this->walletInvestmentRepository->calculateNewAveragePrice(
-                                                    $walletInvestment->id,
-                                                    $data['quantity'],
-                                                    $data['unit_price']);
-            $walletInvestment->save();
-        } else {
-            $this->walletInvestmentRepository->createWalletInvestment($wallet->id, $data);
+        if (is_null($walletInvestment)) {
+            $this->walletInvestmentRepository->createWalletInvestment($wallet->wallet_id, $data);
         }
     }
 
-    public function removeFromWallet(array $data): void
+    public function removeFromWallet(int $investmentId): void
     {
         $user = Auth::user();
         $wallet = $user->wallet;
 
         // Checks if already have the investment in th wallet
-        $walletInvestment = $this->walletInvestmentRepository->isInvestmentInWallet($wallet->id, $data['investment_id']);
+        $walletInvestment = $this->walletInvestmentRepository->isInvestmentInWallet($wallet->wallet_id, $investmentId);
 
         if ($walletInvestment) {
-            // Decreases the quantity ou removes it if its is equal to 0
-            $walletInvestment->total_quantity -= $data['quantity'];
-
-            if ($walletInvestment->total_quantity <= 0) {
-                $walletInvestment->delete();
-            } else {
-                $walletInvestment->save();
-            }
+            $walletInvestment->delete();
         }
     }
 }

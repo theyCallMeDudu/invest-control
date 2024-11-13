@@ -3,6 +3,7 @@
 namespace App\Repositories\Eloquent;
 
 use App\Models\Operation;
+use App\Models\OperationType;
 use App\Repositories\Contracts\OperationRepositoryInterface;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
@@ -80,5 +81,26 @@ class OperationRepository implements OperationRepositoryInterface
         }
 
         return $summary;
+    }
+
+    private function getTotalPurchasedQuantity(int $investmentId, int $userId): int
+    {
+        return $this->model->where('investment_id', $investmentId)
+                           ->where('user_id', $userId)
+                           ->where('operation_type_id', OperationType::PURCHASE)
+                           ->sum('quantity');
+    }
+
+    private function getTotalSoldQuantity(int $investmentId, int $userId): int
+    {
+        return $this->model->where('investment_id', $investmentId)
+                           ->where('user_id', $userId)
+                           ->where('operation_type_id', OperationType::SELL)
+                           ->sum('quantity');
+    }
+
+    public function calculateTotalQuantity(int $investmentId, int $userId): int
+    {
+        return $this->getTotalPurchasedQuantity($investmentId, $userId) - $this->getTotalSoldQuantity($investmentId, $userId);
     }
 }

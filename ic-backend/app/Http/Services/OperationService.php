@@ -4,17 +4,20 @@ namespace App\Http\Services;
 
 use App\Models\Operation;
 use App\Models\OperationType;
-use App\Repositories\Contracts\OperationRepositoryInterface;
+use App\Repositories\Eloquent\OperationRepository;
+use App\Repositories\Eloquent\WalletInvestmentRepository;
 use Illuminate\Support\Facades\Auth;
 
 class OperationService
 {
     protected $operationRepository;
     protected $walletService;
+    protected $walletInvestmentRepository;
 
     public function __construct(
-        OperationRepositoryInterface $operationRepository,
-        WalletService $walletService)
+        OperationRepository $operationRepository,
+        WalletService $walletService,
+        WalletInvestmentRepository $walletInvestmentRepository)
     {
         $this->operationRepository = $operationRepository;
         $this->walletService = $walletService;
@@ -23,16 +26,43 @@ class OperationService
     public function createOperation(array $data)
     {
         $data['user_id'] = Auth::id();
-        // $data['operation_value'] = $data['quantity'] * $data['unit_price'];
 
+        if ($data['operation_type_id'] === OperationType::PURCHASE) {
+            $operation = $this->purchaseInvestment($data);
+        } else {
+            $operation = $this->sellInvestment($data);
+        }
+        return $operation;
+    }
+
+    private function purchaseInvestment($data)
+    {
         // Creates the operation
+        $totalQuantityBeforeCreation = $this->operationRepository->calculateTotalQuantity($data['investment_id'], $data['user_id']);
         $operation = $this->operationRepository->createOperation($data);
 
-        // Updates the wallet based on operation type
-        if ($data['operation_type'] === OperationType::PURCHASE) {
+        if ($totalQuantityBeforeCreation === 0) {
             $this->walletService->addToWallet($data);
-        } elseif ($data['operation_type'] === OperationType::SELL) {
-            $this->walletService->removeFromWallet($data);
+        }
+
+        return $operation;
+    }
+
+    private function sellInvestment($data)
+    {
+        $user = Auth::user();
+        $wallet = $user->wallet;
+
+        $isInvestmentInTheWallet = $this->walletInvestmentRepository->isInvestmentInWallet($wallet->wallet_id, $data['investment_id']);
+
+        // Only allows to sell an investment if it is in the wallet
+        if (!is_null($isInvestmentInTheWallet)) {
+            $operation = $this->operationRepository->createOperation($data);
+            $totalQuantityAfterCreation = $this->operationRepository->calculateTotalQuantity($data['investment_id'], $data['user_id']);
+
+            if ($totalQuantityAfterCreation === 0) {
+                $this->walletService->removeFromWallet($operation->investment_id);
+            }
         }
 
         return $operation;
@@ -57,6 +87,15 @@ class OperationService
 
     public function deleteOperation(Operation $operation)
     {
-        return $this->operationRepository->deleteOperation($operation);
+        $userId = Auth::user()->id;
+        $deletedOperation = $this->operationRepository->deleteOperation($operation);
+        $totalQuantity = $this->operationRepository->calculateTotalQuantity($operation->investment_id, $userId);
+
+        // Updates the wallet based on investment quantity
+        if ($totalQuantity == 0) {
+            $this->walletService->removeFromWallet($operation->investment_id);
+        }
+
+        return $deletedOperation;
     }
 }

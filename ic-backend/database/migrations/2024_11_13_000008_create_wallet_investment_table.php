@@ -12,9 +12,6 @@ class CreateWalletInvestmentTable extends Migration
             $table->id('wallet_investment_id');
             $table->unsignedBigInteger('wallet_id');
             $table->unsignedBigInteger('investment_id');
-            $table->decimal('average_price', 10, 2);
-            $table->integer('total_quantity');
-            $table->decimal('total_invested', 10, 2);
             $table->foreign('wallet_id')->references('wallet_id')->on('wallet')->onDelete('cascade');
             $table->foreign('investment_id')->references('investment_id')->on('investment')->onDelete('cascade');
             $table->timestamps();

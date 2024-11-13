@@ -71,4 +71,6 @@ interface OperationRepositoryInterface
      *               - 'monthly_total': (float|int) Total value for the month, rounded to 2 decimal places.
      */
     public function getYearOperationsSummary(int $investmentId, int $year): array;
+
+    public function calculateTotalQuantity(int $investmentId, int $userId): int;
 }
