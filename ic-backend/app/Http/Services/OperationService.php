@@ -2,6 +2,7 @@
 
 namespace App\Http\Services;
 
+use App\Exceptions\InvestmentNotInWalletException;
 use App\Models\Operation;
 use App\Models\OperationType;
 use App\Repositories\Eloquent\OperationRepository;
@@ -21,6 +22,7 @@ class OperationService
     {
         $this->operationRepository = $operationRepository;
         $this->walletService = $walletService;
+        $this->walletInvestmentRepository = $walletInvestmentRepository;
     }
 
     public function createOperation(array $data)
@@ -56,17 +58,20 @@ class OperationService
         $isInvestmentInTheWallet = $this->walletInvestmentRepository->isInvestmentInWallet($wallet->wallet_id, $data['investment_id']);
 
         // Only allows to sell an investment if it is in the wallet
-        if (!is_null($isInvestmentInTheWallet)) {
-            $operation = $this->operationRepository->createOperation($data);
-            $totalQuantityAfterCreation = $this->operationRepository->calculateTotalQuantity($data['investment_id'], $data['user_id']);
+        if (is_null($isInvestmentInTheWallet)) {
+            throw new InvestmentNotInWalletException('The selected investment is not present in the wallet.');
+        }
 
-            if ($totalQuantityAfterCreation === 0) {
-                $this->walletService->removeFromWallet($operation->investment_id);
-            }
+        $operation = $this->operationRepository->createOperation($data);
+        $totalQuantityAfterCreation = $this->operationRepository->calculateTotalQuantity($data['investment_id'], $data['user_id']);
+
+        if ($totalQuantityAfterCreation === 0) {
+            $this->walletService->removeFromWallet($operation->investment_id);
         }
 
         return $operation;
     }
+
 
     public function getAllOperations(int $userId, int $page, int $perPage)
     {

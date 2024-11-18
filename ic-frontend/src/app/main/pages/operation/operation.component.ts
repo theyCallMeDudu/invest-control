@@ -230,8 +230,9 @@ export class OperationComponent implements OnInit {
           this.router.navigate(['/operations']);
         },
         error: (error) => {
-          this.toastr.error('An error occurred while updating the operation.', 'Error');
-          console.log('An error occurred when trying to update operation!', error);
+          const errorMessage = error.error?.message || 'An error occurred while updating the operation.';
+          this.toastr.error(errorMessage, 'Error');
+          console.error('An error occurred when trying to update operation!', error);
         }
       })
     } else {
@@ -250,8 +251,9 @@ export class OperationComponent implements OnInit {
           this.router.navigate(['/operations']);
         },
         error: (error) => {
-          this.toastr.error('An error occurred while saving the operation.', 'Error');
-          console.log('An error occurred when trying to save operation!', error);
+          const errorMessage = error.error?.message || 'An error occurred while saving the operation.';
+          this.toastr.error(errorMessage, 'Error');
+          console.error('An error occurred when trying to save operation!', error);
         }
       });
     }

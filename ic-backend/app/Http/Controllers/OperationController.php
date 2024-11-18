@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\InvestmentNotInWalletException;
 use App\Http\Requests\CreateOperationRequest;
 use App\Http\Requests\UpdateOperationRequest;
 use App\Http\Services\OperationService;
@@ -53,6 +54,12 @@ class OperationController extends Controller
 
             // Returns the just created operation as a response
             return response()->json($operation, 201);
+        } catch (InvestmentNotInWalletException $e) {
+            // Catches the custom exception
+            return response()->json([
+                'error' => 'Validation Error',
+                'message' => $e->getMessage(),
+            ], 400);
         } catch (\Exception $e) {
             return response()->json([
                 'error'   => 'An error occurred when trying to create an operation.',
@@ -99,7 +106,7 @@ class OperationController extends Controller
         ]);
 
         $operation = $this->operationService->updateOperation($operation, $data);
-        return response()->json(['message' => 'operation successfully updated', 'operation' => $operation]);
+        return response()->json(['message' => 'Operation successfully updated', 'operation' => $operation]);
     }
 
     /**
