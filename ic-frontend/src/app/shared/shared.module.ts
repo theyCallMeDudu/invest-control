@@ -6,13 +6,15 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { CardComponent } from './components/card/card.component';
 import { RouterModule } from '@angular/router';
 import { ButtonComponent } from './components/button/button.component';
+import { LoaderComponent } from './components/loader/loader.component';
 
 @NgModule({
   declarations: [
     FormComponent,
     SidebarComponent,
     CardComponent,
-    ButtonComponent
+    ButtonComponent,
+    LoaderComponent
   ],
   imports: [
     CommonModule,
@@ -24,7 +26,8 @@ import { ButtonComponent } from './components/button/button.component';
     FormComponent,
     SidebarComponent,
     CardComponent,
-    ButtonComponent
+    ButtonComponent,
+    LoaderComponent
   ]
 })
 export class SharedModule { }
