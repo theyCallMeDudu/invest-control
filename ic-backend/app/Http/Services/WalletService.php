@@ -3,6 +3,7 @@
 namespace App\Http\Services;
 
 use App\Models\User;
+use App\Models\Wallet;
 use App\Repositories\Contracts\WalletInvestmentRepositoryInterface;
 use App\Repositories\Contracts\WalletRepositoryInterface;
 use App\Repositories\Eloquent\WalletInvestmentRepository;
@@ -21,11 +22,19 @@ class WalletService
         $this->walletInvestmentRepository = $walletInvestmentRepository;
     }
 
-    public function checkUserWallet(User $user): void
+    public function checkUserWallet(User $user): bool
     {
-        if (!$user->wallet()->exists()) {
-            $this->walletRepository->createWallet($user);
-        }
+        return $user->wallet()->exists();
+    }
+
+    public function createWallet(User $user): void
+    {
+        $this->walletRepository->createWallet($user);
+    }
+
+    public function getWallet(User $user): ?Wallet
+    {
+        return $this->walletRepository->getWallet($user);
     }
 
     public function addToWallet(array $data): void

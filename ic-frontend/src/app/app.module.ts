@@ -14,7 +14,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AuthModule } from './auth/auth.module';
 import { HttpClientModule } from '@angular/common/http';
-import { DashboardComponent } from './main/pages/dashboard/dashboard.component';
+import { WalletComponent } from './main/pages/wallet/wallet.component';
 import { NavbarComponent } from './shared/components/navbar/navbar.component';
 import { SharedModule } from './shared/shared.module';
 import { InvestmentsComponent } from './main/pages/investments/investments.component';
@@ -30,13 +30,13 @@ registerLocaleData(localePt, 'pt-BR', localePtExtra);
 @NgModule({
   declarations: [
     AppComponent,
-    DashboardComponent,
     NavbarComponent,
     InvestmentsComponent,
     InvestmentComponent,
     OperationComponent,
     OperationsComponent,
-    AveragePriceComponent
+    AveragePriceComponent,
+    WalletComponent
   ],
   imports: [
     BrowserModule,

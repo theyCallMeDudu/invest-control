@@ -46,7 +46,7 @@ export class LoginComponent {
       next: (response) => {
         console.log('Login successful!', response);
         localStorage.setItem('authToken', response.token);
-        this.router.navigate(['/dashboard']); // Redirects to dashboard page
+        this.router.navigate(['/wallet', response.wallet_id]); // Redirects to wallet page
       },
       error: (error) => {
         console.log('Login failed!', error);

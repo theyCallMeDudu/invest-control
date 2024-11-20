@@ -21,4 +21,11 @@ class WalletRepository implements WalletRepositoryInterface
             'user_id' => $user->id
         ]);
     }
+
+    public function getWallet(User $user): ?Wallet
+    {
+        return $this->model
+                    ->where('user_id', $user->id)
+                    ->first();
+    }
 }

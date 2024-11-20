@@ -1,19 +1,19 @@
-.dashboard-container {
+.wallet-container {
   display: flex;
 }
 
-.dashboard-container app-sidebar {
+.wallet-container app-sidebar {
   flex-shrink: 0;
 }
 
-.dashboard-content {
+.wallet-content {
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: start;
 }
 
-.dashboard-cards {
+.wallet-cards {
   width: 100%;
   display: flex;
   justify-content: center;

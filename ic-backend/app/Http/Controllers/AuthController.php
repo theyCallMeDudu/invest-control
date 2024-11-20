@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Http\Services\WalletService;
+use App\Models\Wallet;
 
 class AuthController extends Controller
 {
@@ -35,13 +36,14 @@ class AuthController extends Controller
 
         $user = Auth::user();
 
-        $this->walletService->checkUserWallet($user);
+        $wallet = $this->getUserWallet($user);
 
         $token = $user->createToken('authToken')->plainTextToken;
 
         return response()->json([
             'user' => $user,
-            'token' => $token
+            'token' => $token,
+            'wallet_id' => $wallet->wallet_id
         ]);
     }
 
@@ -49,5 +51,19 @@ class AuthController extends Controller
     {
         $request->user()->currentAccessToken()->delete();
         return response()->json(['message' => 'Logged out successfully'], 200);
+    }
+
+    public function getUserWallet(User $user): Wallet
+    {
+        $userHasWallet = $this->walletService->checkUserWallet($user);
+
+        if ($userHasWallet) {
+            $wallet = $this->walletService->getWallet($user);
+        } else {
+            $this->walletService->createWallet($user);
+            $wallet = $this->walletService->getWallet($user);
+        }
+
+        return $wallet;
     }
 }
