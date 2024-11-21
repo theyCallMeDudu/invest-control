@@ -6,7 +6,8 @@ import { WalletComponent } from './wallet.component';
 export const walletRoutes: CustomRouteConfig[] = [
   { path: 'wallet/:wallet_id',
     component: WalletComponent,
-    showInSidebar: true
+    showInSidebar: true,
+    menuRouteTitle: 'Wallet'
   }
 ];
 

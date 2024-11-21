@@ -11,10 +11,14 @@ import { CustomRouteConfig } from '../../interfaces/custom-route-config';
 export class SidebarComponent implements OnInit {
 
   menuRoutes: CustomRouteConfig[] = [];
+  walletId: string = '';
 
   constructor() { }
 
   ngOnInit(): void {
+    // Gets walletId from localStorage
+    this.walletId = localStorage.getItem('walletId') || '';
+
     // Filters the routes to include only those that should be displayed in the sidebar menu,
     // using the shouldDisplayRoute function to determine which routes are valid for display.
     this.menuRoutes = routes.filter(route => this.shouldDisplayRoute(route));
@@ -32,6 +36,16 @@ export class SidebarComponent implements OnInit {
   */
   private shouldDisplayRoute(route: CustomRouteConfig): boolean {
     return !!route.showInSidebar;  // Only display routes that have 'showInSidebar' set to true
+  }
+
+  getRouterLink(route: CustomRouteConfig): string[] {
+    if (route.path && route.path.includes('wallet') && this.walletId) {
+      // If the route is of Wallet, adds the wallet_id
+      return ['/wallet', this.walletId];
+    } else {
+      // Otherwise, use the route normally
+      return [route.path || ''];
+    }
   }
 
 }

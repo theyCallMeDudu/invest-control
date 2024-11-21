@@ -1,7 +1,14 @@
 <div class="sidebar-container">
   <ul>
     <li *ngFor="let route of menuRoutes">
-      <a [routerLink]="route.path">{{ route.path | titlecase }}</a>
+
+      <a *ngIf="route.menuRouteTitle else fallbackTitle"
+        [routerLink]="getRouterLink(route)">
+        {{ route.menuRouteTitle | titlecase }}
+      </a>
+      <ng-template #fallbackTitle>
+        <a [routerLink]="route.path">{{ route.path | titlecase }}</a>
+      </ng-template>
     </li>
   </ul>
 </div>

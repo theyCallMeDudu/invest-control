@@ -8,10 +8,6 @@ import { walletRoutes } from './main/pages/wallet/wallet-routing.module';
 
 export const routes: CustomRouteConfig[] = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },  // Redirect to login page
-  // { path: 'wallet',
-  //   component: WalletComponent,
-  //   showInSidebar: true
-  // },   // Wallet route
   ...walletRoutes, // Append wallet routes
   ...investmentsRoutes, // Append investments routes
   ...operationsRoutes // Append operations routes
