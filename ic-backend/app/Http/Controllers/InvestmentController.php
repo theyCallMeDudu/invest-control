@@ -18,9 +18,15 @@ class InvestmentController extends Controller
     /**
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
-        $investments = $this->investmentService->getAllInvestments();
+        // Records per page (default: 10)
+        $perPage = $request->query('per_page', 5);
+
+        // Current page (default: 1)
+        $currentPage = $request->query('page', 1);
+
+        $investments = $this->investmentService->getAllInvestments($currentPage, $perPage);
         return response()->json($investments);
     }
 

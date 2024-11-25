@@ -4,6 +4,7 @@ namespace App\Repositories\Eloquent;
 
 use App\Models\Investment;
 use App\Repositories\Contracts\InvestmentRepositoryInterface;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 
 class InvestmentRepository implements InvestmentRepositoryInterface
@@ -15,10 +16,11 @@ class InvestmentRepository implements InvestmentRepositoryInterface
         $this->model = $model;
     }
 
-    public function getAllInvestments()
+    public function getAllInvestments(int $currentPage, int $perPage): LengthAwarePaginator
     {
-        return $this->model->with('investmentType')
-            ->get();
+        return $this->model
+            ->with('investmentType')
+            ->paginate($perPage, ['*'], 'page', $currentPage);
     }
 
     public function createInvestment(array $data)

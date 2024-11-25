@@ -3,16 +3,20 @@
 namespace App\Repositories\Contracts;
 
 use App\Models\Investment;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 
 interface InvestmentRepositoryInterface
 {
     /**
-     * Returns all investments.
+     * Returns a paginated list of all investments.
+     * Results are paginated based on the specified page and number of items per page.
      *
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @param  int  $page     The current page number for pagination.
+     * @param  int  $perPage  The number of items to display per page.
+     * @return LengthAwarePaginator  The paginated list of operations.
      */
-    public function getAllInvestments();
+    public function getAllInvestments(int $currentPage, int $perPage): LengthAwarePaginator;
 
     /**
      * Creates a new investment at the database.

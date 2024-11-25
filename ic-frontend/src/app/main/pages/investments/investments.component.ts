@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { Observable } from 'rxjs';
 import { InvestmentsService } from 'src/app/services/investments.service';
-import { OperationsService } from 'src/app/services/operations.service';
 import { Investment } from 'src/app/shared/models/investment.model';
-import { Operation } from 'src/app/shared/models/operation.model';
 
 @Component({
   selector: 'app-investments',
@@ -16,8 +13,11 @@ export class InvestmentsComponent implements OnInit {
 
   investments: Investment[] = [];
   filteredInvestments: Investment[] = [];
-  searchTerm: string = '';
+  currentPage: number = 1;
+  totalItems: number = 0;
+  itemsPerPage: number = 5;
   loading: boolean = true;
+  searchTerm: string = '';
 
   constructor(
     private router: Router,
@@ -26,23 +26,33 @@ export class InvestmentsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const token = localStorage.getItem('authToken');
-    if (token) {
-      // Calls the service to get the investments
-      this.investmentsService.getInvestments().subscribe({
-        next: (data) => {
-          this.investments = data;
-          this.filteredInvestments = [...data]; // starts the filtered list as the original list of investments
-          this.loading = false; // finishes the loading state
-        },
-        error: (err) => {
-          console.error('An error occurred while fetching investments', err);
-          this.loading = false;
-        }
-      });
-    } else {
-      console.warn('Token is missing');
-    }
+    this.loadInvestments(this.currentPage);
+  }
+
+  // Load paginates investments
+  loadInvestments(currentPage: number = 1): void {
+    this.loading = true;
+
+    // Fetch investments for the current page with the defined number of items per page
+    this.investmentsService.getPaginatedInvestments(currentPage, this.itemsPerPage).subscribe({
+      next: response => {
+        this.investments = response.data;
+        this.filteredInvestments = [...this.investments]; // Set filtered operations to match loaded data
+        this.totalItems = response.total;
+        this.loading = false;
+      },
+      error: () => {
+        this.toastr.error('Failed to load investments.');
+        this.loading = false;
+      }
+    });
+  }
+
+  onPageChange(page: number): void {
+    this.currentPage = page;
+    console.log(`Page changed to: ${page}`);
+    console.log(`Current page: ${this.currentPage}, Items per page: ${this.itemsPerPage}`);
+    this.loadInvestments(page);
   }
 
   onSearch(): void {

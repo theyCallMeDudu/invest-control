@@ -50,6 +50,19 @@
     </table>
   </div>
 
+  <div class="pagination">
+    <pagination-controls
+      id="operations-pagination"
+      (pageChange)="onPageChange($event)"
+      [autoHide]="false"
+      [directionLinks]="true"
+      [maxSize]="5"
+      previousLabel="Previous"
+      nextLabel="Next">
+    </pagination-controls>
+  </div>
+
+
   <ng-template #loadingTemplate>
     <div class="loading-container text-center">
       <app-loader></app-loader>

@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Investment } from '../shared/models/investment.model';
 import { environment } from 'src/environments/environment';
+import { PaginatedResponse } from '../shared/models/paginated-response.model';
 import { AveragePrice } from '../shared/models/average-price.model';
 
 @Injectable({
@@ -11,6 +12,15 @@ import { AveragePrice } from '../shared/models/average-price.model';
 export class InvestmentsService {
 
   private readonly apiUrl = `${environment.baseApiUrl}/investments`;
+
+  // HTTP options with authorization header
+  private httpOptions = { headers: this.getAuthHeaders() };
+
+  // Gets the authorization header
+  private getAuthHeaders(): HttpHeaders {
+    const authToken = localStorage.getItem('authToken');
+    return new HttpHeaders().set('Authorization', `Bearer ${authToken}`);
+  }
 
   constructor(private http: HttpClient) { }
 
@@ -26,7 +36,19 @@ export class InvestmentsService {
   }
 
   // Method to get all investments in database
-  getInvestments(): Observable<Investment[]> {
+  getPaginatedInvestments(currentPage: number = 1, perPage: number = 10): Observable<PaginatedResponse<Investment>> {
+    // Sets the pagination params and number of items per page
+    const params = { page: currentPage.toString(), perPage: perPage.toString() };
+
+    // Sends the request with the authentication header and pagination params
+    return this.http.get<PaginatedResponse<Investment>>(this.apiUrl, {
+      headers: this.httpOptions.headers,
+      params: params
+    });
+  }
+
+   // Method to get all investments in database
+   getInvestments(): Observable<Investment[]> {
     // Sends the request with the authentication header
     return this.http.get<Investment[]>(`${this.apiUrl}`);
   }

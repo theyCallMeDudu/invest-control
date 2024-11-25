@@ -5,6 +5,7 @@ namespace App\Http\Services;
 use App\Models\Investment;
 use App\Repositories\Contracts\InvestmentRepositoryInterface;
 use App\Repositories\Contracts\OperationRepositoryInterface;
+use App\Repositories\Eloquent\InvestmentRepository;
 use Illuminate\Support\Facades\Auth;
 
 class InvestmentService
@@ -13,16 +14,16 @@ class InvestmentService
     protected $operationRepository;
 
     public function __construct(
-        InvestmentRepositoryInterface $investmentRepository,
+        InvestmentRepository $investmentRepository,
         OperationRepositoryInterface $operationRepository)
     {
         $this->investmentRepository = $investmentRepository;
         $this->operationRepository = $operationRepository;
     }
 
-    public function getAllInvestments()
+    public function getAllInvestments(int $page, int $perPage)
     {
-        return $this->investmentRepository->getAllInvestments();
+        return $this->investmentRepository->getAllInvestments($page, $perPage);
     }
 
     public function createInvestment(array $data)
