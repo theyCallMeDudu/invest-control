@@ -30,7 +30,7 @@
         <tr *ngIf="filteredInvestments.length === 0">
           <td colspan="4" class="text-center">NO INVESTMENTS FOUND</td>
         </tr>
-        <tr *ngFor="let investment of filteredInvestments">
+        <tr *ngFor="let investment of filteredInvestments | paginate: { id: 'investments-pagination', itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: totalItems }">
           <td>{{ investment.investment_id }}</td>
           <td>{{ investment.investment_name }}</td>
           <td>{{ investment.investment_type.investment_type_name }}</td>
@@ -52,7 +52,7 @@
 
   <div class="pagination">
     <pagination-controls
-      id="operations-pagination"
+      id="investments-pagination"
       (pageChange)="onPageChange($event)"
       [autoHide]="false"
       [directionLinks]="true"

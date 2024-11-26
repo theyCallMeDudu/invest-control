@@ -18,3 +18,12 @@
   justify-content: center;
   gap: 8px; /*space between buttons*/
 }
+
+.pagination {
+  display: flex;
+  justify-content: center;
+}
+
+::ng-deep .pagination .ngx-pagination .current {
+  background-color: #05b27c;
+}
