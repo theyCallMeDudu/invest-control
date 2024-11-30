@@ -8,7 +8,12 @@
   <div>
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" routerLink="/my-account">FULANO DE TAL</a>
+        <a
+          *ngIf="user"
+          class="nav-link"
+          routerLink="/my-account">
+          {{ user.name }}
+        </a>
       </li>
       <li class="nav-item">
         <a

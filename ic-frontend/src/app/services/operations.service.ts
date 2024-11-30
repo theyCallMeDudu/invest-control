@@ -57,7 +57,7 @@ export class OperationsService {
     return this.http.post<Operation>(this.apiUrl, operationData, this.httpOptions);
   }
 
-  // Method to get an operatoin by its ID
+  // Method to get an operation by its ID
   getOperationById(id: number): Observable<Operation> {
     return this.http.get<Operation>(`${this.apiUrl}/${id}`, this.httpOptions);
   }
