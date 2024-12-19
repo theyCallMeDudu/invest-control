@@ -2,11 +2,16 @@
 
 namespace App\Http\Services;
 
+use App\Models\OperationType;
 use App\Models\User;
 use App\Models\Wallet;
 use App\Repositories\Contracts\WalletInvestmentRepositoryInterface;
 use App\Repositories\Contracts\WalletRepositoryInterface;
+use App\Repositories\Eloquent\OperationRepository;
+use App\Repositories\Eloquent\UserRepository;
 use App\Repositories\Eloquent\WalletInvestmentRepository;
+use App\Repositories\Eloquent\WalletRepository;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 
 class WalletService
@@ -62,4 +67,17 @@ class WalletService
             $walletInvestment->delete();
         }
     }
+
+    public function getTotalInvested(int $userId)
+    {
+        /** @var OperationRepository $operationRepository */
+        $operationRepository = App::make(OperationRepository::class);
+
+        $totalPurchase = $operationRepository->getTotalInvestedByOperationType($userId, OperationType::PURCHASE);
+        $totalSell     = $operationRepository->getTotalInvestedByOperationType($userId, OperationType::SELL);
+
+        return $totalPurchase - $totalSell;
+    }
+
+
 }

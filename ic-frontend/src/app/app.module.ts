@@ -24,6 +24,7 @@ import { OperationComponent } from './main/pages/operation/operation.component';
 import { OperationsComponent } from './main/pages/operations/operations.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { AveragePriceComponent } from './main/pages/average-price/average-price.component';
+import { TotalInvestedComponent } from './main/components/total-invested/total-invested.component';
 
 registerLocaleData(localePt, 'pt-BR', localePtExtra);
 
@@ -36,7 +37,8 @@ registerLocaleData(localePt, 'pt-BR', localePtExtra);
     OperationComponent,
     OperationsComponent,
     AveragePriceComponent,
-    WalletComponent
+    WalletComponent,
+    TotalInvestedComponent
   ],
   imports: [
     BrowserModule,

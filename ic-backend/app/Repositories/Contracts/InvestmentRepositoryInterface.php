@@ -16,7 +16,9 @@ interface InvestmentRepositoryInterface
      * @param  int  $perPage  The number of items to display per page.
      * @return LengthAwarePaginator  The paginated list of operations.
      */
-    public function getAllInvestments(int $currentPage, int $perPage): LengthAwarePaginator;
+    public function getPaginatedInvestments(int $currentPage, int $perPage): LengthAwarePaginator;
+
+    public function getAllInvestments(): Collection;
 
     /**
      * Creates a new investment at the database.

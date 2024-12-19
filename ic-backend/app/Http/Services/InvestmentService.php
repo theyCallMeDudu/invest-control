@@ -21,9 +21,14 @@ class InvestmentService
         $this->operationRepository = $operationRepository;
     }
 
-    public function getAllInvestments(int $page, int $perPage)
+    public function getPaginatedInvestments(int $page, int $perPage)
     {
-        return $this->investmentRepository->getAllInvestments($page, $perPage);
+        return $this->investmentRepository->getPaginatedInvestments($page, $perPage);
+    }
+
+    public function getAllInvestments()
+    {
+        return $this->investmentRepository->getAllInvestments();
     }
 
     public function createInvestment(array $data)

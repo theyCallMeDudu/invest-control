@@ -67,8 +67,6 @@ export class OperationsComponent implements OnInit {
 
   onPageChange(page: number): void {
     this.currentPage = page;
-    console.log(`Page changed to: ${page}`);
-    console.log(`Current page: ${this.currentPage}, Items per page: ${this.itemsPerPage}`);
     this.loadOperations(page);
   }
 
@@ -77,7 +75,6 @@ export class OperationsComponent implements OnInit {
     this.operationTypeService.getOperationTypes().subscribe({
       next: (data) => {
         this.operationTypes = data;
-        console.log(this.operationTypes);
       },
       error: (err) => {
         console.error('An error occurred while fetching operation types', err);
@@ -86,7 +83,7 @@ export class OperationsComponent implements OnInit {
   }
 
   getInvestments(): void {
-    this.investmentsService.getInvestments().subscribe({
+    this.investmentsService.getAllInvestments().subscribe({
       next: (data) => {
         this.investments = data;
         console.log(this.investments);

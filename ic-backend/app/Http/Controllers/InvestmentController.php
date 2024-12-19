@@ -26,7 +26,18 @@ class InvestmentController extends Controller
         // Current page (default: 1)
         $currentPage = $request->query('page', 1);
 
-        $investments = $this->investmentService->getAllInvestments($currentPage, $perPage);
+        if ($request->per_page !== -1 && $request->page !== -1) {
+            $investments = $this->investmentService->getPaginatedInvestments($currentPage, $perPage);
+        } else {
+            $this->getAllInvestments();
+        }
+
+        return response()->json($investments);
+    }
+
+    public function getAllInvestments()
+    {
+        $investments = $this->investmentService->getAllInvestments();
         return response()->json($investments);
     }
 

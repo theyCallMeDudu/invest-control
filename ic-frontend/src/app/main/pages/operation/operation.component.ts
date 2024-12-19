@@ -72,7 +72,6 @@ export class OperationComponent implements OnInit {
     if (this.isEditMode) {
       this.operationsService.getOperationById(this.operationId).subscribe({
         next: (operation) => {
-          console.log(operation);
           this.operationType  = operation.operation_type?.operation_type_id ?? null;
           this.investment     = operation.investment?.investment_id ?? null;
           this.investmentType = operation.investment.investment_type.investment_type_name ?? '';
@@ -111,7 +110,6 @@ export class OperationComponent implements OnInit {
     this.operationTypeService.getOperationTypes().subscribe({
       next: (data) => {
         this.operationTypes = data;
-        console.log(this.operationTypes);
       },
       error: (err) => {
         console.error('An error occurred while fetching operation types', err);
@@ -120,10 +118,10 @@ export class OperationComponent implements OnInit {
   }
 
   getInvestments(): void {
-    this.investmentsService.getInvestments().subscribe({
+    this.investmentsService.getPaginatedInvestments(-1, -1).subscribe({
       next: (data) => {
-        this.investments = data;
-        console.log(this.investments);
+        console.log(data);  // Verifique a estrutura de dados
+      this.investments = Array.isArray(data) ? data : [];
       },
       error: (err) => {
         console.error('An error occurred while fetching investments', err);
@@ -135,7 +133,6 @@ export class OperationComponent implements OnInit {
     this.currencyTypeService.getCurrencyTypes().subscribe({
       next: (data) => {
         this.currencyTypes = data;
-        console.log(this.currencyTypes);
       },
       error: (err) => {
         console.error('An error occurred while fetching currency types', err);
@@ -164,9 +161,7 @@ export class OperationComponent implements OnInit {
     return `${year}-${month}-${day}`;
   }
 
-  onOperationDateChange(selectedOperationDate: string): void {
-    console.log(selectedOperationDate);
-  }
+  onOperationDateChange(selectedOperationDate: string): void {}
 
   onCurrencyTypeChange(selectedCurrencyType: any): void {
     const selectedCurrency = this.currencyTypes.find(

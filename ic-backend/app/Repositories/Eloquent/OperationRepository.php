@@ -103,4 +103,14 @@ class OperationRepository implements OperationRepositoryInterface
     {
         return $this->getTotalPurchasedQuantity($investmentId, $userId) - $this->getTotalSoldQuantity($investmentId, $userId);
     }
+
+   // Calculates total invested by operation type
+   public function getTotalInvestedByOperationType(int $userId, int $operationType)
+   {
+       // Filters user operations with operation type
+       return $this->model
+           ->where('user_id', $userId)
+           ->where('operation_type_id', $operationType)
+           ->sum('operation_value');
+   }
 }

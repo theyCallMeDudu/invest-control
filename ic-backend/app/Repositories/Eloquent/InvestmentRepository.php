@@ -16,11 +16,18 @@ class InvestmentRepository implements InvestmentRepositoryInterface
         $this->model = $model;
     }
 
-    public function getAllInvestments(int $currentPage, int $perPage): LengthAwarePaginator
+    public function getPaginatedInvestments(int $currentPage, int $perPage): LengthAwarePaginator
     {
         return $this->model
             ->with('investmentType')
             ->paginate($perPage, ['*'], 'page', $currentPage);
+    }
+
+    public function getAllInvestments(): Collection
+    {
+        return $this->model
+            ->with('investmentType')
+            ->get();
     }
 
     public function createInvestment(array $data)

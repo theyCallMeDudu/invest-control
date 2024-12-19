@@ -61,6 +61,9 @@ class RouteServiceProvider extends ServiceProvider
 
             // Loads the operations routes
             $this->mapOperationsRoutes();
+
+            // Loads the wallet routes
+            $this->mapWalletRoutes();
         });
     }
 
@@ -114,5 +117,13 @@ class RouteServiceProvider extends ServiceProvider
             ->middleware('api')
             ->namespace($this->namespace)
             ->group(base_path('routes/operations.php'));
+    }
+
+    protected function mapWalletRoutes()
+    {
+        Route::prefix('api')
+            ->middleware('api')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/wallet.php'));
     }
 }
