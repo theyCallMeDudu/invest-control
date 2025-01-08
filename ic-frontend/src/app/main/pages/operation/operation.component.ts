@@ -118,10 +118,11 @@ export class OperationComponent implements OnInit {
   }
 
   getInvestments(): void {
-    this.investmentsService.getPaginatedInvestments(-1, -1).subscribe({
+    this.investmentsService.getPaginatedInvestments(1, 10).subscribe({
       next: (data) => {
-        console.log(data);  // Verifique a estrutura de dados
-      this.investments = Array.isArray(data) ? data : [];
+        // Extracting the array of investments from key "data"
+        this.investments = data.data || []; // Using `data.data` to access the array inside the paginated object
+        console.log(this.investments);
       },
       error: (err) => {
         console.error('An error occurred while fetching investments', err);

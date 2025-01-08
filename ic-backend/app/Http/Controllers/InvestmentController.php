@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Services\InvestmentService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class InvestmentController extends Controller
 {
@@ -20,19 +21,35 @@ class InvestmentController extends Controller
      */
     public function index(Request $request)
     {
-        // Records per page (default: 10)
-        $perPage = $request->query('per_page', 5);
+        try {
+            // Records per page (default: 5)
+            $perPage = $request->query('per_page', 5);
 
-        // Current page (default: 1)
-        $currentPage = $request->query('page', 1);
+            // Current page (default: 1)
+            $currentPage = $request->query('page', 1);
 
-        if ($request->per_page !== -1 && $request->page !== -1) {
-            $investments = $this->investmentService->getPaginatedInvestments($currentPage, $perPage);
-        } else {
-            $this->getAllInvestments();
+            // Fetch paginated investments or all investments based on query params
+            if ($perPage !== 0 && $currentPage !== 0) {
+                $investments = $this->investmentService->getPaginatedInvestments($currentPage, $perPage);
+            } else {
+                $investments = $this->getAllInvestments(); // Ensure this method is returning investments
+            }
+
+            // Return the investments as a JSON response
+            return response()->json($investments, 200);
+
+        } catch (\Exception $e) {
+            // Log the error for debugging purposes
+            Log::error('Error fetching investments: ' . $e->getMessage(), [
+                'trace' => $e->getTraceAsString(),
+            ]);
+
+            // Return an error response with status 500
+            return response()->json([
+                'error' => 'An error occurred while fetching investments.',
+                'message' => $e->getMessage(),
+            ], 500);
         }
-
-        return response()->json($investments);
     }
 
     public function getAllInvestments()

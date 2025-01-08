@@ -20,8 +20,8 @@ export class WalletService {
 
   constructor(private http: HttpClient) { }
 
-  getTotalInvested(): Observable<number> {
-    return this.http.get<number>(`${this.apiUrl}/total-invested`, {
+  getTotalInvested(): Observable<{ total_invested: number }> {
+    return this.http.get<{ total_invested: number }>(`${this.apiUrl}/total-invested`, {
       headers: this.httpOptions.headers,
     });
   }

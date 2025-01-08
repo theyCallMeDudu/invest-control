@@ -73,10 +73,17 @@ class WalletService
         /** @var OperationRepository $operationRepository */
         $operationRepository = App::make(OperationRepository::class);
 
+        // Get the total amount invested in purchases by the user
         $totalPurchase = $operationRepository->getTotalInvestedByOperationType($userId, OperationType::PURCHASE);
-        $totalSell     = $operationRepository->getTotalInvestedByOperationType($userId, OperationType::SELL);
 
-        return $totalPurchase - $totalSell;
+        // Get the total amount from sales by the user
+        $totalSell = $operationRepository->getTotalInvestedByOperationType($userId, OperationType::SELL);
+
+        // Ensure the total invested cannot be negative:
+        // - If the total sales exceed the total purchases, this means the user has sold everything,
+        //   and thus, their total investment should be zero, not negative.
+        // - Use `max` to return the higher value between the calculated difference and zero.
+        return max($totalPurchase - $totalSell, 0);
     }
 
 
