@@ -4,9 +4,19 @@
   width: 100%;
   border-radius: 10px;
   border: 1px solid;
+  overflow: hidden;
 }
 
 .card-title {
   background-color:  #2a343e;
   color: #FFFFFF;
+}
+
+.card-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  font-size: 20pt;
+  font-weight: 700;
 }
