@@ -7,7 +7,8 @@
 
         <div class="col-md-5">
           <app-card
-            [cardTitle]="'Total invested amount'">
+            [cardTitle]="'Total invested amount'"
+          >
               <app-total-invested>
               </app-total-invested>
           </app-card>
@@ -15,13 +16,16 @@
 
         <div class="col-md-5">
           <app-card
-            [cardTitle]="'Investments per type'">
+            [cardTitle]="'Investments per type'"
+          >
+            <app-pie-chart></app-pie-chart>
           </app-card>
         </div>
 
     </div>
     <div class="row">
-      <div class="col-md-5">  </div>
+      <div class="col-md-5">
+      </div>
     </div>
   </div>
 
