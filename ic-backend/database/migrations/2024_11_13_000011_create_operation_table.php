@@ -17,7 +17,7 @@ class CreateOperationTable extends Migration
             $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
 
             // Define operation_date with default value of the current date and time
-            $table->date('operation_date')->default(DB::raw('CURRENT_DATE'));
+            $table->timestamp('operation_date')->default(DB::raw('CURRENT_TIMESTAMP'));
 
             $table->integer('quantity');
             $table->decimal('unit_price', 10, 2);
