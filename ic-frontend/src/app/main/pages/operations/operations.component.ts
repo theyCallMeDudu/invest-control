@@ -30,7 +30,7 @@ export class OperationsComponent implements OnInit {
   investment: number = 0;
 
   operationDate: string = '';
-  operationValue: string = ''; // Needs to be a string for mask input
+  operationValue: number = 0; // Needs to be a string for mask input
 
   constructor(
     private router: Router,
@@ -97,17 +97,23 @@ export class OperationsComponent implements OnInit {
 
   // Filter operations based on selected criteria
   onSearch(): void {
-    this.filteredOperations = this.operations.filter(operation => {
-      // Check if the Operation Type filter has been filled
-      let matchesOperationType = true;
-      if (this.operationType !== 0) {
-        matchesOperationType = operation.operation_type.operation_type_id === this.operationType;
-      }
+    // debugger;
 
+    let inverstmentSearch: number = Number(this.investment);
+    let operationTypeSearch: number = Number(this.operationType);
+    let operationValueSearch: number = this.operationValue;
+
+    this.filteredOperations = this.operations.filter(operation => {
       // Check if the Investment filter has been filled
       let matchesInvestment = true;
-      if (this.investment !== 0) {
-        matchesInvestment = operation.investment.investment_id === this.investment;
+      if (inverstmentSearch !== 0) {
+        matchesInvestment = operation.investment.investment_id === inverstmentSearch;
+      }
+
+      // Check if the Operation Type filter has been filled
+      let matchesOperationType = true;
+      if (operationTypeSearch !== 0) {
+        matchesOperationType = operation.operation_type.operation_type_id === operationTypeSearch;
       }
 
       // Check if the Operation Date filter has been filled
@@ -119,11 +125,11 @@ export class OperationsComponent implements OnInit {
       // Filter by operation value (remove mask formatting and compare as numbers)
       let matchesOperationValue = true;
       if (this.operationValue) {
-        const operationValueWithoutMask = Number(this.operationValue.replace(/\./g, '').replace(',', '.'));
-        matchesOperationValue = operation.operation_value === operationValueWithoutMask;
+        // const operationValueWithoutMask = Number(this.operationValue.replace(/\./g, '').replace(',', '.'));
+        matchesOperationValue = Number(operation.operation_value) === operationValueSearch;
       }
 
-      return matchesOperationType && matchesInvestment && matchesOperationDate && matchesOperationValue;
+      return matchesInvestment && matchesOperationType && matchesOperationDate && matchesOperationValue;
     });
   }
 

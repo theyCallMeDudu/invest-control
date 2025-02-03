@@ -25,7 +25,6 @@ export class NavbarComponent {
       this.user = JSON.parse(userString);
     }
     // this.userName = this.user.name;
-    console.log('logado: ', this.user);
   }
 
   onLogout() {
