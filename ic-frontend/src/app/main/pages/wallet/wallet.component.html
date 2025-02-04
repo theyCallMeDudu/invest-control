@@ -15,10 +15,8 @@
         </div>
 
         <div class="col-md-5">
-          <app-card
-            [cardTitle]="'Investments per type'"
-          >
-            <app-pie-chart></app-pie-chart>
+          <app-card [cardTitle]="'Investments per type'">
+            <app-pie-chart [investmentTypes]="investmentTypes"></app-pie-chart>
           </app-card>
         </div>
 

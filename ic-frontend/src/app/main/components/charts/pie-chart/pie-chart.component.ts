@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { ChartData, ChartOptions } from 'chart.js';
+import { InvestmentTypeService } from 'src/app/services/investment-type.service';
+import { InvestmentType } from 'src/app/shared/models/investment-type.model';
 
 @Component({
   selector: 'app-pie-chart',
@@ -15,23 +17,34 @@ import { ChartData, ChartOptions } from 'chart.js';
   `,
   styleUrls: ['./pie-chart.component.css']
 })
-export class PieChartComponent{
+export class PieChartComponent {
 
-  // Mock data
+  @Input() investmentTypes: InvestmentType[] = [];
+
   pieChartData: ChartData<'pie'> = {
-    labels: ['STOCK', 'REIT'],
+    labels: [],
     datasets: [
       {
-        data: [5000, 3000], // Mocked investment totals
-        backgroundColor: ['#42A5F5', '#66BB6A'],
+        data: [],
+        backgroundColor: ['#42A5F5', '#66BB6A', '#FFA726'],
       },
     ],
   };
 
-  // Chart options
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['investmentTypes'] && this.investmentTypes) {
+      this.updateChartData();
+    }
+  }
+
+  private updateChartData(): void {
+    this.pieChartData.labels = this.investmentTypes.map(inv_type => inv_type.investment_type_name);
+    this.pieChartData.datasets[0].data = this.investmentTypes.map(() => Math.floor(Math.random() * 5000) + 1000)
+  }
+
   chartOptions: ChartOptions<'pie'> = {
     responsive: true,
-    maintainAspectRatio: false, // allows manual size control
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         position: 'top',
