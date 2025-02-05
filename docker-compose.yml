@@ -7,7 +7,7 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - ./ic-backend:/var/www/html
+      - ./ic-backend:/var/www
     environment:
       - APP_ENV=local
       - APP_KEY=base64:R9KgY5mYckS0obzLMvDUOC5PBGp8qc9HuaC7Js/bsxM=

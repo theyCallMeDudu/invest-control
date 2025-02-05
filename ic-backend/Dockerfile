@@ -1,6 +1,6 @@
 FROM php:7.4-cli
 
-# Basic instalation
+# Basic installation
 RUN apt-get update && apt-get install -y \
     libpng-dev \
     libjpeg-dev \
@@ -33,4 +33,4 @@ RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 EXPOSE 8000
 
 # Start up command
-CMD php artisan serve --host=0.0.0.0 --port=8000
+CMD php artisan migrate --force && php artisan db:seed --force && php artisan serve --host=0.0.0.0 --port=8000

@@ -25,4 +25,10 @@ export class WalletService {
       headers: this.httpOptions.headers,
     });
   }
+
+  getTotalInvestedByType(investmentType: number): Observable<{ total_invested: number }> {
+    return this.http.get<{ total_invested: number }>(`${this.apiUrl}/total-invested-per-type/${investmentType}`, {
+      headers: this.httpOptions.headers,
+    });
+  }
 }

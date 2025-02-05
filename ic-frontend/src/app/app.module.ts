@@ -25,6 +25,8 @@ import { OperationsComponent } from './main/pages/operations/operations.componen
 import { NgxPaginationModule } from 'ngx-pagination';
 import { AveragePriceComponent } from './main/pages/average-price/average-price.component';
 import { TotalInvestedComponent } from './main/components/total-invested/total-invested.component';
+import { PieChartComponent } from './main/components/charts/pie-chart/pie-chart.component';
+import { NgChartsModule } from 'ng2-charts';
 
 registerLocaleData(localePt, 'pt-BR', localePtExtra);
 
@@ -38,7 +40,8 @@ registerLocaleData(localePt, 'pt-BR', localePtExtra);
     OperationsComponent,
     AveragePriceComponent,
     WalletComponent,
-    TotalInvestedComponent
+    TotalInvestedComponent,
+    PieChartComponent
   ],
   imports: [
     BrowserModule,
@@ -54,7 +57,8 @@ registerLocaleData(localePt, 'pt-BR', localePtExtra);
       preventDuplicates: true, // Avoid duplicated toasts
     }),
     NgxMaskModule.forRoot(),
-    NgxPaginationModule
+    NgxPaginationModule,
+    NgChartsModule
   ],
   providers: [
     // Defines locale to pt-BR
