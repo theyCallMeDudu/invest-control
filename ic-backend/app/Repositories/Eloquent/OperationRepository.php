@@ -113,4 +113,18 @@ class OperationRepository implements OperationRepositoryInterface
            ->where('operation_type_id', $operationType)
            ->sum('operation_value');
    }
+
+   // Calculates total invested by operation and investment types
+   public function getTotalInvestedByOperationAndInvestmentType(
+    int $userId,
+    int $operationType,
+    int $investmentType)
+    {
+        return $this->model
+            ->join('investment as i', 'operation.investment_id', '=', 'i.investment_id')
+            ->where('operation.user_id', $userId)
+            ->where('operation.operation_type_id', $operationType)
+            ->where('i.investment_type_id', $investmentType)
+            ->sum('operation.operation_value');
+    }
 }

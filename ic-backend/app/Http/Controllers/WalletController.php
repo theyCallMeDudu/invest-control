@@ -21,4 +21,15 @@ class WalletController extends Controller
         $totalInvested = $this->walletService->getTotalInvested($userId);
         return response()->json(['total_invested' => $totalInvested]);
     }
+
+    public function getTotalInvestedByInvestmentType(int $investmentType)
+    {
+        $userId = Auth::user()->id;
+        $totalInvestedByType = $this
+                                ->walletService
+                                ->getTotalInvestedByInvestmentType(
+                                    $userId,
+                                    $investmentType);
+        return response()->json(['total_invested' => $totalInvestedByType]);
+    }
 }

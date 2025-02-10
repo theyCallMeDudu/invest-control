@@ -26,7 +26,10 @@ class InvestmentSeeder extends Seeder
                 'investment_type_id' => 1,
                 'investment_name' => 'XPML11'
             ],
-
+            [
+                'investment_type_id' => 2,
+                'investment_name' => 'EGIE4F'
+            ],
         ]);
     }
 }

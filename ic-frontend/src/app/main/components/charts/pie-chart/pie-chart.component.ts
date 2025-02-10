@@ -19,28 +19,7 @@ import { InvestmentType } from 'src/app/shared/models/investment-type.model';
 })
 export class PieChartComponent {
 
-  @Input() investmentTypes: InvestmentType[] = [];
-
-  pieChartData: ChartData<'pie'> = {
-    labels: [],
-    datasets: [
-      {
-        data: [],
-        backgroundColor: ['#42A5F5', '#66BB6A', '#FFA726'],
-      },
-    ],
-  };
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['investmentTypes'] && this.investmentTypes) {
-      this.updateChartData();
-    }
-  }
-
-  private updateChartData(): void {
-    this.pieChartData.labels = this.investmentTypes.map(inv_type => inv_type.investment_type_name);
-    this.pieChartData.datasets[0].data = this.investmentTypes.map(() => Math.floor(Math.random() * 5000) + 1000)
-  }
+  @Input() pieChartData!: ChartData<'pie'>; // Recebe os dados via @Input
 
   chartOptions: ChartOptions<'pie'> = {
     responsive: true,

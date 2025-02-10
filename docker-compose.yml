@@ -8,6 +8,7 @@ services:
       - "8000:8000"
     volumes:
       - ./ic-backend:/var/www
+      - ./logs/xdebug:/var/log
     environment:
       - APP_ENV=local
       - APP_KEY=base64:R9KgY5mYckS0obzLMvDUOC5PBGp8qc9HuaC7Js/bsxM=

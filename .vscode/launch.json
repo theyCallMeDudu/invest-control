@@ -1,19 +1,16 @@
 {
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "name": "Listen for Xdebug",
-            "type": "php",
-            "request": "launch",
-            "port": 9003,
-            "pathMappings": {
-                "C:/Sistemas/invest-control/ic-backend": "${workspaceFolder}/ic-backend"
-            },
-            "xdebugSettings": {
-                "max_children": 100,
-                "max_data": 2048,
-                "max_depth": 5
-            }
-        }
-    ]
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Listen for Xdebug",
+      "type": "php",
+      "request": "launch",
+      "port": 9003,
+      "pathMappings": {
+        "/var/www": "${workspaceFolder}/ic-backend"
+      },
+      "hostname": "localhost",
+      "log": true
+    }
+  ]
 }
