@@ -1,6 +1,6 @@
-<div class="total-amount">
+<div>
   <div *ngIf="!isLoading; else loadingTemplate">
-    {{ totalInvested?.total_invested | currency: 'BRL' }}
+    <app-pie-chart [pieChartData]="pieChartData"></app-pie-chart>
   </div>
 
   <ng-template #loadingTemplate>

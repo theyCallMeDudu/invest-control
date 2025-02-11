@@ -1,7 +1,5 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { ChartData, ChartOptions } from 'chart.js';
-import { InvestmentTypeService } from 'src/app/services/investment-type.service';
-import { InvestmentType } from 'src/app/shared/models/investment-type.model';
 
 @Component({
   selector: 'app-pie-chart',

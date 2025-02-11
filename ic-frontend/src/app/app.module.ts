@@ -27,6 +27,7 @@ import { AveragePriceComponent } from './main/pages/average-price/average-price.
 import { TotalInvestedComponent } from './main/components/total-invested/total-invested.component';
 import { PieChartComponent } from './main/components/charts/pie-chart/pie-chart.component';
 import { NgChartsModule } from 'ng2-charts';
+import { InvestmentPerTypeComponent } from './main/components/investment-per-type/investment-per-type.component';
 
 registerLocaleData(localePt, 'pt-BR', localePtExtra);
 
@@ -41,7 +42,8 @@ registerLocaleData(localePt, 'pt-BR', localePtExtra);
     AveragePriceComponent,
     WalletComponent,
     TotalInvestedComponent,
-    PieChartComponent
+    PieChartComponent,
+    InvestmentPerTypeComponent
   ],
   imports: [
     BrowserModule,

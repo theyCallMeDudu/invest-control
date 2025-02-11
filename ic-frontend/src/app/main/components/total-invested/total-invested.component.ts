@@ -8,25 +8,29 @@ import { WalletService } from 'src/app/services/wallet-service';
 })
 export class TotalInvestedComponent implements OnInit {
   totalInvested: { total_invested: number } | null = null;
+  isLoading: boolean = false;
 
   constructor(
     private walletService: WalletService
   ) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.calculateTotalInvested();
   }
 
   calculateTotalInvested(): void {
     this.walletService.getTotalInvested().subscribe(
       (response: { total_invested: number }) => {
+
         // Assign the entire response object to totalInvested
         this.totalInvested = response;
-        console.log(this.totalInvested.total_invested); // Access the property here
+        this.isLoading = false;
       },
       (error) => {
-        console.error('Error fetching total invested:', error); // Handle errors
         this.totalInvested = null; // Reset to null in case of an error
+        this.isLoading = false;
+        console.error('Error fetching total invested:', error); // Handle errors
       }
     );
   }
