@@ -25,6 +25,8 @@ export class InvestmentComponent implements OnInit {
   submitted:boolean = false;
   isEditMode: boolean = false;
   isLoading: boolean = false;
+  isTypeLoading: boolean = false;
+  isSubmitLoading: boolean = false;
 
   constructor(
     private router: Router,
@@ -36,6 +38,7 @@ export class InvestmentComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoading = true;
+    this.isTypeLoading = true;
 
     // Gets the investment_id parameter from the route
     this.investmentId = Number(this.activatedRoute.snapshot.paramMap.get('investment_id'));
@@ -64,8 +67,15 @@ export class InvestmentComponent implements OnInit {
     // Calls investment type service to get
     // available investment types in database
     this.investmentTypeService.getInvestmentTypes().subscribe({
-      next: (types) => this.investmentTypes = types,
-      error: (err) => console.error('An error occurred when trying to get investment types.', err)
+      next: (types) => {
+        this.investmentTypes = types;
+
+        this.isTypeLoading = false;
+      },
+      error: (err) => {
+        this.isTypeLoading = false;
+        console.error('An error occurred when trying to get investment types.', err);
+      }
     });
   }
 
@@ -84,6 +94,7 @@ export class InvestmentComponent implements OnInit {
 
   onSubmit(): void {
     this.submitted = true;
+    this.isSubmitLoading = true;
 
     if (this.investmentForm.invalid || this.investmentType === 0) {
       // If the form is invalid, the data won't be sent to back-end
@@ -99,11 +110,13 @@ export class InvestmentComponent implements OnInit {
         this.investmentType
       ).subscribe({
         next: (response) => {
+          this.isSubmitLoading = false;
           this.toastr.success('Investment successfully updated!', 'Success');
           console.log('Investment successfully updated!', response);
           this.router.navigate(['/investments']); // Redirects to investments page
         },
         error: (error) => {
+          this.isSubmitLoading = false;
           this.toastr.error('An error occurred while updating the investment.', 'Error');
           console.log('An error occurred when trying to update investment!', error);
         }
@@ -115,11 +128,13 @@ export class InvestmentComponent implements OnInit {
         this.investmentType
       ).subscribe({
         next: (response) => {
+          this.isSubmitLoading = false;
           this.toastr.success('Investment successfully saved!', 'Success');
           console.log('Investment successfully saved!', response);
           this.router.navigate(['/investments']); // Redirects to investments page
         },
         error: (error) => {
+          this.isSubmitLoading = false;
           this.toastr.error('An error occurred while saving the investment.', 'Error');
           console.log('An error occurred when trying to save investment!', error);
         }

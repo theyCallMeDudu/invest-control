@@ -1,61 +1,90 @@
 <div class="investment-container">
   <h1 *ngIf="!isEditMode">New Investment</h1>
   <h1 *ngIf="isEditMode">Edit Investment</h1>
-  <div *ngIf="isLoading" class="loading-container">
-    <p>Loading...</p>
-  </div>
+
   <div
-    *ngIf="!isLoading"
-    class="investment-form-container col-md-4">
+    *ngIf="!isLoading;
+      else loadingTemplate"
+      class="investment-form-container col-md-4">
     <form
       #investmentForm="ngForm"
       >
       <div class="form-group">
-        <label for="investment_name">Name</label>
-        <input
-          type="text"
-          id="investment_name"
-          name="investment_name"
-          [(ngModel)]="investmentName"
-          #investmentNameInput="ngModel"
-          class="form-control"
-          required
-          autocomplete="off">
-        <div *ngIf="investmentNameInput.invalid && submitted">
-          <div *ngIf="investmentNameInput.errors?.['required']" class="input-error-message">
-            Name is mandatory.
+        <div>
+          <label for="investment_name">Name</label>
+          <input
+            type="text"
+            id="investment_name"
+            name="investment_name"
+            [(ngModel)]="investmentName"
+            #investmentNameInput="ngModel"
+            class="form-control"
+            required
+            autocomplete="off">
+          <div *ngIf="investmentNameInput.invalid && submitted">
+            <div *ngIf="investmentNameInput.errors?.['required']" class="input-error-message">
+              Name is mandatory.
+            </div>
           </div>
         </div>
 
-        <label for="investment_type">Type</label>
-        <select
-          name="investment_type"
-          id="investment_type"
-          [(ngModel)]="investmentType"
-          #investmentTypeInput="ngModel"
-          class="form-control"
-          required>
-          <option value="0" disabled selected>Select</option>
-          <option
-            *ngFor="let type of investmentTypes"
-            [value]="type.investment_type_id">
-          {{ type.investment_type_name }}
-          </option>
-        </select>
-        <div *ngIf="investmentType === 0 && submitted">
-          <div class="input-error-message">
-            Type is mandatory.
+        <div>
+          <label for="investment_type">Type</label>
+          <div class="div-select-investment-type">
+            <select
+              name="investment_type"
+              id="investment_type"
+              [(ngModel)]="investmentType"
+              #investmentTypeInput="ngModel"
+              class="form-control"
+              required>
+              <option value="0" disabled selected>Select</option>
+              <option
+                *ngFor="let type of investmentTypes"
+                [value]="type.investment_type_id">
+              {{ type.investment_type_name }}
+              </option>
+            </select>
+            <div *ngIf="!isTypeLoading; else loadingTypeTemplate"></div>
           </div>
+          <div *ngIf="investmentType === 0 && submitted">
+            <div class="input-error-message">
+              Type is mandatory.
+            </div>
+          </div>
+
         </div>
       </div>
       <div class="form-group investment-form-buttons">
         <app-button
           [buttonConfig]="cancelButton">
         </app-button>
-        <app-button
+        <div class="div-submit-load">
+          <app-button
           [buttonConfig]="saveButton">
-        </app-button>
+          </app-button>
+          <div *ngIf="!isSubmitLoading; else loadingSubmitTemplate">
+          </div>
+        </div>
       </div>
     </form>
   </div>
+
+  <ng-template #loadingTemplate>
+    <div class="loading-container text-center">
+      <app-loader></app-loader>
+    </div>
+  </ng-template>
+  <ng-template #loadingTypeTemplate>
+    <div class="loading-container text-center">
+      <app-loader
+        [width]="40" [height]="40"></app-loader>
+    </div>
+  </ng-template>
+  <ng-template #loadingSubmitTemplate>
+    <div class="loading-container text-center">
+      <app-loader
+        [width]="40" [height]="40"></app-loader>
+    </div>
+  </ng-template>
 </div>

@@ -1,4 +1,12 @@
+.div-select-investment-type {
+  display: flex;
+}
+
 .investment-form-buttons {
   display: flex;
   justify-content: space-between;
+}
+
+.div-submit-load{
+  display: flex;
 }
