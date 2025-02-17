@@ -42,6 +42,10 @@ export class OperationComponent implements OnInit {
   submitted:boolean = false;
   isEditMode: boolean = false;
   isLoading: boolean = false;
+  isTypeLoading: boolean = false;
+  isInvestmentLoading: boolean = false;
+  isCurrencyLoading: boolean = false;
+  isSubmitLoading: boolean = false;
 
   constructor(
     private router: Router,
@@ -60,6 +64,10 @@ export class OperationComponent implements OnInit {
     this.operationDate = this.formatDate(new Date());
 
     this.isLoading = true;
+    this.isTypeLoading = true;
+    this.isInvestmentLoading = true;
+    this.isInvestmentLoading = true;
+    this.isCurrencyLoading = true;
 
     // Gets the operatoin_id parameter from the route
     this.operationId = Number(this.activatedRoute.snapshot.paramMap.get('operation_id'));
@@ -82,6 +90,9 @@ export class OperationComponent implements OnInit {
           this.operationValue = operation.operation_value ?? 0;
 
           this.isLoading = false;
+          this.isTypeLoading = false;
+          this.isInvestmentLoading = false;
+          this.isCurrencyLoading = false;
         },
         error: (err) => {
           console.error('An error occurred while fetching operation for editing.', err);
@@ -110,9 +121,11 @@ export class OperationComponent implements OnInit {
     this.operationTypeService.getOperationTypes().subscribe({
       next: (data) => {
         this.operationTypes = data;
+        this.isTypeLoading = false;
       },
       error: (err) => {
         console.error('An error occurred while fetching operation types', err);
+        this.isTypeLoading = false;
       }
     });
   }
@@ -122,10 +135,12 @@ export class OperationComponent implements OnInit {
       next: (data) => {
         // Extracting the array of investments from key "data"
         this.investments = data.data || []; // Using `data.data` to access the array inside the paginated object
+        this.isInvestmentLoading = false;
         console.log(this.investments);
       },
       error: (err) => {
         console.error('An error occurred while fetching investments', err);
+        this.isInvestmentLoading = false;
       }
     });
   }
@@ -134,9 +149,11 @@ export class OperationComponent implements OnInit {
     this.currencyTypeService.getCurrencyTypes().subscribe({
       next: (data) => {
         this.currencyTypes = data;
+        this.isCurrencyLoading = false;
       },
       error: (err) => {
         console.error('An error occurred while fetching currency types', err);
+        this.isCurrencyLoading = false;
       }
     });
   }
@@ -196,6 +213,7 @@ export class OperationComponent implements OnInit {
 
   onSubmit(): void {
     this.submitted = true;
+    this.isSubmitLoading = true;
 
     if (this.operationForm.invalid
         || this.operationType === 0
@@ -206,6 +224,7 @@ export class OperationComponent implements OnInit {
         || this.unitPrice <= 0) {
       // If the form is invalid, the data won't be sent to back-end
       console.log('Invalid form, please fill out all required fields');
+      this.isSubmitLoading = false;
       return;
     }
 
@@ -221,11 +240,13 @@ export class OperationComponent implements OnInit {
         this.unitPrice
       ).subscribe({
         next: (response) => {
+          this.isSubmitLoading = false;
           this.toastr.success('Operation successfully updated!', 'Success');
           console.log('Operation successfully updated!', response);
           this.router.navigate(['/operations']);
         },
         error: (error) => {
+          this.isSubmitLoading = false;
           const errorMessage = error.error?.message || 'An error occurred while updating the operation.';
           this.toastr.error(errorMessage, 'Error');
           console.error('An error occurred when trying to update operation!', error);
@@ -242,11 +263,13 @@ export class OperationComponent implements OnInit {
         this.unitPrice
       ).subscribe({
         next: (response) => {
+          this.isSubmitLoading = false;
           this.toastr.success('Operation successfully saved!', 'Success');
           console.log('Operation successfully saved!', response);
           this.router.navigate(['/operations']);
         },
         error: (error) => {
+          this.isSubmitLoading = false;
           const errorMessage = error.error?.message || 'An error occurred while saving the operation.';
           this.toastr.error(errorMessage, 'Error');
           console.error('An error occurred when trying to save operation!', error);

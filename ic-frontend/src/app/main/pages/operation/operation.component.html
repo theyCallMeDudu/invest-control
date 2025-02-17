@@ -2,31 +2,32 @@
 <div class="operation-container">
   <h1 *ngIf="!isEditMode">New Operation</h1>
   <h1 *ngIf="isEditMode">Edit Operation</h1>
-  <div *ngIf="isLoading" class="loading-container">
-    <p>Loading...</p>
-  </div>
   <div
-    *ngIf="!isLoading"
-    class="operation-form-container col-md-4">
+    *ngIf="!isLoading;
+      else loadingTemplate"
+      class="operation-form-container col-md-4">
     <form
       #operationForm="ngForm"
       >
       <div class="form-group">
         <label for="operation_type">Operation type</label>
-        <select
-          name="operation_type"
-          id="operation_type"
-          [(ngModel)]="operationType"
-          #operationTypeInput="ngModel"
-          class="form-control"
-          required>
-          <option value="0" disabled selected>Select</option>
-          <option
-            *ngFor="let type of operationTypes"
-            [value]="type.operation_type_id">
-          {{ type.operation_type_name }}
-          </option>
-        </select>
+        <div class="div-select-operation-type">
+          <select
+            name="operation_type"
+            id="operation_type"
+            [(ngModel)]="operationType"
+            #operationTypeInput="ngModel"
+            class="form-control"
+            required>
+            <option value="0" disabled selected>Select</option>
+            <option
+              *ngFor="let type of operationTypes"
+              [value]="type.operation_type_id">
+            {{ type.operation_type_name }}
+            </option>
+          </select>
+          <div *ngIf="!isTypeLoading; else loadingTypeTemplate"></div>
+        </div>
         <div *ngIf="operationType === 0 && submitted">
           <div class="input-error-message">
             Operation type is mandatory.
@@ -38,21 +39,24 @@
         <div class="operation-two-inputs-row">
           <div class="col-md-5">
             <label for="">Investment</label>
-            <select
-              name="investment"
-              id="investment"
-              [(ngModel)]="investment"
-              (change)="onInvestmentChange(investment)"
-              #investmentInput="ngModel"
-              class="form-control"
-              required>
-              <option value="0" disabled selected>Select</option>
-              <option
-                *ngFor="let investment of investments"
-                [value]="investment.investment_id">
-                {{ investment.investment_name }}
-              </option>
-            </select>
+            <div class="div-select-investment">
+              <select
+                name="investment"
+                id="investment"
+                [(ngModel)]="investment"
+                (change)="onInvestmentChange(investment)"
+                #investmentInput="ngModel"
+                class="form-control"
+                required>
+                <option value="0" disabled selected>Select</option>
+                <option
+                  *ngFor="let investment of investments"
+                  [value]="investment.investment_id">
+                  {{ investment.investment_name }}
+                </option>
+              </select>
+              <div *ngIf="!isInvestmentLoading; else loadingInvestmentTemplate"></div>
+            </div>
             <div *ngIf="investment === 0 && submitted">
               <div class="input-error-message">
                 Investment is mandatory.
@@ -95,21 +99,24 @@
 
         <div class="col-md-5">
           <label for="">Currency</label>
-          <select
-              name="currency_type"
-              id="currency_type"
-              [(ngModel)]="currencyType"
-              #currencyTypeInput="ngModel"
-              (change)="onCurrencyTypeChange(currencyType)"
-              class="form-control"
-              required>
-              <option value="0" disabled selected>Select</option>
-              <option
-                *ngFor="let type of currencyTypes"
-                [value]="type.currency_type_id">
-              {{ type.currency_type_symbol }} ({{type.currency_type_code}})
-              </option>
-          </select>
+          <div class="div-select-currency">
+            <select
+                name="currency_type"
+                id="currency_type"
+                [(ngModel)]="currencyType"
+                #currencyTypeInput="ngModel"
+                (change)="onCurrencyTypeChange(currencyType)"
+                class="form-control"
+                required>
+                <option value="0" disabled selected>Select</option>
+                <option
+                  *ngFor="let type of currencyTypes"
+                  [value]="type.currency_type_id">
+                {{ type.currency_type_symbol }} ({{type.currency_type_code}})
+                </option>
+            </select>
+            <div *ngIf="!isCurrencyLoading; else loadingCurrencyTemplate"></div>
+          </div>
           <div *ngIf="currencyType === 0 && submitted">
             <div class="input-error-message">
               Currency is mandatory.
@@ -174,10 +181,45 @@
         <app-button
           [buttonConfig]="cancelButton">
         </app-button>
-        <app-button
-          [buttonConfig]="saveButton">
-        </app-button>
+        <div class="div-submit-load">
+          <div class="div-submit-load">
+            <app-button
+              [buttonConfig]="saveButton">
+            </app-button>
+            <div *ngIf="!isSubmitLoading; else loadingSubmitTemplate"></div>
+          </div>
+        </div>
       </div>
     </form>
   </div>
+
+  <ng-template #loadingTemplate>
+    <div class="loading-container text-center">
+      <app-loader></app-loader>
+    </div>
+  </ng-template>
+  <ng-template #loadingTypeTemplate>
+    <div class="loading-container text-center">
+      <app-loader
+        [width]="40" [height]="40"></app-loader>
+    </div>
+  </ng-template>
+  <ng-template #loadingInvestmentTemplate>
+    <div class="loading-container text-center">
+      <app-loader
+        [width]="40" [height]="40"></app-loader>
+    </div>
+  </ng-template>
+  <ng-template #loadingCurrencyTemplate>
+    <div class="loading-container text-center">
+      <app-loader
+        [width]="40" [height]="40"></app-loader>
+    </div>
+  </ng-template>
+  <ng-template #loadingSubmitTemplate>
+    <div class="loading-container text-center">
+      <app-loader
+        [width]="40" [height]="40"></app-loader>
+    </div>
+  </ng-template>
 </div>
