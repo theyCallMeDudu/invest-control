@@ -20,7 +20,12 @@ class InvestmentRepository implements InvestmentRepositoryInterface
     {
         return $this->model
             ->with('investmentType')
-            ->paginate($perPage, ['*'], 'page', $currentPage);
+            ->paginate(
+                $perPage,
+                ['investment_id', 'investment_name', 'investment_type_id'],
+                'page',
+                $currentPage
+            );
     }
 
     public function getAllInvestments(): Collection

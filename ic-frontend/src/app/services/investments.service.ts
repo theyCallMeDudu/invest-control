@@ -35,29 +35,17 @@ export class InvestmentsService {
     return this.http.post<Investment>(this.apiUrl, investmentData);
   }
 
-  // Method to get all investments in database
-  // getPaginatedInvestments(currentPage: number = 1, perPage: number = 10): Observable<PaginatedResponse<Investment>> {
-  //   // Sets the pagination params and number of items per page
-  //   const params = { page: currentPage.toString(), perPage: perPage.toString() };
-
-  //   // Sends the request with the authentication header and pagination params
-  //   return this.http.get<PaginatedResponse<Investment>>(this.apiUrl, {
-  //     headers: this.httpOptions.headers,
-  //     params: params
-  //   });
-  // }
-
   getPaginatedInvestments(page: number = 1, itemsPerPage = 10): Observable<PaginatedResponse<Investment>> {
     return this.http.get<PaginatedResponse<Investment>>(`${this.apiUrl}?page=${page}&per_page=${itemsPerPage}`, {
       headers: this.httpOptions.headers
     });
   }
 
-   // Method to get investments in database to fill select fields
-   getAllInvestments(): Observable<Investment[]> {
-    // Sends the request with the authentication header
-    return this.http.get<Investment[]>(`${this.apiUrl}-all`);
-  }
+  // Method to get investments in database to fill select fields
+  //  getAllInvestments(): Observable<Investment[]> {
+  //   // Sends the request with the authentication header
+  //   return this.http.get<Investment[]>(`${this.apiUrl}-all`);
+  // }
 
   // Method to get an investment by its ID
   getInvestmentById(id: number): Observable<Investment> {
