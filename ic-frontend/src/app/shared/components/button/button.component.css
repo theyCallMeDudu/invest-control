@@ -5,7 +5,7 @@ button {
   padding: 5px 10px;
 }
 
-button > i {
+button>i {
   font-size: 16px;
   font-weight: bold;
 }

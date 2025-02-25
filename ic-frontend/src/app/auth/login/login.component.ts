@@ -11,10 +11,11 @@ export class LoginComponent {
 
   email: string = '';
   password: string = '';
-  submitted:boolean = false;
+  submitted: boolean = false;
   emailError: string | null = null;
   passwordError: string | null = null;
   generalError: string | null = null;
+  isLoading: boolean = false;
 
   constructor(
     private authService: AuthService,
@@ -31,20 +32,24 @@ export class LoginComponent {
   onSubmit(): void {
     this.submitted = true;
     this.emailError = this.passwordError = this.generalError = null;
+    this.isLoading = true;
 
     if (!this.email) {
       this.emailError = 'E-mail is mandatory';
+      this.isLoading = false;
       return;
     }
 
     if (!this.password) {
       this.passwordError = 'Password is mandatory';
+      this.isLoading = false;
       return;
     }
 
     this.authService.login(this.email, this.password).subscribe({
       next: (response) => {
         console.log('Login successful!', response);
+        this.isLoading = false;
         localStorage.setItem('authToken', response.token);
         localStorage.setItem('user', JSON.stringify(response.user));
         localStorage.setItem('walletId', response.wallet_id);
@@ -52,6 +57,7 @@ export class LoginComponent {
       },
       error: (error) => {
         console.log('Login failed!', error);
+        this.isLoading = false;
         this.generalError = this.mapErrorToMessage(error);
       }
     })

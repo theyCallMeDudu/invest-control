@@ -11,7 +11,7 @@
   padding-right: 20px;
 }
 
-.login-image > img {
+.login-image>img {
   width: 250px;
 }
 
@@ -28,16 +28,24 @@
   justify-content: start;
 }
 
-.login-form > form {
+.login-form>form {
   display: flex;
   flex-direction: column;
 }
 
-.login-form > form > input {
+.login-form>form>input {
   margin-bottom: 10px;
 }
 
-.login-form > form > button {
+.div-submit-login {
+  display: flex;
+}
+
+.login-button {
+  width: 100%;
+}
+
+.login-form>form>button {
   width: 100%;
   background-color: #05B27C;
   color: #FFFFFF;
@@ -47,6 +55,6 @@
   padding: 5px;
 }
 
-.login-form > form > button:hover {
+.login-form>form>button:hover {
   background-color: #049466;
 }
