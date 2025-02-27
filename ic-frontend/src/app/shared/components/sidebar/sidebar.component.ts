@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Route } from '@angular/router';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 import { routes } from 'src/app/app-routing.module';
 import { CustomRouteConfig } from '../../interfaces/custom-route-config';
 
@@ -13,7 +13,9 @@ export class SidebarComponent implements OnInit {
   menuRoutes: CustomRouteConfig[] = [];
   walletId: string = '';
 
-  constructor() { }
+  constructor(
+    private router: Router,
+    private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
     // Gets walletId from localStorage
@@ -46,6 +48,20 @@ export class SidebarComponent implements OnInit {
       // Otherwise, use the route normally
       return [route.path || ''];
     }
+  }
+
+  // Checks if the route is active
+  isActive(route: CustomRouteConfig): boolean {
+    const currentUrl = this.router.url;
+
+    if (route.path?.includes(':')) {
+
+      // If the route has dynamic params, checks if its URL starts with the expected prefix
+      const basePath = route.path.split('/:')[0]; // Example: "wallet/:wallet_id" -> "wallet"
+      return currentUrl.startsWith(`/${basePath}`);
+    }
+
+    return currentUrl.includes(route.path || '');
   }
 
 }

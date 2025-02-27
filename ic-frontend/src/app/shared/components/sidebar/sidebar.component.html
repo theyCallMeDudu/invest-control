@@ -1,9 +1,7 @@
 <div class="sidebar-container">
-  <ul>
-    <li *ngFor="let route of menuRoutes">
-
-      <a *ngIf="route.menuRouteTitle else fallbackTitle"
-        [routerLink]="getRouterLink(route)">
+  <ul class="ul-menu-side">
+    <li *ngFor="let route of menuRoutes" class="li-menu-side" [ngClass]="{'active-menu': isActive(route)}">
+      <a *ngIf="route.menuRouteTitle else fallbackTitle" [routerLink]="getRouterLink(route)">
         {{ route.menuRouteTitle | titlecase }}
       </a>
       <ng-template #fallbackTitle>
