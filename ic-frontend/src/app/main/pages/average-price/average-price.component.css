@@ -1,0 +1,12 @@
+.average-price-toolbar {
+  display: flex;
+  width: 100%;
+}
+
+.div-select-investment-type {
+  display: flex;
+}
+
+.div-filter {
+  margin-right: 30px;
+}

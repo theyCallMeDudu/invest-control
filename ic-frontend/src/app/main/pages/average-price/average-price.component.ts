@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
+import { InvestmentTypeService } from 'src/app/services/investment-type.service';
 import { InvestmentsService } from 'src/app/services/investments.service';
 import { AveragePrice } from 'src/app/shared/models/average-price.model';
+import { InvestmentType } from 'src/app/shared/models/investment-type.model';
 import { Operation } from 'src/app/shared/models/operation.model';
 
 @Component({
@@ -11,19 +13,39 @@ import { Operation } from 'src/app/shared/models/operation.model';
   styleUrls: ['./average-price.component.css']
 })
 export class AveragePriceComponent implements OnInit {
+  investmentTypes: InvestmentType[] = [];
+  investmentType: number = 0;
   availableYears: number[] = [];
   searchYear: number = new Date().getFullYear();
   investmentId: number | null = null;
   yearOperations: AveragePrice[] = [];
 
   isLoading: boolean = false;
+  isTypeLoading: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
-    private investmentsService: InvestmentsService
-  ) {}
+    private investmentsService: InvestmentsService,
+    private investmentTypeService: InvestmentTypeService,
+  ) { }
 
   ngOnInit(): void {
+    this.isTypeLoading = true;
+
+    // Calls investment type service to get
+    // available investment types in database
+    this.investmentTypeService.getInvestmentTypes().subscribe({
+      next: (types) => {
+        this.investmentTypes = types;
+
+        this.isTypeLoading = false;
+      },
+      error: (err) => {
+        this.isTypeLoading = false;
+        console.error('An error occurred when trying to get investment types.', err);
+      }
+    });
+
     // Get the investment ID from the route parameters
     this.investmentId = Number(this.route.snapshot.paramMap.get('investment_id'));
 
@@ -56,10 +78,10 @@ export class AveragePriceComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error fetching year summary:', err),
-        this.isLoading = false;
+          this.isLoading = false;
       }
     });
-}
+  }
 
   // Method to get operations by investmentId and year
   getOperationsByInvestmentId(investmentId: number, year: number): Observable<{ summary: AveragePrice[] }> {

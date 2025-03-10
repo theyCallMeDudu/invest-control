@@ -1,19 +1,26 @@
 <h1>Average Price</h1>
 <div class="average-price-container">
   <div class="average-price-toolbar">
-    <div class="col-md-4">
+    <div class="col-md-2 div-filter">
+      <label for="investment_type">Type</label>
+      <div class="div-select-investment-type">
+        <select name="investment_type" id="investment_type" [(ngModel)]="investmentType" #investmentTypeInput="ngModel"
+          class="form-control" required>
+          <option value="0" disabled selected>Select</option>
+          <option *ngFor="let type of investmentTypes" [value]="type.investment_type_id">
+            {{ type.investment_type_name }}
+          </option>
+        </select>
+        <div *ngIf="!isTypeLoading; else loadingTypeTemplate"></div>
+      </div>
+    </div>
+
+    <div class="col-md-2">
       <label for="search_year">Year</label>
-      <select
-        name="search_year"
-        id="search_year"
-        [(ngModel)]="searchYear"
-        (change)="onSearch()"
-        #seachYearInput="ngModel"
-        class="form-control">
+      <select name="search_year" id="search_year" [(ngModel)]="searchYear" (change)="onSearch()"
+        #seachYearInput="ngModel" class="form-control">
         <option value="0" disabled selected>Select</option>
-        <option
-            *ngFor="let year of availableYears"
-            [value]="year">
+        <option *ngFor="let year of availableYears" [value]="year">
           {{ year }}
         </option>
       </select>
@@ -51,6 +58,11 @@
   <ng-template #loadingTemplate>
     <div class="loading-container text-center">
       <p>Loading investments...</p>
+    </div>
+  </ng-template>
+  <ng-template #loadingTypeTemplate>
+    <div class="loading-container text-center">
+      <app-loader [width]="40" [height]="40"></app-loader>
     </div>
   </ng-template>
 </div>
