@@ -21,8 +21,8 @@ class WalletService
 
     public function __construct(
         WalletRepositoryInterface $walletRepository,
-        WalletInvestmentRepository $walletInvestmentRepository)
-    {
+        WalletInvestmentRepository $walletInvestmentRepository
+    ) {
         $this->walletRepository = $walletRepository;
         $this->walletInvestmentRepository = $walletInvestmentRepository;
     }
@@ -93,24 +93,31 @@ class WalletService
 
         // Get the total amount invested in purchases by the user
         $totalPurchase = $operationRepository
-                            ->getTotalInvestedByOperationAndInvestmentType(
-                                $userId,
-                                OperationType::PURCHASE,
-                                $investmentType
-                            );
+            ->getTotalInvestedByOperationAndInvestmentType(
+                $userId,
+                OperationType::PURCHASE,
+                $investmentType
+            );
 
         // Get the total amount from sales by the user
         $totalSell = $operationRepository
-                        ->getTotalInvestedByOperationAndInvestmentType(
-                            $userId,
-                            OperationType::SELL,
-                            $investmentType
-                        );
+            ->getTotalInvestedByOperationAndInvestmentType(
+                $userId,
+                OperationType::SELL,
+                $investmentType
+            );
 
         // Ensure the total invested cannot be negative:
         // - If the total sales exceed the total purchases, this means the user has sold everything,
         //   and thus, their total investment should be zero, not negative.
         // - Use `max` to return the higher value between the calculated difference and zero.
         return max($totalPurchase - $totalSell, 0);
+    }
+
+    public function getWalletInvestments(int $walletId)
+    {
+        return $this
+            ->walletInvestmentRepository
+            ->getWalletInvestments($walletId);
     }
 }

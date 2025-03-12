@@ -3,8 +3,10 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { InvestmentTypeService } from 'src/app/services/investment-type.service';
 import { InvestmentsService } from 'src/app/services/investments.service';
+import { WalletService } from 'src/app/services/wallet-service';
 import { AveragePrice } from 'src/app/shared/models/average-price.model';
 import { InvestmentType } from 'src/app/shared/models/investment-type.model';
+import { Investment } from 'src/app/shared/models/investment.model';
 import { Operation } from 'src/app/shared/models/operation.model';
 
 @Component({
@@ -13,7 +15,9 @@ import { Operation } from 'src/app/shared/models/operation.model';
   styleUrls: ['./average-price.component.css']
 })
 export class AveragePriceComponent implements OnInit {
+  walletId: string = '';
   investmentTypes: InvestmentType[] = [];
+  walletInvestments: Investment[] = [];
   investmentType: number = 0;
   availableYears: number[] = [];
   searchYear: number = new Date().getFullYear();
@@ -22,14 +26,17 @@ export class AveragePriceComponent implements OnInit {
 
   isLoading: boolean = false;
   isTypeLoading: boolean = false;
+  areInvestmentsLoading: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
     private investmentsService: InvestmentsService,
     private investmentTypeService: InvestmentTypeService,
+    private walletService: WalletService
   ) { }
 
   ngOnInit(): void {
+    this.walletId = localStorage.getItem('walletId') || '';
     this.isTypeLoading = true;
 
     // Calls investment type service to get
@@ -45,6 +52,19 @@ export class AveragePriceComponent implements OnInit {
         console.error('An error occurred when trying to get investment types.', err);
       }
     });
+
+    this.walletService.getWalletInvestments(Number(this.walletId)).subscribe({
+      next: (investments) => {
+        this.walletInvestments = investments;
+        this.areInvestmentsLoading = false;
+        console.log(investments);
+      },
+      error: (err) => {
+        this.areInvestmentsLoading = false;
+        console.error('An error occurred when trying to get investments.', err);
+      }
+    });
+
 
     // Get the investment ID from the route parameters
     this.investmentId = Number(this.route.snapshot.paramMap.get('investment_id'));
