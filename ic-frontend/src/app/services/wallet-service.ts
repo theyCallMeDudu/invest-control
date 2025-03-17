@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
 import { Investment } from "../shared/models/investment.model";
+import { WalletInvestment } from "../shared/models/wallet-investment";
 
 @Injectable({
   providedIn: 'root'
@@ -33,8 +34,8 @@ export class WalletService {
     });
   }
 
-  getWalletInvestments(walletId: number): Observable<Investment[]> {
-    return this.http.get<Investment[]>(`${this.apiUrl}/${walletId}/investments`, {
+  getWalletInvestments(walletId: number): Observable<WalletInvestment[]> {
+    return this.http.get<WalletInvestment[]>(`${this.apiUrl}/${walletId}/investments`, {
       headers: this.httpOptions.headers
     });
   }

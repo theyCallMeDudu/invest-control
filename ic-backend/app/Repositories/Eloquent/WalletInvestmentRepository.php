@@ -36,6 +36,7 @@ class WalletInvestmentRepository implements WalletInvestmentRepositoryInterface
             ->join('investment', 'wallet_investment.investment_id', '=', 'investment.investment_id')
             ->join('investment_type', 'investment.investment_type_id', '=', 'investment_type.investment_type_id')
             ->select(
+                'wallet_investment.wallet_investment_id',
                 'wallet_investment.investment_id',
                 'investment.investment_type_id',
                 'investment.investment_name',

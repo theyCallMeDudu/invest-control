@@ -28,12 +28,8 @@
   </div>
   <hr>
 
-  <div *ngIf="isLoading" class="loading-container">
-    <p>Loading data...</p>
-  </div>
-
-  <div *ngIf="!isLoading">
-    <div class="investments-table">
+  <div class="investments-table">
+    <div *ngIf="!areInvestmentsLoading; else loadingInvestmentsTemplate">
       <table class="table table-hover">
         <thead>
           <tr>
@@ -43,30 +39,16 @@
           </tr>
         </thead>
         <tbody>
-          <!-- <tr *ngFor="let monthOperations of yearOperations">
-            <td>{{ monthOperations.month }}</td>
-            <td>{{ monthOperations.average_price | currency:'USD':'symbol':'1.2-2' }}</td>
-            <td>{{ monthOperations.total_quantity }}</td>
-            <td class="text-center">{{ monthOperations.monthly_total | currency:'USD':'symbol':'1.2-2' }}</td>
-          </tr> -->
-          <div *ngIf="areInvestmentsLoading" class="loading-container">
-            <p>Loading investments...</p>
-          </div>
           <tr *ngFor="let investment of walletInvestments">
             <td>{{ investment.investment_id }}</td>
             <td>{{ investment.investment_name }}</td>
-            <td>{{ investment.investment_type.investment_type_name }}</td>
+            <td>{{ investment.investment_type_name }}</td>
           </tr>
         </tbody>
       </table>
     </div>
   </div>
 
-  <ng-template #loadingTemplate>
-    <div class="loading-container text-center">
-      <p>Loading investments...</p>
-    </div>
-  </ng-template>
   <ng-template #loadingTypeTemplate>
     <div class="loading-container text-center">
       <app-loader [width]="40" [height]="40"></app-loader>
@@ -74,7 +56,7 @@
   </ng-template>
   <ng-template #loadingInvestmentsTemplate>
     <div class="loading-container text-center">
-      <p>Loading investments...</p>
+      <app-loader></app-loader>
     </div>
   </ng-template>
 </div>

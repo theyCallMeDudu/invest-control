@@ -39,6 +39,6 @@ class WalletController extends Controller
         $walletInvestments = $this
             ->walletService
             ->getWalletInvestments($walletId);
-        return response()->json(['wallet_investments' => $walletInvestments]);
+        return response()->json([$walletInvestments]);
     }
 }
