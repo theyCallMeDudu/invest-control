@@ -24,6 +24,7 @@ export class AveragePriceComponent implements OnInit {
   searchYear: number = new Date().getFullYear();
   investmentId: number | null = null;
   yearOperations: AveragePrice[] = [];
+  filteredInvestments: WalletInvestment[] = [];
 
   isLoading: boolean = false;
   isTypeLoading: boolean = false;
@@ -59,6 +60,7 @@ export class AveragePriceComponent implements OnInit {
         console.log("API Response:", investments);
         if (Array.isArray(investments) && Array.isArray(investments[0])) {
           this.walletInvestments = investments[0];
+          this.filteredInvestments = [...this.walletInvestments];
         } else {
           console.error("Error: The API didn't return an array!", investments);
           this.walletInvestments = [];
@@ -71,7 +73,7 @@ export class AveragePriceComponent implements OnInit {
       }
     });
 
-
+    // WILL BE USED ON AVERAGE-PRICE DETAIL PAGE
     // Get the investment ID from the route parameters
     // this.investmentId = Number(this.route.snapshot.paramMap.get('investment_id'));
     // if (this.investmentId) {
@@ -87,10 +89,16 @@ export class AveragePriceComponent implements OnInit {
     // }
   }
 
+  onInvestmentTypeChange(): void {
+    this.onSearch();
+  }
+
   onSearch(): void {
-    if (this.investmentId) {
-      this.loadOperations(this.investmentId, Number(this.searchYear));
-    }
+    let investmentTypeSearch: number = Number(this.investmentType);
+
+    this.filteredInvestments = this.walletInvestments.filter(investment => {
+      return investmentTypeSearch === 0 || investment.investment_type_id === investmentTypeSearch;
+    });
   }
 
   loadOperations(investmentId: number, year: number): void {

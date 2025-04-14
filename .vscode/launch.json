@@ -9,8 +9,12 @@
       "pathMappings": {
         "/var/www": "${workspaceFolder}/ic-backend"
       },
-      "hostname": "localhost",
-      "log": true
+      "log": true,
+      "xdebugSettings": {
+        "max_children": 256,
+        "max_data": 10240,
+        "show_hidden": 1
+      }
     }
   ]
 }

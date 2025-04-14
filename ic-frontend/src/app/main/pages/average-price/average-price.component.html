@@ -4,8 +4,8 @@
     <div class="col-md-2 div-filter">
       <label for="investment_type">Type</label>
       <div class="div-select-investment-type">
-        <select name="investment_type" id="investment_type" [(ngModel)]="investmentType" #investmentTypeInput="ngModel"
-          class="form-control" required>
+        <select name="investment_type" id="investment_type" [(ngModel)]="investmentType"
+          (change)="onInvestmentTypeChange()" #investmentTypeInput="ngModel" class="form-control" required>
           <option value="0" disabled selected>Select</option>
           <option *ngFor="let type of investmentTypes" [value]="type.investment_type_id">
             {{ type.investment_type_name }}
@@ -15,7 +15,7 @@
       </div>
     </div>
 
-    <div class="col-md-2">
+    <!-- <div class="col-md-2">
       <label for="search_year">Year</label>
       <select name="search_year" id="search_year" [(ngModel)]="searchYear" (change)="onSearch()"
         #seachYearInput="ngModel" class="form-control">
@@ -24,7 +24,7 @@
           {{ year }}
         </option>
       </select>
-    </div>
+    </div> -->
   </div>
   <hr>
 
@@ -39,7 +39,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let investment of walletInvestments">
+          <tr *ngFor="let investment of filteredInvestments">
             <td>{{ investment.investment_id }}</td>
             <td>{{ investment.investment_name }}</td>
             <td>{{ investment.investment_type_name }}</td>

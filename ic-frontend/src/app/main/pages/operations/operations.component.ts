@@ -38,7 +38,7 @@ export class OperationsComponent implements OnInit {
     private toastr: ToastrService,
     private operationTypeService: OperationTypeService,
     private investmentsService: InvestmentsService,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.loadOperations(this.currentPage);
@@ -97,8 +97,6 @@ export class OperationsComponent implements OnInit {
 
   // Filter operations based on selected criteria
   onSearch(): void {
-    // debugger;
-
     let inverstmentSearch: number = Number(this.investment);
     let operationTypeSearch: number = Number(this.operationType);
     let operationValueSearch: number = this.operationValue;
